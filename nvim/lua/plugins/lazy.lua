@@ -35,5 +35,5 @@ require("lazy").setup({
 	require('plugins.treesitter'),
 	require('plugins.harpoon'),
 	-- TODO: Fix lsp not working when called from a separate file
-	-- require('plugins.lsp'),
+	require('plugins.lsp'),
 }, opts)
