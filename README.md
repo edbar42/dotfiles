@@ -4,3 +4,5 @@
 
 # Neovim
 I use Neovim as my main editor. All setup files I use are available at the `nvim` directory.
+
+My config heavily relies on [kickstart](https://github.com/nvim-lua/kickstart.nvim), an amazing project to get started with configuring neovim as a development environment.
