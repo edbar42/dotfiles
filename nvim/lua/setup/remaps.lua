@@ -26,10 +26,10 @@ vim.keymap.set("n", "<leader>y", "\"+Y")
 
 -- Replace word under cursor 
 -- throughout the whole buffer
--- using <leader> + s
+-- using <leader> + rs
 vim.keymap.set(
 	"n", 
-	"<leader>s",
+	"<leader>rs",
 	[[:%s\/<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
 )
 
