@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- See files in NeoVim
+-- Explore files in NeoVim
 vim.keymap.set("n", "<leader>ff", vim.cmd.Ex)
 
 -- Move lines in visual mode
@@ -28,17 +28,19 @@ vim.keymap.set("n", "<leader>y", "\"+Y")
 -- throughout the whole buffer
 -- using <leader> + rs
 vim.keymap.set(
-	"n", 
+	"n",
 	"<leader>rs",
 	[[:%s\/<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
 )
 
+vim.keymap.set("n", "<leader>,c", ":-1read $HOME/.config/nvim/snippets/init.c<CR>3ja")
+
 -- Navigate split screens using
 -- <Left-Alt> + hjkl
-vim.keymap.set("n", "<A-h>", "<C-w>h") 
-vim.keymap.set("n", "<A-j>", "<C-w>j") 
-vim.keymap.set("n", "<A-k>", "<C-w>k") 
-vim.keymap.set("n", "<A-l>", "<C-w>l") 
+vim.keymap.set("n", "<A-h>", "<C-w>h")
+vim.keymap.set("n", "<A-j>", "<C-w>j")
+vim.keymap.set("n", "<A-k>", "<C-w>k")
+vim.keymap.set("n", "<A-l>", "<C-w>l")
 
 -- Remaps "redo" to U instead of
 -- <Ctrl> + R

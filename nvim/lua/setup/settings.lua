@@ -13,6 +13,9 @@ vim.cmd(
 	'hi Normal guibg=NONE ctermbg=NONE'
 )
 
+-- Show files in tree on netrw
+vim.g.netrw_liststyle = 3
+
 -- Numbered and relative lines
 vim.opt.nu = true
 vim.opt.relativenumber = true
