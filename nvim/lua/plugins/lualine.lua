@@ -8,6 +8,10 @@ return {
             return ""
         end
 
+		local tux = function()
+			return "\u{f31a}"
+		end
+
         require('lualine').setup({
 
             options = {
@@ -33,7 +37,7 @@ return {
                 lualine_a = { { nvim }, 'mode'},
                 lualine_b = {'branch', 'diff', 'diagnostics'},
                 lualine_c = {'filename'},
-                lualine_x = {'encoding', 'fileformat', 'filetype'},
+                lualine_x = {'encoding', { tux }, 'filetype'},
                 lualine_y = {'progress'},
                 lualine_z = {'location'}
             },
