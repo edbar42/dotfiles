@@ -22,7 +22,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- <leader> + y or <leader> + Y
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
-vim.keymap.set("n", "<leader>y", "\"+Y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+
+-- Copy all text in file
+vim.keymap.set("n", "<A-a>", "ggVG\"+Y")
 
 -- Replace word under cursor 
 -- throughout the whole buffer
@@ -33,7 +36,9 @@ vim.keymap.set(
 	[[:%s\/<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
 )
 
+-- Code snippets insertion
 vim.keymap.set("n", "<leader>,c", ":-1read $HOME/.config/nvim/snippets/init.c<CR>3ja")
+vim.keymap.set("n", "<leader>,g", ":-1read $HOME/.config/nvim/snippets/init.go<CR>5ja")
 
 -- Navigate split screens using
 -- <Left-Alt> + hjkl
