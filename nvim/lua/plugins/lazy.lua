@@ -24,7 +24,6 @@ require("lazy").setup({
 	--
 	-- I keep switching colorschemes
 	-- Stop judging me
-	
 	-- require('plugins.tokyonight'),
 	require('plugins.kanagawa'),
 	require('plugins.lualine'),
