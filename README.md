@@ -11,6 +11,7 @@ These are the software that I use and have added to this repo.
   The based gigachad's video player.
 ### [Neovim](https://github.com/neovim/neovim)
   More than an IDE, a [PDE](https://www.youtube.com/watch?v=QMVIJhC9Veg).
+  
   My config heavily relies on [kickstart](https://github.com/nvim-lua/kickstart.nvim), an amazing project to get started with configuring neovim as a development environment.
 ### [zathura](https://pwmt.org/projects/zathura/)
   This is by far the best document reader out there.
