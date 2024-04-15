@@ -7,11 +7,9 @@ vim.opt.cursorline = true
 -- Set default colorscheme with
 -- transparent background if
 -- none is provided via plugin
-vim.opt.background = 'dark'
-vim.cmd('colorscheme habamax')
-vim.cmd(
-	'hi Normal guibg=NONE ctermbg=NONE'
-)
+vim.opt.background = "dark"
+vim.cmd("colorscheme habamax")
+vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
 
 -- Show files in tree on netrw
 vim.g.netrw_liststyle = 3
@@ -65,5 +63,10 @@ vim.opt.updatetime = 250
 
 -- Show some whitespace characters
 vim.opt.list = true
-vim.opt.listchars = { tab = '| ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
+-- Diagnostic keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
