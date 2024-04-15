@@ -68,10 +68,6 @@ set wildmenu
 set wildmode=longest,full
 set wildoptions=pum
 " -----------------------------------------------------------------------------
-" https://github.com/sainnhe/edge.git 
-" colorscheme edge
-" -----------------------------------------------------------------------------
-# set background=dark
 colorscheme habamax
 " -----------------------------------------------------------------------------
 set noshowmode
