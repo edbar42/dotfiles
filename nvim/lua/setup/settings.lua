@@ -18,6 +18,9 @@ vim.g.netrw_liststyle = 3
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- Enable signcolumn
+vim.opt.signcolumn = "yes"
+
 -- Identation options
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -40,6 +43,9 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Clear search query Highlight
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
 -- Improves color compatibility
 vim.opt.termguicolors = true
 
@@ -60,6 +66,9 @@ vim.opt.undofile = true
 -- Set time for file to be written to
 -- disk after inactivity in ms
 vim.opt.updatetime = 250
+
+-- Time in ms for a mapping to complete
+vim.opt.timeoutlen = 300
 
 -- Show some whitespace characters
 vim.opt.list = true
