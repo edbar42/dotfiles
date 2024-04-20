@@ -1,0 +1,9 @@
+[core]
+	editor = nvim
+[user]
+	email = git@edbar.xyz
+	name = Eduardo Barroso
+[init]
+	defaultBranch = main
+[alias]
+	st = status -s
