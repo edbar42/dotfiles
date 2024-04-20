@@ -18,7 +18,7 @@ This is where I keep my configs and dotfiles for my linux system. At the moment,
   My config heavily relies on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim), an amazing project to get started with configuring neovim for your needs.
 
 ### [ranger](https://github.com/ranger/ranger)
-  For all my file managing needs that don't envolve click-and-drag.
+  For all my file managing needs that don't involve click-and-drag.
   
 ### [vim](https://www.vim.org/)
   Well, sometimes. 
