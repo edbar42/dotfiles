@@ -48,7 +48,7 @@ set completion-highlight-fg	"#d9d7d6"
 set completion-group-bg		"#0A1419"
 set completion-group-fg		"#6791c9"
 
-set statusbar-fg		    "#d9d7d6"
+set statusbar-fg		    "#ff8866"
 set statusbar-bg		    "#162026"
 
 set notification-bg		    "#0A1419"
