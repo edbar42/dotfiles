@@ -19,7 +19,8 @@ This is where I keep my configs and dotfiles for my linux system. At the moment,
 
 ### [ranger](https://github.com/ranger/ranger)
   For all my file managing needs that don't involve click-and-drag.
-  
+
+  Support for NerdFont icons provided by [ranger_devicons](https://github.com/alexanderjeurissen/ranger_devicons)
 ### [vim](https://www.vim.org/)
   Well, sometimes. 
   
