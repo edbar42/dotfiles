@@ -1,0 +1,14 @@
+# Ignore all git files
+\.git
+\.gitignore
+\.gitmodules
+
+# Ignore installation scripts
+setup.sh
+packages
+
+# Ignore misc files
+README.*
+
+# Ignore python cache files
+__pycache__/
