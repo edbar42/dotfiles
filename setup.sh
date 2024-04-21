@@ -13,6 +13,9 @@ yay -Syy
 echo "Installing dependencies..."
 cat ./packages | xargs yay -S --needed --noconfirm
 
+echo "Adding user scripts to PATH"
+export PATH="$PATH:$HOME/bin"
+
 echo "You will now set up p10k"
 p10k configure
 

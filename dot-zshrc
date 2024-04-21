@@ -35,7 +35,7 @@ export VISUAL="nvim"
 export BROWSER="firefox"
 export SHELL="/bin/zsh"
 export TERM="kitty"
-
+export MANPAGES="bat --theme='base16' --color=always"
 # ----------------------------- ALIASES -----------------------------------
 # Useful aliases alias 
 rm='rm -Iv' 
@@ -56,6 +56,3 @@ alias bat="bat --theme='base16' --color=always"
 
 # Better system process tool
 alias top="btm"
-
-# Switch Win and Caps
-alias remap='xset r rate 300 50 ; setxkbmap -option caps:super,altwin:menu_win ; killall xcape 2>/dev/null ; xcape -e 'Super_L=Escape' ; xset -q | grep -q "Caps Lock:\s*on" && xdotool key Caps_Lock'
