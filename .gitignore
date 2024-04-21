@@ -1,2 +1,9 @@
-dot-config/nvim/lazy-lock.json
+# Ignore sensitive files
+auth/
+dot-config/keepassxc/
+Documents/
+Pictures/
 
+# Ignore package management files
+dot-config/nvim/lazy-lock.json
+dot-config/ranger/plugins/__pycache__/
