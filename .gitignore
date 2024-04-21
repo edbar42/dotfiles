@@ -7,6 +7,7 @@ Pictures/
 # Ignore package management files
 dot-config/nvim/lazy-lock.json
 dot-config/ranger/plugins/__pycache__/
+**/__init__.py
 
 # Picom settings probably vary with hardware
 # So I will just tweak the defaults when 
