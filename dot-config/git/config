@@ -1,9 +1,12 @@
 [core]
 	editor = nvim
+	pager = delta
 [user]
-	email = git@edbar.xyz
 	name = Eduardo Barroso
+	email = git@edbar.xyz
 [init]
 	defaultBranch = main
 [alias]
 	st = status -s
+[delta]
+	side-by-side = true
