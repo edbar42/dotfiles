@@ -52,6 +52,7 @@ alias vi='vim -u NONE'
 # Colors in output
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
+alias bat="bat --theme='base16' --color=always"
 
 # Better system process tool
 alias top="btm"
