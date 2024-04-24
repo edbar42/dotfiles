@@ -1,7 +1,8 @@
 #!/bin/bash
 
 clear
-echo "We need sudo priviledges for installing packages. Please provide your password if is not already cached."
+echo "We need sudo priviledges for installing packages."
+echo "Please provide your password."
 sudo -v
 
 echo "Checking if yay is installed on your system..."
