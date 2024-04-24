@@ -13,6 +13,7 @@ keepassxc
 kitty
 kitty-terminfo
 kitty-shell-integration
+lsd
 lua
 luajit
 mpv
@@ -33,6 +34,7 @@ tectonic
 tokei
 ttf-cascadia-code-nerd
 ttf-cascadia-mono-nerd
+xcape
 xkblayout
 xorg-xset
 yt-dlp
