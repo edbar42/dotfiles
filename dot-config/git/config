@@ -1,5 +1,6 @@
 [core]
 	editor = nvim
+	fileMode = false
 	pager = delta
 [user]
 	name = Eduardo Barroso
