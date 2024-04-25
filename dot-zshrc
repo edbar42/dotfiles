@@ -36,6 +36,7 @@ export BROWSER="firefox"
 export SHELL="/bin/zsh"
 export TERM="kitty"
 export MANPAGES="bat --theme='base16' --color=always"
+export PATH="$PATH:/home/edbar/bin"
 # ----------------------------- ALIASES -----------------------------------
 # Useful aliases alias 
 rm='rm -Iv' 
@@ -57,6 +58,5 @@ alias bat="bat --theme='base16' --color=always"
 # Better system process tool
 alias top="btm"
 
-
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
-eval "$(zoxide init --cmd z zsh)"
+eval "$(zoxide init --cmd cd zsh)"
