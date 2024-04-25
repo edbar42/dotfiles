@@ -54,9 +54,9 @@ if ($bat_state !~ /:               (\w+)/) {
 $status = $1;
 
 if ($status eq 'discharging') {
-	$full_text .= ' ';
+	$full_text .= '  ';
 } elsif ($status eq 'charging') {
-	$full_text .= ' ';
+	$full_text .= '  ';
 } elsif ($status eq 'Unknown') {
 	open (AC_ADAPTER, "acpi -a |") or die;
 	$ac_adapt = <AC_ADAPTER>;
@@ -88,10 +88,10 @@ if ($percent < 20) {
 }
 
 # print text
-print " ${label}";
+print " ${label} ";
 print " $full_text\n";
 print " ${label}";
-print " $short_text\n";
+print " $short_text \n";
 
 # consider color and urgent flag only on discharge
 if ($status eq 'discharging') {
