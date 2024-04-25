@@ -5,7 +5,7 @@ return { -- Highlight, edit, and navigate code
 		"latex-lsp/tree-sitter-latex",
 	},
 	opts = {
-		ensure_installed = { "bash", "c", "go", "html", "lua", "luadoc", "markdown", "vim", "vimdoc", "latex" },
+		ensure_installed = { "bash", "c", "go", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
 		-- Autoinstall languages that are not installed
 		auto_install = true,
 		highlight = {
