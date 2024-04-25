@@ -117,15 +117,8 @@ bindsym $mod+e layout toggle split
 
 # volume
 # use meta keys showing osc using dunst
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh volume_up
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness.sh volume_down
-
-# gradular volume control
-bindsym $mod+XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+XF86AudioLowerVolume exec amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
-
-# mute
-# use meta keys showing osc using dunst
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_down
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_mute
 
 # audio control
@@ -197,7 +190,6 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # in this cases better disable dex and use manual starting apps using xdg/autostart
 #exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id gxkb
 
 # start a script to setup displays
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
@@ -225,7 +217,6 @@ exec --no-startup-id dbus-launch /usr/bin/dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id autotiling-rs
 
 # Autostart apps as you like
-exec --no-startup-id sleep 2 && mullvad-vpn
 exec --no-startup-id zsh $HOME/bin/remap
 
 ###############
@@ -240,16 +231,12 @@ exec --no-startup-id zsh $HOME/bin/remap
 # networkmanager-applet
 exec --no-startup-id nm-applet
 
-# clipman-applet
-exec --no-startup-id xfce4-clipman
-
 ##################
 # floating rules #
 ##################
 
 # set floating (nontiling) for apps needing it
 for_window [class="Yad" instance="yad"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
 
 # set floating (nontiling) for special apps
@@ -261,9 +248,6 @@ for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enabl
 for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse
-
-# set border of floating window
-for_window [class="urxvt"] border pixel 1
 
 ######################################
 # color settings for bar and windows #
@@ -301,16 +285,6 @@ bar {
 			binding_mode       #FF5555 #FF5555 #F8F8F2
 	}
 }
-
-# class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
-client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
-client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
-client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
-client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
-
-client.background       #F8F8F2
-
 
 #####################################
 # Application menu handled by rofi: #
