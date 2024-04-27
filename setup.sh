@@ -13,6 +13,7 @@ yay -Syy
 
 echo "Installing dependencies..."
 cat ./packages | xargs yay -S --needed --noconfirm
+git clone https://github.com/romkatv/powerlevel10k
 
 echo "You will now set up p10k"
 p10k configure
