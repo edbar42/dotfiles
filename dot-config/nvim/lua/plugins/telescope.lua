@@ -11,8 +11,8 @@ return {
 	config = function()
 		require("telescope").setup({
 			defaults = {
-				winblend = 10,
-				previewer = false,
+				winblend = 20,
+				previewer = true,
 			},
 
 			extensions = {

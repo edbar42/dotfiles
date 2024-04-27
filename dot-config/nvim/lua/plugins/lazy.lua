@@ -26,12 +26,7 @@ require("lazy").setup({
 	},
 
 	-- More extensive plugins
-
-	-- I keep switching colorschemes
-	-- Stop judging me
-
-	require("plugins.tokyonight"),
-	-- require("plugins.kanagawa"),
+	require("plugins.kanagawa"),
 	require("plugins.lualine"),
 	require("plugins.gitsigns"),
 	require("plugins.fugitive"),
