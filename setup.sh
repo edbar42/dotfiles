@@ -10,7 +10,7 @@ if [[ "$1" == "sync" ]]; then
 	if [[ "$?" == 0 ]]; then
 		echo "Dotfiles updated with no errors."
 	fi
-else
+elif [ $# -eq 0 ]; then
 	clear
 	echo "We need sudo priviledges for installing packages."
 	echo "Please provide your password."
@@ -37,4 +37,6 @@ else
 
 	sleep 2
 	i3-msg exit
+else
+	echo "Unknown flag."
 fi
