@@ -5,6 +5,7 @@
 This is where I keep my configs and dotfiles for my linux system. At the moment, these are aimed to work for a fresh install of [EndeavourOS](https://endeavouros.com/) with the [i3](https://i3wm.org/) window manager. Since I use [stow](https://www.gnu.org/software/stow/) to handle actually linking my dotfiles to my system, the configuration is stored in a `dot-config` directory with a `dot-zshrc` file outside of that.
 
 >   This repo contains submodules. When cloning it, use the `--recursive` flag:
+
 `git clone --recursive [GIT_URL]`
 
 # Software that I use for these config files:
