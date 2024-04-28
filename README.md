@@ -7,7 +7,7 @@ This is where I keep my configs and dotfiles for my linux system. At the moment,
 >   This repo contains submodules. When cloning it, use the `--recursive` flag:
 
 ```
-git clone --recursive [GIT_URL]
+git clone --recursive git@github.com:edbar42/dotfiles.git
 ```
 
 # Installation
