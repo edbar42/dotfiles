@@ -6,7 +6,9 @@ This is where I keep my configs and dotfiles for my linux system. At the moment,
 
 >   This repo contains submodules. When cloning it, use the `--recursive` flag:
 
-`git clone --recursive [GIT_URL]`
+```
+git clone --recursive [GIT_URL]
+```
 
 # Installation
 Once cloned, just run `setup.sh`. Make sure you have execution privileges for it.
