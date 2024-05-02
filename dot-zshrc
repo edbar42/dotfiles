@@ -36,7 +36,7 @@ export BROWSER="firefox"
 export SHELL="/bin/zsh"
 export TERM="kitty"
 export MANPAGES="bat --theme='base16' --color=always"
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/bin:$HOME/go/bin/"
 # ----------------------------- ALIASES -----------------------------------
 # Useful aliases alias 
 rm='rm -Iv' 
