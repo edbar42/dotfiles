@@ -35,7 +35,7 @@ elif [ $# -eq 0 ]; then
 	sleep 2
 	echo "We're logging you out of i3 to make sure everything is properly handled."
 
-	sleep 2
+	sleep 5
 	i3-msg exit
 else
 	echo "Unknown flag."
