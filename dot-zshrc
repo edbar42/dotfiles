@@ -39,24 +39,26 @@ export MANPAGES="bat --theme='base16' --color=always"
 export PATH="$PATH:$HOME/bin:$HOME/go/bin/"
 # ----------------------------- ALIASES -----------------------------------
 # Useful aliases alias 
-rm='rm -Iv' 
-alias cp='cp -iv' 
-alias mv='mv -iv' 
-alias ls='lsd'
-alias la='lsd -A'
-alias ll='lsd -l'
-alias lla='lsd -la'
-alias mkdir='mkdir -pv'
-alias less='less -N'
-alias vi='vim -u NONE'
+rm="rm -Iv" 
+alias cp="cp -iv" 
+alias mv="mv -iv" 
+alias ls="lsd"
+alias la="lsd -A"
+alias ll="lsd -l"
+alias lla="lsd -la"
+alias mkdir="mkdir -pv"
+alias less="less -N"
+alias vi="vim -u NONE"
 
 # Colors in output
-alias diff='diff --color=auto'
-alias ip='ip -color=auto'
+alias diff="diff --color=auto"
+alias ip="ip -color=auto"
 alias bat="bat --theme='base16' --color=always"
 
 # Better system process tool
 alias top="btm"
 
+# Go aliases
+alias gotst="go test -v"
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
 eval "$(zoxide init --cmd cd zsh)"
