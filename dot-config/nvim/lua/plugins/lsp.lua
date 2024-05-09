@@ -1,4 +1,3 @@
--- Literally the kickstart config in a separate file
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -74,9 +73,18 @@ return {
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 			local servers = {
 				clangd = {},
-				gopls = {},
-				pyright = {},
-
+				gopls = {
+					settings = {
+						gopls = {
+							completeUnimported = true,
+							usePlaceholders = true,
+							analyses = {
+								unusedparams = true,
+							},
+							gofumpt = true,
+						},
+					},
+				},
 				lua_ls = {
 					settings = {
 						Lua = {
