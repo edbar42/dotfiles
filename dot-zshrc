@@ -39,7 +39,7 @@ export MANPAGES="bat --theme='base16' --color=always"
 export PATH="$PATH:$HOME/bin:$HOME/go/bin/"
 # ----------------------------- ALIASES -----------------------------------
 # Useful aliases alias 
-rm="rm -Iv" 
+alias rm="rm -Iv" 
 alias cp="cp -iv" 
 alias mv="mv -iv" 
 alias ls="lsd"
