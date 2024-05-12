@@ -17,6 +17,12 @@ require("lazy").setup({
 	-- gc to comment lines in visual mode
 	{ "numToStr/Comment.nvim", opts = {} },
 
+	-- manage surrouding elements
+	{ "tpope/vim-surround" },
+
+	-- git fugitive for nvim
+	{ "tpope/vim-fugitive", vim.keymap.set("n", "<leader>gs", vim.cmd.Git) },
+
 	-- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
@@ -29,10 +35,11 @@ require("lazy").setup({
 	require("plugins.kanagawa"),
 	require("plugins.lualine"),
 	require("plugins.gitsigns"),
-	require("plugins.fugitive"),
+	-- require("plugins.fugitive"),
 	require("plugins.whichkey"),
 	require("plugins.telescope"),
 	require("plugins.treesitter"),
 	require("plugins.harpoon"),
 	require("plugins.lsp"),
-}, opts)
+	require("plugins.trouble"),
+})
