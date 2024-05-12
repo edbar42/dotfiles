@@ -60,5 +60,8 @@ alias top="btm"
 
 # Go aliases
 alias gotst="go test -v"
+
+# Kitty aliases
+alias see="kitten icat" # View images in the terminal
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
 eval "$(zoxide init --cmd cd zsh)"

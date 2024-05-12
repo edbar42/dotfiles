@@ -12,5 +12,6 @@
 	# Fetched from TeeJ config file
 	# https://github.com/tjdevries/config_manager/blob/master/xdg_config/git/config
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	short = log --decorate=full --oneline
 [delta]
 	side-by-side = true
