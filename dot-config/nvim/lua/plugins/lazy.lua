@@ -35,7 +35,6 @@ require("lazy").setup({
 	require("plugins.kanagawa"),
 	require("plugins.lualine"),
 	require("plugins.gitsigns"),
-	-- require("plugins.fugitive"),
 	require("plugins.whichkey"),
 	require("plugins.telescope"),
 	require("plugins.treesitter"),
