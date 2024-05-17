@@ -32,7 +32,7 @@ If you only wish to update the links to your dotfiles, run `setup.sh sync` inste
 
   Support for NerdFont icons provided by [ranger_devicons](https://github.com/alexanderjeurissen/ranger_devicons).
 ### [vim](https://www.vim.org/)
-  Well, sometimes. 
+  In case I break NeoVim while tinkering with the config files. 
   
 ### [zathura](https://pwmt.org/projects/zathura/)
   Minimalist and efficient document reader.
