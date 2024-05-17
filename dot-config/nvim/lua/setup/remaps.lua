@@ -7,7 +7,7 @@ vim.keymap.set("n", "Q", ":q<CR>", { desc = "Quick quit a buffer or window" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 
-vim.keymap.set("n", "<leader>y", '"+y', { desc = "Copy highlighted content to clipboard" })
+vim.keymap.set("v", "<leader>y", '"+Y', { desc = "Copy highlighted content to clipboard" })
 
 -- Copy buffer content to clipboard
 vim.keymap.set("n", "<leader>cp", 'ggVG"+Y', { desc = "Copy buffer to clipboard" })
@@ -37,3 +37,14 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 vim.keymap.set("n", "<leader>,e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>,q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+
+-- Open a terminal at the bottom of the screen with a fixed height.
+vim.keymap.set("n", "<leader>tt", function()
+	vim.cmd.new()
+	vim.api.nvim_win_set_height(0, 12)
+	vim.wo.winfixheight = true
+	vim.cmd.term()
+end)
+
+-- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
