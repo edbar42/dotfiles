@@ -2,45 +2,32 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Explore files in NeoVim
-vim.keymap.set("n", "<leader>ff", vim.cmd.Ex)
+vim.keymap.set("n", "Q", ":q<CR>", { desc = "Quick quit a buffer or window" })
 
--- Move lines in visual mode
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 
--- Keep cursor in place when
--- joining lines
+-- Keep cursor in place when joining lines
 vim.keymap.set("n", "J", "mzJ`z")
 
--- Keep cursor in line when
--- scrolling search results
+-- Keep cursor in line when scrolling search results
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- Copy to system clipboard with
--- <leader> + y or <leader> + Y
-vim.keymap.set("n", "<leader>y", '"+y')
-vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>y", '"+y', { desc = "Copy highlighted content to clipboard" })
+vim.keymap.set("n", "<leader>cp", 'ggVG"+Y', { desc = "Copy buffer to clipboard" })
 
--- Copy all text in file
-vim.keymap.set("n", "<A-a>", 'ggVG"+Y')
+-- Replace word under cursor throughout the whole buffer using <leader> + rs
+vim.keymap.set(
+	"n",
+	"<leader>rs",
+	[[:%s\/<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	{ desc = "Replace word under cursor in the whole buffer" }
+)
 
--- Replace word under cursor
--- throughout the whole buffer
--- using <leader> + rs
-vim.keymap.set("n", "<leader>rs", [[:%s\/<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
--- Remaps "redo" to U instead of
--- <Ctrl> + R
-vim.keymap.set("n", "U", "<C-R>")
-
--- Highlight yanked text
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
-})
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+vim.keymap.set("n", "<leader>,e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>,q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
