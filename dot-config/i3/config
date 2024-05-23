@@ -147,7 +147,7 @@ bindsym $mod+n exec /usr/bin/thunar
 # cli file manager
 bindsym $mod+g exec kitty -e "/usr/bin/ranger"
 # main browser
-bindsym $mod+w exec /usr/bin/firefox
+bindsym $mod+w exec /usr/bin/brave
 # password manager (if you don't have one you're wrong) 
 bindsym $mod+a exec /usr/bin/keepassxc
 
