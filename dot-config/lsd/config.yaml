@@ -1,0 +1,5 @@
+header: true
+icons:
+  theme: fancy
+indicators: true
+permission: octal
