@@ -13,6 +13,6 @@ return { -- Highlight, edit, and navigate code
 	},
 	config = function(_, opts)
 		---@diagnostic disable-next-line: missing-fields
-		require("nvim-treesitter.configs").setup(opts)
+		require("nvim-treesitter").setup(opts)
 	end,
 }
