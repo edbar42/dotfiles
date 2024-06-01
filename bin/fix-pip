@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Dumb quickfix for EXTERNALLY-MANAGED errors
+# when using pip in an Arch environment
+
+sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED 2> /dev/null
+if [ $? -eq 0 ]; then
+	echo "Pip should be fixed now."
+else
+	echo "Pip was not broken. Nothing changed."
+fi
