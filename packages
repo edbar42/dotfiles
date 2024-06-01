@@ -26,6 +26,7 @@ nitrogen
 nodejs
 npm
 picom
+python-lsp-server
 python-pillow
 ranger
 ripgrep

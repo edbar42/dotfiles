@@ -2,6 +2,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Move between buffers
+vim.keymap.set("n", "<C-a>", ":bprev<CR>", { desc = "Go to previous buffer" })
+vim.keymap.set("n", "<C-x>", ":bnext<CR>", { desc = "Go to next buffer" })
+
 -- Increment/decrement
 vim.keymap.set("n", "+", "<C-a>", { desc = "Increase number under cursor" })
 vim.keymap.set("n", "-", "<C-x>", { desc = "Decrease number under cursor" })
@@ -14,7 +18,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 vim.keymap.set("v", "<leader>y", '"+Y', { desc = "Copy highlighted content to clipboard" })
 
 -- Copy buffer content to clipboard
-vim.keymap.set("n", "<C-a>", 'gg<S-v>G"+Y', { desc = "Copy buffer content to clipboard" })
+vim.keymap.set("n", "<A-a>", 'gg<S-v>G"+Y', { desc = "Copy buffer content to clipboard" })
 
 -- Replace word under cursor throughout the whole buffer using <leader> + rs
 vim.keymap.set(

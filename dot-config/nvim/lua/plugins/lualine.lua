@@ -34,8 +34,8 @@ return {
 			sections = {
 				lualine_a = { { nvim }, "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { "filename" },
-				lualine_x = { "encoding", { tux }, "filetype" },
+				lualine_c = { "buffers" },
+				lualine_x = { { tux }, "filetype" },
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
