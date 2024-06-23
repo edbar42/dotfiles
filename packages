@@ -11,9 +11,6 @@ go
 gparted
 gsimplecal
 keepassxc
-kitty
-kitty-terminfo
-kitty-shell-integration
 lsd
 lua
 luajit
@@ -42,6 +39,7 @@ xkblayout
 xclip
 xorg-xset
 xorg-xev
+yazi
 yt-dlp
 zathura
 zathura-cb
