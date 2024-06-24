@@ -58,6 +58,10 @@ end
 -- Set background options
 function options.set_bg_options(config)
 	config.window_background_opacity = 0.90
+	config.inactive_pane_hsb = {
+		saturation = 0.7,
+		brightness = 0.4,
+	}
 end
 
 -- Set tab bar options

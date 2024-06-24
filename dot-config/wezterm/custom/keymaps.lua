@@ -6,8 +6,6 @@ local a = wez.action
 local options = {}
 
 function options.add_keymaps(config)
-	--TODO:
-	-- Add keymaps from kitty terminal
 	config.keys = {
 		-- Spawn a new tab
 		{
@@ -95,6 +93,26 @@ function options.add_keymaps(config)
 			key = "l",
 			mods = "ALT",
 			action = a.ActivatePaneDirection "Right",
+		},
+		{
+			key = "h",
+			mods = "ALT|SHIFT",
+			action = a.AdjustPaneSize { "Left", 5 },
+		},
+		{
+			key = "j",
+			mods = "ALT|SHIFT",
+			action = a.AdjustPaneSize { "Down", 5 },
+		},
+		{
+			key = "k",
+			mods = "ALT|SHIFT",
+			action = a.AdjustPaneSize { "Up", 5 }
+		},
+		{
+			key = "l",
+			mods = "ALT|SHIFT",
+			action = a.AdjustPaneSize { "Right", 5 },
 		},
 	}
 end
