@@ -10,8 +10,6 @@ vim.keymap.set("n", "<C-x>", ":bnext<CR>", { desc = "Go to next buffer" })
 vim.keymap.set("n", "+", "<C-a>", { desc = "Increase number under cursor" })
 vim.keymap.set("n", "-", "<C-x>", { desc = "Decrease number under cursor" })
 
-vim.keymap.set("n", "Q", ":q<CR>", { desc = "Quick quit a buffer or window" })
-
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 
