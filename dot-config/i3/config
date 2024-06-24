@@ -141,11 +141,11 @@ bindsym XF86AudioPrev exec playerctl previous
 #Calendar applet
 bindsym $mod+c exec gsimplecal
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec wezterm
 # file manager
 bindsym $mod+n exec /usr/bin/thunar
 # cli file manager
-bindsym $mod+g exec kitty -e "/usr/bin/ranger"
+bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 # main browser
 bindsym $mod+w exec /usr/bin/brave
 # password manager (if you don't have one you're wrong) 

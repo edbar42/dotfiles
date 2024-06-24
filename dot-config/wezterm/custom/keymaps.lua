@@ -63,13 +63,38 @@ function options.add_keymaps(config)
 			mods = "ALT",
 			action = a.ResetFontSize,
 		},
-		-- Spawn ranger instance on new tab
+		-- Spawn yazi instance on new tab
 		{
 			key = "g",
 			mods = "ALT",
 			action = a.SpawnCommandInNewTab {
 				args = { 'yazi' },
 			}
+		},
+		{
+			key = "f",
+			mods = "ALT",
+			action = a.ShowTabNavigator
+		},
+		{
+			key = "h",
+			mods = "ALT",
+			action = a.ActivatePaneDirection "Left",
+		},
+		{
+			key = "j",
+			mods = "ALT",
+			action = a.ActivatePaneDirection "Down",
+		},
+		{
+			key = "k",
+			mods = "ALT",
+			action = a.ActivatePaneDirection "Up",
+		},
+		{
+			key = "l",
+			mods = "ALT",
+			action = a.ActivatePaneDirection "Right",
 		},
 	}
 end
