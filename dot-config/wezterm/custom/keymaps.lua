@@ -29,19 +29,19 @@ function options.add_keymaps(config)
 		{
 			key = "Enter",
 			mods = "ALT",
-			action = a.SplitHorizontal { domain = "CurrentPaneDomain" },
+			action = a.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 		},
 		-- Spawn a new pane below
 		{
 			key = "Enter",
 			mods = "ALT|SHIFT",
-			action = a.SplitVertical { domain = "CurrentPaneDomain" },
+			action = a.SplitVertical({ domain = "CurrentPaneDomain" }),
 		},
 		-- Quit current pane
 		{
 			key = "q",
 			mods = "ALT",
-			action = a.CloseCurrentPane { confirm = true },
+			action = a.CloseCurrentPane({ confirm = true }),
 		},
 		-- Increase font size
 		{
@@ -65,54 +65,54 @@ function options.add_keymaps(config)
 		{
 			key = "g",
 			mods = "ALT",
-			action = a.SpawnCommandInNewTab {
-				args = { 'yazi' },
-			}
+			action = a.SpawnCommandInNewTab({
+				args = { "yazi" },
+			}),
 		},
 		{
 			key = "f",
 			mods = "ALT",
-			action = a.ShowTabNavigator
+			action = a.ShowTabNavigator,
 		},
 		{
 			key = "h",
 			mods = "ALT",
-			action = a.ActivatePaneDirection "Left",
+			action = a.ActivatePaneDirection("Left"),
 		},
 		{
 			key = "j",
 			mods = "ALT",
-			action = a.ActivatePaneDirection "Down",
+			action = a.ActivatePaneDirection("Down"),
 		},
 		{
 			key = "k",
 			mods = "ALT",
-			action = a.ActivatePaneDirection "Up",
+			action = a.ActivatePaneDirection("Up"),
 		},
 		{
 			key = "l",
 			mods = "ALT",
-			action = a.ActivatePaneDirection "Right",
+			action = a.ActivatePaneDirection("Right"),
 		},
 		{
 			key = "h",
 			mods = "ALT|SHIFT",
-			action = a.AdjustPaneSize { "Left", 5 },
+			action = a.AdjustPaneSize({ "Left", 5 }),
 		},
 		{
 			key = "j",
 			mods = "ALT|SHIFT",
-			action = a.AdjustPaneSize { "Down", 5 },
+			action = a.AdjustPaneSize({ "Down", 5 }),
 		},
 		{
 			key = "k",
 			mods = "ALT|SHIFT",
-			action = a.AdjustPaneSize { "Up", 5 }
+			action = a.AdjustPaneSize({ "Up", 5 }),
 		},
 		{
 			key = "l",
 			mods = "ALT|SHIFT",
-			action = a.AdjustPaneSize { "Right", 5 },
+			action = a.AdjustPaneSize({ "Right", 5 }),
 		},
 	}
 end
