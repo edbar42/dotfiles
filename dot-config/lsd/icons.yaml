@@ -3,14 +3,18 @@ name:
   bash: 
   c: 
   cpp: 
+  elixir: 
+  git: 
   go: 
   go.mod: 
   go.sum: 
   html: 󰌝
+  i3: 
   js: 
   license: 󰿃
   lua: 
   .mod: 
+  mpv: 
   nvim: 
   ocaml: 
   python: 
@@ -22,6 +26,7 @@ name:
   .wine: 󰨡
   .zshrc: 󱆃
 extension:
+  ex: 
   go: 
   js: 
   json: 󰘦
