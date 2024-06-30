@@ -16,16 +16,12 @@ lua
 luajit
 mpv
 mullvad-vpn-bin
-mullvad-vpn-bin-debug
 mupdf
 neovim
 nitrogen
-nodejs
-npm
 picom
 python-lsp-server
 python-pillow
-ranger
 ripgrep
 signal-desktop
 stow
@@ -34,6 +30,7 @@ tectonic
 tokei
 ttf-cascadia-code-nerd
 ttf-cascadia-mono-nerd
+wezterm
 xcape
 xkblayout
 xclip
