@@ -2,6 +2,9 @@
 	short = log --decorate=full --oneline
 	st = status -s
 
+[commit]
+	gpgsign = true
+
 [core]
 	autocrlf = input
 	editor = nvim
@@ -14,7 +17,6 @@
 
 [gpg]
 	format = ssh
-	gpgsign = true
 
 [init]
 	defaultBranch = main
