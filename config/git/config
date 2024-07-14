@@ -2,8 +2,6 @@
 	short = log --decorate=full --oneline
 	st = status -s
 
-[commit]
-
 [core]
 	autocrlf = input
 	editor = nvim
