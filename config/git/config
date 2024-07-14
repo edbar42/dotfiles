@@ -1,0 +1,36 @@
+[alias]
+	short = log --decorate=full --oneline
+	st = status -s
+
+[commit]
+
+[core]
+	autocrlf = input
+	editor = nvim
+	fileMode = false
+	pager = delta
+
+[delta]
+	line-numbers = true
+	side-by-side = true
+
+[gpg]
+	format = ssh
+	gpgsign = true
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[push]
+	default = current
+
+[rebase]
+	autoStash = true
+
+[user]
+	name = Eduardo Barroso
+	email = dev@edbar.xyz
+	signingkey = ~/.ssh/id_ed25519.pub
