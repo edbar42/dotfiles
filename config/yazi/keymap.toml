@@ -1,0 +1,13 @@
+# Complement smart-enter plugin
+[[manager.prepend_keymap]]
+on = [ "l" ]
+run = "plugin --sync smart-enter"
+desc = "Enter child directory or open file"
+
+# # Drag and drop via dragon
+[[manager.prepend_keymap]]
+on = [ "<C-n>" ]
+run = '''
+	shell 'dragon-drop -x -i -T "$1"' --confirm
+	'''
+desc = "Click and drag functionality"

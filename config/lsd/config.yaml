@@ -1,0 +1,6 @@
+color:
+  when: always
+header: true
+icons:
+  theme: fancy
+indicators: true

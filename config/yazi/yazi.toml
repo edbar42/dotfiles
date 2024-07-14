@@ -1,0 +1,18 @@
+[opener]
+edit = [
+	{ run = 'nvim "$@"', block = true },
+]
+play = [
+	{ run = 'mpv "$@"', orphan = true },
+]
+open = [
+	{ run = 'xdg-open "$@"', desc = "Open" },
+]
+read = [
+	{ run = 'zathura "$@"', desc = "Read", orphan = true }
+]
+[open]
+prepend_rules = [
+	{ name = "*.pdf", use = "read" },
+	{ name = "*.epub", use = "read" },
+]
