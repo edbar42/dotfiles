@@ -37,6 +37,7 @@ map g goto top
 # ---------------------
 
 set statusbar-page-percent true
+set statusbar-basename true
 
 # ------------------------------
 #	Colorscheme is NightCS
