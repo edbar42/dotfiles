@@ -32,6 +32,12 @@ map p scroll full-up
 map n scroll full-down
 map g goto top
 
+# ---------------------
+#	Status bar options
+# ---------------------
+
+set statusbar-page-percent true
+
 # ------------------------------
 #	Colorscheme is NightCS
 #	Original found at:
