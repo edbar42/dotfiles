@@ -13,7 +13,7 @@ configuration {
     sidebar-mode:    false;
 }
 
-@import "~/.settings/rofi/multicolor-doom_one.rasi"
+@import "~/.config/rofi/multicolor-doom_one.rasi"
 
 window {
     background-color: @background;

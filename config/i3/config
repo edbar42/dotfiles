@@ -105,13 +105,13 @@ bindsym $mod+f fullscreen toggle
 
 # Media keys
 # Volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/config/i3/scripts/volume_brightness volume_up
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/config/i3/scripts/volume_brightness volume_down
-bindsym XF86AudioMute exec --no-startup-id ~/config/i3/scripts/volume_brightness volume_mute
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_down
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_mute
 
 # Brightness keys for laptop
-bindsym XF86MonBrightnessUp exec --no-startup-id ~/config/i3/scripts/volume_brightness brightness_up
-bindsym XF86MonBrightnessDown exec --no-startup-id ~/config/i3/scripts/volume_brightness brightness_down
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_down
 
 
 # audio control
@@ -139,9 +139,9 @@ bindsym Print exec /usr/bin/flameshot gui --path /home/edbar/Pictures/
 # Change keyboard layout
 
 # Scripts shortcuts
-bindsym $mod+space exec ~/config/i3/scripts/kbchange
+bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 # Change background
-bindsym $mod+b exec ~/config/i3/scripts/wallpaper
+bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 
 # Names for default workspaces
 set $ws1 "1:1"

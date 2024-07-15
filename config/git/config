@@ -1,6 +1,7 @@
 [alias]
 	short = log --decorate=full --oneline
 	st = status -s
+	cmt = commit -m
 
 [commit]
 	gpgsign = true

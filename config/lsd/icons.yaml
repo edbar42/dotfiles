@@ -3,6 +3,7 @@ name:
   bash: 
   c: 
   cpp: 
+  docker: 
   elixir: 
   git: 
   go: 
