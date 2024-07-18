@@ -15,7 +15,7 @@ return {
 
 			options = {
 				icons_enabled = true,
-				theme = "modus-vivendi",
+				theme = "auto",
 				section_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				disabled_filetypes = {
