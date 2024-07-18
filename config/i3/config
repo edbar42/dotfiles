@@ -7,15 +7,12 @@ set $mod Mod4
 # default i3 tiling mode:
 workspace_layout default
 
-# Remove window borders
-new_window pixel 1
-
 # thin borders
 hide_edge_borders both
 
 # Set inner/outer gaps
-gaps inner 1
-gaps outer 1
+gaps inner 0
+gaps outer 2
 
 # switch/iterate between workspaces
 bindsym $mod+Tab workspace next
@@ -135,10 +132,8 @@ bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 bindsym $mod+w exec /usr/bin/brave
 # password manager (if you don't have one you're wrong) 
 bindsym $mod+a exec /usr/bin/keepassxc
-bindsym Print exec /usr/bin/flameshot gui --path /home/edbar/Pictures/
+bindsym Print exec /usr/bin/flameshot gui --path ~/Pictures/
 # Change keyboard layout
-
-# Scripts shortcuts
 bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 # Change background
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
@@ -224,38 +219,66 @@ for_window [class="(?i)gsimplecal"] floating enable, move position mouse
 ######################################
 # color settings for bar and windows #
 ######################################
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
-client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
-client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
-client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
-client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+# custom colors
+set $rosewater #f5e0dc
+set $flamingo #f2cdcd
+set $pink #f5c2e7
+set $mauve #cba6f7
+set $red #f38ba8
+set $maroon #eba0ac
+set $peach #fab387
+set $yellow #f9e2af
+set $green #a6e3a1
+set $teal #94e2d5
+set $sky #89dceb
+set $sapphire #74c7ec
+set $blue #89b4fa
+set $lavender #b4befe
+set $text #cdd6f4
+set $subtext1 #bac2de
+set $subtext0 #a6adc8
+set $overlay2 #9399b2
+set $overlay1 #7f849c
+set $overlay0 #6c7086
+set $surface2 #585b70
+set $surface1 #45475a
+set $surface0 #313244
+set $base #1e1e2eaf
+set $mantle #181825
+set $crust #11111b
 
-client.background       #F8F8F2
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
 
 ############################################
 # bar settings (input comes from i3blocks) #
 ############################################
-
 # Start i3bar to display a workspace bar
 # (plus the system information i3status finds out, if available)
 bar {
-	font pango: CaskaydiaCove NerdFont 14
 	status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	font pango: CaskaydiaCove NerdFont 14
 	position top
 	i3bar_command i3bar --transparency
 	padding 5px
 	strip_workspace_numbers yes
 
 	colors {
-		background         #0000007f
-			statusline #F8F8F2
-
-			focused_workspace  #994499 #44475A #F8F8F2
-			active_workspace   #282A36 #44475A #F8F8F2
-			inactive_workspace #282A36 #282A36 #BFBFBF
-			urgent_workspace   #FF5555 #FF5555 #F8F8F2
-			binding_mode       #FF5555 #FF5555 #F8F8F2
-	}
+		background         $base
+		statusline         $text
+		focused_statusline $text
+		focused_separator  $base
+		focused_workspace  $base $base $red
+		active_workspace   $base $base $teal
+		inactive_workspace $base $base $lavender
+		urgent_workspace   $base $base $red
+		binding_mode       $base $base $surface1
+	  }
 }
 
 #####################################
@@ -266,4 +289,3 @@ bar {
 
 bindsym $mod+d exec rofi -modi drun -show drun \
 		-config ~/.config/rofi/rofidmenu.rasi
-
