@@ -10,6 +10,8 @@ workspace_layout default
 # thin borders
 hide_edge_borders both
 
+new_window pixel 1
+
 # Set inner/outer gaps
 gaps inner 0
 gaps outer 2
@@ -243,7 +245,7 @@ set $overlay0 #6c7086
 set $surface2 #585b70
 set $surface1 #45475a
 set $surface0 #313244
-set $base #1e1e2eaf
+set $base #1e1e2edf
 set $mantle #181825
 set $crust #11111b
 
