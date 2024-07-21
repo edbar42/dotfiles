@@ -15,4 +15,5 @@ read = [
 prepend_rules = [
 	{ name = "*.pdf", use = "read" },
 	{ name = "*.epub", use = "read" },
+	{ name = "*.tex", use = "edit" },
 ]
