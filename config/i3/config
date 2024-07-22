@@ -245,7 +245,7 @@ set $overlay0 #6c7086
 set $surface2 #585b70
 set $surface1 #45475a
 set $surface0 #313244
-set $base #1e1e2edf
+set $base #1f1f1f8f
 set $mantle #181825
 set $crust #11111b
 
@@ -275,7 +275,7 @@ bar {
 		statusline         $text
 		focused_statusline $text
 		focused_separator  $base
-		focused_workspace  $base $base $red
+		focused_workspace  $base $base $sapphire
 		active_workspace   $base $base $teal
 		inactive_workspace $base $base $lavender
 		urgent_workspace   $base $base $red
