@@ -1,8 +1,8 @@
 [alias]
-	add = add -p
 	short = log --decorate=full --oneline
 	st = status -s
 	cmt = commit -m
+	ok = rebase --continue
 
 [commit]
 	gpgsign = true
