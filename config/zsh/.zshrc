@@ -37,7 +37,7 @@ alias jobs="jobs -p"
 # Colors in output
 alias diff="diff --color=auto"
 alias ip="ip -color=auto"
-alias bat="bat --theme='base16' --color=always"
+alias bat="bat --theme='TwoDark' --color=always"
 
 # Moves to non-default terminal utils
 alias ls="lsd"

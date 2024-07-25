@@ -35,7 +35,6 @@ map g goto top
 # ---------------------
 #	Status bar options
 # ---------------------
-
 set statusbar-page-percent true
 set statusbar-basename true
 
