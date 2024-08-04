@@ -54,3 +54,4 @@ Some useful references that helped me setup this repo.
 
 - [kickstart](https://github.com/nvim-lua/kickstart.nvim)
 - [ThePrimeagen's NeoVim config](https://github.com/ThePrimeagen/init.lua)
+- [LARBS](https://github.com/LukeSmithxyz/LARBS)
