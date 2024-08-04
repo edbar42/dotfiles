@@ -1,18 +1,3 @@
-# ---------------------------------
-#	By default, open documents in
-#	NightCS colorscheme. Press i
-#	for light theme or uncomment
-#	the following line to use
-#	light by default
-# ---------------------------------
-#set recolor true
-
-# ---------------------------------
-#	Sandbox might disable 
-#	some features
-# ---------------------------------
-set sandbox none
-
 # ------------------------------
 #	Enable copying to clipboard
 # ------------------------------
