@@ -1,13 +1,9 @@
 -- Remaps and custom settings files
--- No plugins necessary
+-- No lazy plugins necessary
 require("setup.remaps")
 require("setup.settings")
 
 -- Plugin files
--- This config heavily relies on kickstart
--- Kickstart is great if you wanna get started
--- writing your own config
--- https://github.com/nvim-lua/kickstart.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -24,7 +20,7 @@ end
 ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- Set up lazy, and load my `lua/custom/plugins/` folder
+-- Set up lazy, and load my `lua/plugins/` folder
 require("lazy").setup({ import = "plugins" }, {
 	change_detection = {
 		notify = false,
