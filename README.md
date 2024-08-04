@@ -1,38 +1,50 @@
-# Setup
+# My Dotfiles
+ This repo contains my setup for [EndeavourOS](https://endeavouros.com/) with the [i3](https://i3wm.org/) window manager. 
 
-### ⚠️ This repository is still under construction. ⚠️
+ Basically, this replaces your current `.config` directory with the contents of this repo's `config` using `stow`. 
 
-This is where I keep my configs and dotfiles for my Linux system.
+ It also install a bunch of packages and remove packages I don't use from a standard EndeavourOS installation.
 
-At the moment, these are aimed to work for a fresh installation of [EndeavourOS](https://endeavouros.com/) with the [i3](https://i3wm.org/) window manager. 
+  If you are only interested in my setup for specific software (say `nvim` or `wezterm`) you can fetch it directly from the `config` directory.
 
-FYI, I got some of these configs from [TJ's config repo](https://github.com/tjdevries/config_manager/).
+  Here's the directory structure for this repo:
 
-# Installation
+  ```
+├── assets/
+|    └── // Contains a list of packages to install (dependencies) and to be removed (bloat)
+├── bin/
+|     └── // Custom scripts that I want available system-wide. Includes the setup script.
+└── config/
+|     └── // Config files I want backed up
+  ```
+ 
+> #### ⚠️ This repository is is maintained FOR ME and is poorly tested since I don't change machines too often.
+> #### ⚠️ USE IT AT YOUR OWN RISK, and definetely do not use it if you don't even now what a `.config` directory is.
 
-TO-DO
+# How to Use
+## First Usage
+Clone this repo directly on your home directory without giving it a custom name (the scripts rely on access to these files via `$HOME/dotfiles/`). 
 
-# Software that I use:
-> The full list of software and libraries I use not available by default in EndeavourOS are listed in `scripts/data/packages`.
-  
-### [NeoVim](https://neovim.io/)
-  More than an IDE, a [PDE](https://www.youtube.com/watch?v=QMVIJhC9Veg).
+On your home directory:
 
-  My config was heavily based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim), an amazing project to get started with configuring NeoVim for your needs.
+```bash
+git clone git@github.com:edbar42/dotfiles.git
+```
 
-### [WezTerm](https://wezfurlong.org/wezterm/)
-  Because I'm using Lua for `nvim` anyways. 
+Then, run the installation script under `bin/setup`. If you're still on your home directory:
 
-  Also, it's probably the best terminal I've ever used.
+```bash
+./dotfiles/bin/setup
+```
+The script assumes you are on a brand new installation and will install all necessary packages, change your user's shell and remove bloat. If it ran with no errors, you should be prompted to login again so i3 can be properly restarted. 
 
-### [mpv](https://mpv.io/)
-  [The based gigachad's video player.](https://www.youtube.com/watch?v=w-g04TLp0tg)
+The contents of your previous `.config` directory will have been moved to `./old-config`.
 
-### [yazi](https://yazi-rs.github.io/)
-  No more GUI for handling files.
+## Updating
+Whenever you want to update your system with changes you made to `config` or `bin` just run:
 
-### [zathura](https://pwmt.org/projects/zathura/)
-  Non-bloated and highly efficient document reader with vim like keybindings. 
+```bash
+setup sync
+```
 
-### [zsh](https://www.zsh.org/)
-  With [powerlevel10k](https://github.com/romkatv/powerlevel10k), [fzf](https://github.com/junegunn/fzf) and [zoxide].
+After the first installation `setup` should be available system-wide because the contents of `bin` are on your `$PATH` under `$HOME/.bin/`.

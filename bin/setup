@@ -2,37 +2,29 @@
 
 link_dotfiles() {
 	echo "Linking dotfiles..."
-	ls $HOME/dotfiles/config/* 2> /dev/null || exit 1
-	for module in $HOME/dotfiles/config/*; do 
-		mod_name=$(basename "$path")
-		ln -siv $module -t $HOME/.config/$mod_name
-	done
+	stow -v . -d ~/dotfiles/config/ -t ~/.config
+	stow -v . -d ~/dotfiles/bin/ -t ~/.bin
 }
 
 set_wallpaper() {
-/usr/bin/nitrogen --set-zoom-fill --random --save ~/Pictures/wallpapers/ > /dev/null/
+	/usr/bin/nitrogen --set-zoom-fill --random --save ~/Pictures/wallpapers/ > /dev/null/
 }
 
-if [[ "$1" == "sync" ]]; then
-	link_dotfiles
-	if [[ "$?" == 0 ]]; then
-		echo "Dotfiles updated with no errors."
-	fi
-elif [ $# -eq 0 ]; then
+setup_fresh() {
 	clear
 	echo "We need sudo priviledges for installing packages."
-	echo "Please provide your password."
+	echo "Please authenticate."
 	sudo -v
 
 	echo "Checking if yay is installed on your system..."
-	command -v yay &> /dev/null || exit 1 "Yay doesn't seem to be installed."
+	command -v yay &> /dev/null || { echo "Yay doesn't seem to be installed. Please install yay before trying again."; exit 1; }
 
 	echo "Updating repositories..."
 	yay -Syy
 
+
 	echo "Installing dependencies..."
-	cat ~/setup/aux/packages | xargs yay -S --needed --noconfirm
-	git clone https://github.com/romkatv/powerlevel10k $HOME/powerlevel10k
+	cat ~/dotfiles/assets/dependencies | xargs yay -S --needed --noconfirm
 
 	echo "Trying to export .zshenv"
 	ln -siv $HOME/dotfiles/.zshenv -t $HOME/
@@ -41,26 +33,40 @@ elif [ $# -eq 0 ]; then
 	mv $HOME/.config $HOME/.old-config
 	mkdir $HOME/.config
 
+	echo "Adding config files and custom scripts"
+	link_dotfiles
+	
 	echo "Changing your shell to zsh"
 	chsh -s /bin/zsh
 
 	echo "You will now set up p10k"
+	git clone https://github.com/romkatv/powerlevel10k $HOME/powerlevel10k
+	echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 	p10k configure
-
-	echo "Linking dotfiles..."
-	link_dotfiles
 
 	echo "Setting up a random wallpaper. You can change it later."
 	set_wallpaper
+
+	echo "Trying to remove unnecessary packages"
+	cat ~/dotfiles/assets/bloat | xargs yay -Rns --noconfirm
 
 	echo "System setup done."
 
 	sleep 1
 	echo "We're logging you out of i3 to make sure everything is properly handled."
 
-	sleep 5
+	sleep 3
 	i3-msg exit
 
+}
+
+if [[ "$1" == "sync" ]]; then
+	link_dotfiles
+	if [[ "$?" == 0 ]]; then
+		echo "Dotfiles updated with no errors."
+	fi
+elif [ $# -eq 0 ]; then
+	setup_fresh
 else
 	echo "Unknown flag."
 fi
