@@ -1,18 +1,15 @@
-return {
+return { -- Dark colorscheme inspired by the famous painting
 	"rebelot/kanagawa.nvim",
 	config = function()
-		-- Default options:
 		require("kanagawa").setup({
-			commentStyle = { italic = true },
 			functionStyle = { bold = true },
 			keywordStyle = { italic = true, bold = true },
-			statementStyle = { bold = true },
 			typeStyle = { bold = true },
-			transparent = true, -- do not set background color
-			colors = { -- add/modify theme and palette colors
+			transparent = true,
+			colors = {
 				theme = { all = { ui = { bg_gutter = "none" } } },
 			},
-			overrides = function(colors) -- add/modify highlights
+			overrides = function(colors)
 				local theme = colors.theme
 				return {
 					-- Telescope colors settings
@@ -39,6 +36,6 @@ return {
 				}
 			end,
 		})
-		vim.cmd("colorscheme kanagawa-wave")
+		vim.cmd("colorscheme kanagawa")
 	end,
 }

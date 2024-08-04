@@ -1,4 +1,4 @@
-return {
+return { -- A collection of lsp related plugins
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -95,6 +95,7 @@ return {
 					},
 				},
 				pylsp = {},
+				tsserver = {},
 			}
 
 			require("mason").setup({
@@ -148,7 +149,7 @@ return {
 				}
 			end,
 			formatters_by_ft = {
-				-- lua = { "stylua" },
+				lua = { "stylua" },
 				go = { "gofumpt" },
 			},
 		},
