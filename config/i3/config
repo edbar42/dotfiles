@@ -124,13 +124,13 @@ bindsym XF86AudioPrev exec playerctl previous
 # bindsym XF86AudioMicMute exec amixer sset Capture toggle
 
 ## App shortcuts
-# note taking
+# Notes app
 bindsym $mod+c exec /usr/bin/obsidian
-# start a terminal
+# Terminal
 bindsym $mod+Return exec wezterm
-# cli file manage
+# File manager for the CLI
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
-# main browser
+# Main browser
 bindsym $mod+w exec /usr/bin/brave
 # password manager (if you don't have one you're wrong) 
 bindsym $mod+a exec /usr/bin/keepassxc
