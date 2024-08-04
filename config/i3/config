@@ -185,7 +185,7 @@ exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/d
 exec_always --no-startup-id autotiling-rs
 
 # Autostart apps as you like
-exec --no-startup-id zsh $HOME/bin/remap
+exec --no-startup-id zsh $HOME/.bin/remap
 exec --no-startup-id /usr/bin/mullvad
 
 ###############
