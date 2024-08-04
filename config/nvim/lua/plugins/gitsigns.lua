@@ -1,6 +1,5 @@
-return {
+return { -- Git decorations on the sidebar
 	'lewis6991/gitsigns.nvim',
-
 	config = function()
 		require('gitsigns').setup({
 			signs = {
@@ -10,6 +9,7 @@ return {
 				topdelete    = { text = '‾' },
 				changedelete = { text = '~' },
 			},
+			numhl = true,
 		})
 	end
 }

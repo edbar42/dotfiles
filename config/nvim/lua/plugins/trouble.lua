@@ -1,4 +1,4 @@
-return {
+return { -- Get diagnostic messages project wide
 	"folke/trouble.nvim",
 	opts = {
 		auto_close = true,
@@ -10,7 +10,7 @@ return {
 		{
 			"<leader>tt",
 			"<cmd>Trouble diagnostics toggle<cr>",
-			desc = "Diagnostics (Trouble)",
+			desc = " Toggle trouble diagnostics",
 		},
 	},
 }
