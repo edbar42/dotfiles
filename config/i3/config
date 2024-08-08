@@ -195,7 +195,7 @@ exec --no-startup-id /usr/bin/mullvad
 # you need to have tray apps started manually one by one:
 
 # start blueberry app for managing bluetooth devices from tray:
-#exec --no-startup-id blueberry-tray
+exec --no-startup-id blueberry-tray
 
 # networkmanager-applet
 exec --no-startup-id nm-applet

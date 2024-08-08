@@ -1,1 +1,1 @@
-/usr/bin/nitrogen --set-zoom-fill --save --random ~/Pictures/wallpapers/ > /dev/null
+/usr/bin/nitrogen --set-zoom-fill --save --random ~/personal/wallpapers/ > /dev/null
