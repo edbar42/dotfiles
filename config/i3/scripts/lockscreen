@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Directory for lockscreen images
-DIR_PATH="$HOME/Pictures/wallpapers/"
+DIR_PATH="$HOME/personal/wallpapers/"
 PICTURE="$DIR_PATH$(ls -1 $DIR_PATH | shuf -n 1)"
 JPG_FILE="$PICTURE"
 PNG_FILE="${PICTURE%.*}.png"
