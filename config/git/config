@@ -1,7 +1,8 @@
 [alias]
+	fix = commit --amend
 	short = log --decorate=full --oneline
 	st = status -s
-	cmt = commit -m
+	cmt = commit
 	ok = rebase --continue
 
 [commit]
