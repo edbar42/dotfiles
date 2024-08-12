@@ -58,3 +58,12 @@ alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score -
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
+
+
+# pnpm
+export PNPM_HOME="/home/edbar/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
