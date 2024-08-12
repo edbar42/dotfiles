@@ -4,7 +4,7 @@ on = [ "l" ]
 run = "plugin --sync smart-enter"
 desc = "Enter child directory or open file"
 
-# # Drag and drop via dragon
+# Drag and drop via dragon
 [[manager.prepend_keymap]]
 on = [ "<C-n>" ]
 run = '''

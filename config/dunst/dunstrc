@@ -1,7 +1,3 @@
-# Grabbed from dracula
-# https://github.com/dracula/dunst/blob/master/dunstrc
-# See dunst(5) for all configuration options
-
 [global]
     ### Display ###
 

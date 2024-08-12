@@ -1,14 +1,12 @@
--- Importing wezterm api
 local wez = require("wezterm")
 
--- The table that will hold our custom settings
 local options = {}
 
 -- Sets custom colorscheme
 -- NOTE:
 -- Based on the Japanesque colorscheme
--- for the Kitty terminal.My changes are
--- simply different colors for default
+-- for the Kitty terminal with 
+-- different colors for default
 -- text and highlighting
 -- Original colorscheme:
 -- https://github.com/dexpota/kitty-themes/blob/master/themes/Japanesque.conf

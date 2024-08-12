@@ -40,7 +40,7 @@ If you're still on your home directory:
 ```
 The script assumes you are on a brand new installation and will install all necessary packages, change your user's shell and remove bloat. If it ran with no errors, you should be prompted to login again on your desktop environment. 
 
-The contents of your previous `.config` directory will have been moved to `./old-config`.
+The contents of your previous `.config` directory will have been moved to `.old-config`.
 
 ## Updating
 Whenever you want to update your system with changes you made to `config` or `bin` just run:

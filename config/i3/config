@@ -72,7 +72,7 @@ bindsym $mod+q kill
 # exit-menu
 bindsym $mod+Shift+q exec ~/.config/i3/scripts/powermenu
 
-# Lock the system
+# lock the system
 bindsym $mod+z exec ~/.config/i3/scripts/lockscreen
 
 # reload the configuration file
@@ -103,12 +103,12 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # Media keys
-# Volume
+# volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_up
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_down
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_mute
 
-# Brightness keys for laptop
+# brightness keys
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_up
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_down
 
@@ -120,23 +120,31 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # mic control
-# For laptop
 # bindsym XF86AudioMicMute exec amixer sset Capture toggle
 
 ## App shortcuts
+
 # Notes app
 bindsym $mod+c exec /usr/bin/obsidian
+
 # Terminal
 bindsym $mod+Return exec wezterm
+
 # File manager for the CLI
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
+
 # Main browser
 bindsym $mod+w exec /usr/bin/brave
+
 # password manager (if you don't have one you're wrong) 
 bindsym $mod+a exec /usr/bin/keepassxc
+
+# custom print screen software
 bindsym Print exec /usr/bin/flameshot gui --path ~/Pictures/
+
 # Change keyboard layout
 bindsym $mod+space exec ~/.config/i3/scripts/kbchange
+
 # Change background
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 
@@ -157,7 +165,6 @@ set $ws10 "10:10"
 ##############
 
 # transparency
-# The default configuration is available in /etc/xdg/picom.conf
 exec_always --no-startup-id picom -config  ~/.config/picom
 
 #############################################
@@ -168,8 +175,6 @@ exec_always --no-startup-id picom -config  ~/.config/picom
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # dex execute .desktop files + apps using /etc/xdg/autostart.
-# when second to i3 a DE is installed or mixed usage of i3 + xfce4 or GNOME
-# in this cases better disable dex and use manual starting apps using xdg/autostart
 exec --no-startup-id dex --autostart --environment i3
 
 # set wallpaper
@@ -178,32 +183,27 @@ exec --no-startup-id sleep 2 & nitrogen --restore
 # set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
 
-# Desktop notifications
+# desktop notifications
 exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/dunstrc"
 
 # autotiling script
 exec_always --no-startup-id autotiling-rs
 
-# Autostart apps as you like
+# Autostart apps
 exec --no-startup-id zsh $HOME/.bin/remap
 exec --no-startup-id /usr/bin/mullvad
 
 ###############
 # system tray #
 ###############
-# if you do not use dex: exec --no-startup-id dex --autostart --environment i3
-# you need to have tray apps started manually one by one:
-
 # start blueberry app for managing bluetooth devices from tray:
 exec --no-startup-id blueberry-tray
 
 # networkmanager-applet
 exec --no-startup-id nm-applet
-
 ##################
 # floating rules #
 ##################
-
 # set floating (nontiling) for apps needing it
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
@@ -221,7 +221,6 @@ for_window [class="(?i)gsimplecal"] floating enable, move position mouse
 ######################################
 # color settings for bar and windows #
 ######################################
-# custom colors
 set $rosewater #f5e0dc
 set $flamingo #f2cdcd
 set $pink #f5c2e7
@@ -260,8 +259,6 @@ client.background        $base
 ############################################
 # bar settings (input comes from i3blocks) #
 ############################################
-# Start i3bar to display a workspace bar
-# (plus the system information i3status finds out, if available)
 bar {
 	status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	font pango: CaskaydiaCove NerdFont 14
@@ -286,8 +283,5 @@ bar {
 #####################################
 # Application menu handled by rofi: #
 #####################################
-
-## rofi bindings fancy application menu ($mod+d /F9 optional disabled)
-
 bindsym $mod+d exec rofi -modi drun -show drun \
 		-config ~/.config/rofi/rofidmenu.rasi

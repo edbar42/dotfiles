@@ -69,6 +69,7 @@ function options.add_keymaps(config)
 				args = { "yazi" },
 			}),
 		},
+		-- Spawn tab navigator
 		{
 			key = "f",
 			mods = "ALT",

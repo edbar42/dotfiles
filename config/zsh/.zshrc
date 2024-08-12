@@ -26,7 +26,7 @@ bindkey '^[[F' end-of-line
 autoload -U compinit; compinit
 
 # ----------------------------- ALIASES -----------------------------------
-# Useful aliases alias 
+# Useful aliases
 alias rm="rm -Iv" 
 alias cp="cp -irv" 
 alias mv="mv -iv" 

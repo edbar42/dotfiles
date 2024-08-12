@@ -3,13 +3,6 @@
 
 local options = {}
 
-function options.set_launch_menu()
-	--TODO:
-	-- Consider checking the launch menu
-	-- for greater productivity
-end
-
--- More options that don't really fit in anywhere else
 function options.set_misc_options(config)
 	config.audible_bell = "Disabled"
 	config.enable_kitty_graphics = true

@@ -24,7 +24,8 @@ set statusbar-page-percent true
 set statusbar-basename true
 
 # ------------------------------
-#	Colorscheme is NightCS
+#	Colorscheme is NightCS with
+# small variations
 #	Original found at:
 #	https://github.com/NightCS/zathura
 # ------------------------------
