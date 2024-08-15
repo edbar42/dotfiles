@@ -50,7 +50,7 @@ end
 -- Set favorite font
 function options.set_font(config)
 	config.font = wez.font("CaskaydiaCove Nerd Font")
-	config.font_size = 14.0
+	config.font_size = 18.0
 end
 
 -- Set background options

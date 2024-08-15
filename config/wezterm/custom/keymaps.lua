@@ -85,7 +85,7 @@ function options.add_keymaps(config)
 		{
 			key = "f",
 			mods = "ALT",
-			action = a.ShowLauncherArgs({ flags = "FUZZY|TABS|LAUNCH_MENU_ITEMS" }),
+			action = a.ShowLauncherArgs({ flags = "FUZZY|TABS" }),
 		},
 		-- Move to pane with hjkl
 		{
