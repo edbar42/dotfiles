@@ -2,9 +2,9 @@
 local wez = require("wezterm")
 local a = wez.action
 
--- Keyboard mappings settings
 local options = {}
 
+-- Keyboard mappings settings
 function options.add_keymaps(config)
 	config.keys = {
 		-- Spawn a new tab
@@ -86,6 +86,19 @@ function options.add_keymaps(config)
 			key = "f",
 			mods = "ALT",
 			action = a.ShowLauncherArgs({ flags = "FUZZY|TABS" }),
+		},
+		-- Rename current tab
+		{
+			key = "r",
+			mods = "ALT",
+			action = a.PromptInputLine({
+				description = "Enter new name",
+				action = wez.action_callback(function(window, pane, line)
+					if line then
+						window:active_tab():set_title(line)
+					end
+				end),
+			}),
 		},
 		-- Move to pane with hjkl
 		{
