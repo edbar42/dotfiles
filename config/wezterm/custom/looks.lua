@@ -5,7 +5,7 @@ local options = {}
 -- Sets custom colorscheme
 -- NOTE:
 -- Based on the Japanesque colorscheme
--- for the Kitty terminal with 
+-- for the Kitty terminal with
 -- different colors for default
 -- text and highlighting
 -- Original colorscheme:
@@ -64,10 +64,7 @@ end
 
 -- Set tab bar options
 function options.set_tab_bar_options(config)
-	config.tab_bar_at_bottom = true
-	config.hide_tab_bar_if_only_one_tab = true
-	config.show_new_tab_button_in_tab_bar = false
-	config.use_fancy_tab_bar = false
+	config.enable_tab_bar = false
 end
 
 return options

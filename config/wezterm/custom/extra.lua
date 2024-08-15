@@ -17,4 +17,16 @@ function options.set_misc_options(config)
 	}
 end
 
+function options.laucher_options(config)
+	config.launch_menu = {
+		{
+			label = " NeoVim",
+			args = { "nvim", "." },
+		},
+		{
+			label = " Yazi",
+			args = { "yazi", "." },
+		},
+	}
+end
 return options

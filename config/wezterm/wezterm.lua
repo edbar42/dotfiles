@@ -19,5 +19,6 @@ looks.set_tab_bar_options(config)
 keymaps.add_keymaps(config)
 
 extra.set_misc_options(config)
+extra.laucher_options(config)
 
 return config

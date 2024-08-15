@@ -37,6 +37,12 @@ function options.add_keymaps(config)
 			mods = "ALT|SHIFT",
 			action = a.SplitVertical({ domain = "CurrentPaneDomain" }),
 		},
+		-- Maximize current pane
+		{
+			key = "m",
+			mods = "ALT",
+			action = a.TogglePaneZoomState,
+		},
 		-- Quit current pane
 		{
 			key = "q",
@@ -61,6 +67,12 @@ function options.add_keymaps(config)
 			mods = "ALT",
 			action = a.ResetFontSize,
 		},
+		-- Activate copy mode
+		{
+			key = "v",
+			mods = "ALT",
+			action = a.ActivateCopyMode,
+		},
 		-- Spawn yazi instance on new tab
 		{
 			key = "g",
@@ -69,11 +81,11 @@ function options.add_keymaps(config)
 				args = { "yazi" },
 			}),
 		},
-		-- Spawn tab navigator
+		-- Spawn quick switcher/workspace launcher
 		{
 			key = "f",
 			mods = "ALT",
-			action = a.ShowTabNavigator,
+			action = a.ShowLauncherArgs({ flags = "FUZZY|TABS|LAUNCH_MENU_ITEMS" }),
 		},
 		-- Move to pane with hjkl
 		{
