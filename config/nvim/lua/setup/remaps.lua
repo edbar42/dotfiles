@@ -5,6 +5,7 @@ vim.g.maplocalleader = " "
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 
+vim.keymap.set("v", "<leader>y", '"+Y', { desc = "Copy highlighted content to clipboard" })
 -- Keep cursor in place when joining lines
 vim.keymap.set("n", "J", "mzJ`z")
 

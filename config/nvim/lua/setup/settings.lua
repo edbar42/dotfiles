@@ -1,9 +1,6 @@
 -- Block cursor in all modes
 vim.opt.guicursor = ""
 
--- Use system clipboard by default
-vim.opt.clipboard = "unnamedplus"
-
 -- Highlight current line
 vim.opt.cursorline = true
 
