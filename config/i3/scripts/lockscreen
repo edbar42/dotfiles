@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DIR_PATH="$HOME/personal/wallpapers/"
+DIR_PATH="$HOME/Pictures/wallpapers/"
 PICTURE="$DIR_PATH$(ls -1 $DIR_PATH | shuf -n 1)"
 JPG_FILE="$PICTURE"
 PNG_FILE="${PICTURE%.*}.png"
