@@ -45,6 +45,7 @@ alias la="lsd -A"
 alias ll="lsd -l"
 alias lt="lsd --tree"
 alias lla="lsd -la"
+alias procs="procs --tree"
 
 # Go aliases
 alias gotst="go test -v"
@@ -59,10 +60,3 @@ alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score -
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
 
-# pnpm
-export PNPM_HOME="/home/edbar/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
