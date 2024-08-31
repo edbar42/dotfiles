@@ -47,8 +47,17 @@ alias lt="lsd --tree"
 alias lla="lsd -la"
 alias procs="procs --tree"
 
+# OMEGALUL
+alias fastfetch="fastfetch --logo arch"
+
+# OMEGALUL
+alias fastfetch="fastfetch --logo arch"
+
 # Go aliases
 alias gotst="go test -v"
+
+#pnpm aliases
+alias pnpx="pnpm dlx"
 
 # Wezterm aliases
 alias see="wezterm imgcat"

@@ -13,11 +13,6 @@
             "format": "\u001b[36m╭──────────── \u001b[32mSoftware \u001b[36m────────────"
         },
         {
-            "type": "os",
-            "key": "│ OS",
-            "keyColor": "cyan"
-        },
-        {
             "type": "kernel",
             "key": "│ Kernel",
             "keyColor": "cyan"

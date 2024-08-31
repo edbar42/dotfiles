@@ -134,7 +134,7 @@ bindsym $mod+Return exec wezterm
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 
 # Main browser
-bindsym $mod+w exec /usr/bin/brave
+bindsym $mod+w exec /usr/bin/zen-browser
 
 # password manager (if you don't have one you're wrong) 
 bindsym $mod+a exec /usr/bin/keepassxc
