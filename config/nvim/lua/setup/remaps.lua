@@ -15,11 +15,20 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
--- Better window navigation mappings
+-- Better window navigation/interaction mappings
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to split above" })
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to split on the left" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to split on the right" })
+
+vim.keymap.set("n", "<C-q>", "<C-w>q", { desc = "Close focused window" })
+vim.keymap.set("n", "<C-r>", "<C-w>r", { desc = "Rotate windows" })
+
+vim.keymap.set("n", "<C-=>", "<C-w>=", { desc = "Resize windows to fit screen" })
+vim.keymap.set("n", "<C-+>", "<C-w>+", { desc = "Increase window height" })
+vim.keymap.set("n", "<C-->", "<C-w>-", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C->>", "<C-w>>", { desc = "Increase window width" })
+vim.keymap.set("n", "<C-<>", "<C-w><", { desc = "Decrease window width" })
 
 -- Diagnostics
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
