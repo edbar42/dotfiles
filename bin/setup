@@ -10,6 +10,10 @@ set_wallpaper() {
 	/usr/bin/nitrogen --set-zoom-fill --random --save ~/Pictures/wallpapers/ > /dev/null/
 }
 
+install_dependencies() {
+	cat ~/dotfiles/assets/dependencies | xargs yay -S --needed --noconfirm
+}
+
 setup_fresh() {
 	clear
 	echo "We need sudo priviledges for installing packages."
@@ -48,7 +52,7 @@ setup_fresh() {
 	set_wallpaper
 
 	echo "Trying to remove unnecessary packages"
-	cat ~/dotfiles/assets/bloat | xargs yay -Rns --noconfirm
+	install_dependencies
 
 	echo "System setup done."
 
@@ -64,6 +68,11 @@ if [[ "$1" == "sync" ]]; then
 	link_dotfiles
 	if [[ "$?" == 0 ]]; then
 		echo "Dotfiles updated with no errors."
+	fi
+elif [[ "$1" == "tidy" ]]; then
+	install_dependencies
+	if [[ "$?" == 0 ]]; then
+		echo "Missing dependencies installed."
 	fi
 elif [ $# -eq 0 ]; then
 	setup_fresh
