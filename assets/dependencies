@@ -9,7 +9,6 @@ base-devel
 bat
 bleachbit
 bottom
-brave-bin
 brillo
 delve
 diffutils
@@ -69,5 +68,6 @@ zathura-djvu
 zathura-pdf-mupdf
 zathura-ps
 zathura-ypb
+zen-browser-bin
 zoxide
 zsh
