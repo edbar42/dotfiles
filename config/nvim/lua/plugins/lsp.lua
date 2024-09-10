@@ -95,7 +95,7 @@ return { -- A collection of lsp related plugins
 					},
 				},
 				pylsp = {},
-				tsserver = {},
+				ts_ls = {},
 			}
 
 			require("mason").setup({
