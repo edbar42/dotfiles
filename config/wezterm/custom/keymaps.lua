@@ -61,12 +61,17 @@ function options.add_keymaps(config)
 			mods = "ALT",
 			action = a.DecreaseFontSize,
 		},
+		-- Disable equivalent binding
+		{ key = "-", mods = "CTRL", action = a.DisableDefaultAssignment },
 		-- Reset font size to default
 		{
 			key = "=",
 			mods = "ALT",
 			action = a.ResetFontSize,
 		},
+		-- Disable equivalent binding
+		{ key = "=", mods = "CTRL", action = a.DisableDefaultAssignment },
+		{ key = "+", mods = "CTRL", action = a.DisableDefaultAssignment },
 		-- Activate copy mode
 		{
 			key = "v",
