@@ -6,12 +6,6 @@ return { -- Non-extensive config plugins
 	-- Manage surrouding elements
 	{ "tpope/vim-surround" },
 
-	-- Git wrapper for neovim
-	{
-		"tpope/vim-fugitive",
-		vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git (Fugitive) status" })
-	},
-
 	-- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
