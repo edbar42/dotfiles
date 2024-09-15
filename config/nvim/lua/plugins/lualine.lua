@@ -20,8 +20,8 @@ return { -- NeoVim status line written in Lua
 				lualine_b = { "mode" },
 				lualine_c = { "filetype", "filename" },
 				lualine_x = { "branch", "diff", "diagnostics" },
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
+				lualine_y = { "fileformat" },
+				lualine_z = { "progress", "location" },
 			},
 		})
 	end,
