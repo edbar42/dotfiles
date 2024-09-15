@@ -69,3 +69,6 @@ alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score -
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
 
+# Manage SSH sessions through keychain
+eval $(keychain --eval --agents ssh id_ed25519)
+
