@@ -46,9 +46,8 @@ alias ll="lsd -l"
 alias lt="lsd --tree"
 alias lla="lsd -la"
 alias procs="procs --tree"
-
-# OMEGALUL
-alias fastfetch="fastfetch --logo arch"
+alias vim="nvim -u NONE"
+alias bc="better-commits"
 
 # OMEGALUL
 alias fastfetch="fastfetch --logo arch"
@@ -72,3 +71,10 @@ eval "$(zoxide init --cmd cd zsh)"
 # Manage SSH sessions through keychain
 eval $(keychain --eval --agents ssh id_ed25519)
 
+# pnpm
+export PNPM_HOME="/home/edbar/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
