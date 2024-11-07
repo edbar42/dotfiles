@@ -6,6 +6,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Drag line down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 
 vim.keymap.set("v", "<leader>y", '"+Y', { desc = "Copy highlighted content to clipboard" })
+
 -- Keep cursor in place when joining lines
 vim.keymap.set("n", "J", "mzJ`z")
 
@@ -16,6 +17,16 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
 -- Better window navigation/interaction mappings
+vim.keymap.set("n", "<leader>vv", function()
+	vim.cmd("vsp")
+	require('telescope.builtin').find_files()
+end, { desc = "Start vertical split" })
+
+vim.keymap.set("n", "<leader>hh", function()
+	vim.cmd("sp")
+	require('telescope.builtin').find_files()
+end, { desc = "Start horizontal split" })
+
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to split above" })
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to split on the left" })
