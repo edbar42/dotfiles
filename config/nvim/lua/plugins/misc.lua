@@ -15,4 +15,10 @@ return { -- Non-extensive config plugins
 
 	-- Elixir syntax highlighting
 	{ "elixir-editors/vim-elixir" },
+
+	-- Automatically add closing tags for HTML and JSX
+	{
+		"windwp/nvim-ts-autotag",
+		opts = {},
+	},
 }
