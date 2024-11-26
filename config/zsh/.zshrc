@@ -53,7 +53,7 @@ alias bc="better-commits"
 alias fastfetch="fastfetch --logo arch"
 
 # Go aliases
-alias gotst="go test -v"
+alias gotst="go test -v ./..."
 
 #pnpm aliases
 alias pnpx="pnpm dlx"
@@ -64,9 +64,15 @@ alias see="wezterm imgcat"
 # Fix mirrors in EndeavourOS
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
+# Create migration
+alias migc="migrate create -seq -ext=.sql -dir=./migrations"
+
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
+
+# Mise setup
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
 
 # Manage SSH sessions through keychain
 eval $(keychain --eval --agents ssh id_ed25519)
@@ -78,3 +84,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Start brew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
