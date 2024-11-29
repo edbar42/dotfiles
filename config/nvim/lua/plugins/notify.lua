@@ -11,6 +11,8 @@ return { -- A fancy, configurable, notification manager for NeoVim
 				DEBUG = "",
 				TRACE = "✎",
 			},
+			top_down = false,
+			position = "bottom_right"
 		})
 	end,
 }
