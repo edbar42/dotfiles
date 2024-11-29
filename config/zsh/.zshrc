@@ -48,6 +48,7 @@ alias lla="lsd -la"
 alias procs="procs --tree"
 alias vim="nvim -u NONE"
 alias bc="better-commits"
+alias lzg="lazygit"
 
 # OMEGALUL
 alias fastfetch="fastfetch --logo arch"
@@ -63,9 +64,6 @@ alias see="wezterm imgcat"
 
 # Fix mirrors in EndeavourOS
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
-
-# Create migration
-alias migc="migrate create -seq -ext=.sql -dir=./migrations"
 
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
 # Zoxide as a replacement to cd
