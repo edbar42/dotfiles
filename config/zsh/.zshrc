@@ -86,5 +86,5 @@ esac
 # Start brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Start mise
+# Add mise-en-place
 eval "$(~/.local/bin/mise activate zsh)"
