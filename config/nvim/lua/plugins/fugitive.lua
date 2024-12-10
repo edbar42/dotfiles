@@ -11,6 +11,6 @@ return { -- Git wrapper for neovim
 		vim.keymap.set("n", "<leader>gl", function()
 			vim.cmd("vertical Git --paginate log")
 			vim.cmd("vertical resize 65")
-		end, { desc = "Open diffs on split window" })
+		end, { desc = "Open git log on split window" })
 	end,
 }
