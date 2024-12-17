@@ -10,6 +10,9 @@ edit = [
 play = [
 	{ run = 'mpv "$@"', orphan = true },
 ]
+listen = [
+	{ run = 'rhythmbox "$@"', orphan = true },
+]
 open = [
 	{ run = 'xdg-open "$@"', desc = "Open" },
 ]
@@ -21,4 +24,6 @@ prepend_rules = [
 	{ name = "*.pdf", use = "read" },
 	{ name = "*.epub", use = "read" },
 	{ name = "*.tex", use = "edit" },
+	{ name = "*.opus", use = "listen" },
+	{ name = "*.mp3", use = "listen" },
 ]
