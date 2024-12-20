@@ -54,7 +54,7 @@ alias lzg="lazygit"
 alias fastfetch="fastfetch --logo arch"
 
 # Go aliases
-alias gotst="go test -v ./..."
+alias gotst="go test -v -cover ./..."
 
 #pnpm aliases
 alias pnpx="pnpm dlx"
@@ -66,11 +66,11 @@ alias see="wezterm imgcat"
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
+# Better vim mode for zsh
+source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
-
-# Mise setup
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
 
 # Manage SSH sessions through keychain
 eval $(keychain --eval --agents ssh id_ed25519)
