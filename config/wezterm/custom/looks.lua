@@ -64,7 +64,10 @@ end
 
 -- Set tab bar options
 function options.set_tab_bar_options(config)
-	config.enable_tab_bar = false
+	config.tab_bar_at_bottom = true
+	config.enable_tab_bar = true
+	config.show_new_tab_button_in_tab_bar = false
+	config.use_fancy_tab_bar = false
 end
 
 return options
