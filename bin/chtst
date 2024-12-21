@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+langs=$(echo "golang c cpp typescript rust javascript python lua" | tr " " "\n")
+core_utils=$(echo "find xargs sed awk"| tr " " "\n")
+
+selected=$(echo -e "$langs\n$core_utils" | fzf)
+
+read -p "Insert query: " query
+
+if echo "$langs" | grep -qs $selected; then
+	curl cht.sh/$selected/$(echo "$query" | tr " " "+") | bat
+else
+	wezterm cli spawn
+	curl cht.sh/$selected~$query | bat
+fi
