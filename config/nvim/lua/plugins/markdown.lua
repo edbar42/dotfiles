@@ -10,9 +10,8 @@ return { -- Plugin to improve viewing Markdown files in Neovim
 		heading = {
 			border = true,
 			width = "block",
-			left_margin = 0.5,
-			left_pad = 0.2,
-			right_pad = 0.2,
+			left_pad = 0.1,
+			right_pad = 0.1,
 		},
 		pipe_table = {
 			preset = "double",
