@@ -4,6 +4,7 @@ name:
   c: 
   cpp: 
   docker: 
+  elm: 
   elixir: 
   git: 
   go: 
@@ -33,6 +34,7 @@ name:
   zsh: 
   .zshrc: 󱆃
 extension:
+  elm: 
   ex: 
   go: 
   htmx: 
