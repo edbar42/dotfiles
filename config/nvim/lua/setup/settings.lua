@@ -4,6 +4,9 @@ vim.opt.guicursor = ""
 -- Highlight current line
 vim.opt.cursorline = true
 
+-- Tell vim there are NerdFonts installed
+vim.g.have_nerd_font = true
+
 -- Set default native colorscheme if plugins fail to load
 vim.opt.background = "dark"
 vim.cmd("colorscheme habamax")

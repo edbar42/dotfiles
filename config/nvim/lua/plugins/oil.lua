@@ -1,7 +1,6 @@
 return { -- Neovim file explorer
 	"stevearc/oil.nvim",
 	opts = {},
-	-- Optional dependencies
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 
 	config = function()
@@ -17,16 +16,15 @@ return { -- Neovim file explorer
 			-- See :help oil-actions for a list of all available actions
 			keymaps = {
 				["?"] = "actions.show_help",
-				["l"] = "actions.select",
-				["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+				["<CR>"] = "actions.select",
 				["q"] = "actions.close",
 				["h"] = "actions.parent",
 				["<C-h>"] = "actions.toggle_hidden",
 			},
 
-			view_options = { show_hidden = true, },
+			view_options = { show_hidden = true },
 			float = {
-				win_options = { winblend = 5, },
+				win_options = { winblend = 5 },
 				preview_split = "right",
 			},
 		})
