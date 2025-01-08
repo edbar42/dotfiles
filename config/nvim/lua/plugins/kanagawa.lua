@@ -5,7 +5,7 @@ return { -- Dark colorscheme inspired by the famous painting
 			functionStyle = { bold = true },
 			keywordStyle = { italic = true, bold = true },
 			typeStyle = { bold = true },
-			transparent = true,
+			transparent = false,
 			colors = {
 				theme = { all = { ui = { bg_gutter = "none" } } },
 			},
