@@ -13,6 +13,23 @@ function options.add_keymaps(config)
 			mods = "ALT",
 			action = a.SpawnTab("CurrentPaneDomain"),
 		},
+		-- Spawn a new tab with a custom name
+		{
+			key = "t",
+			mods = "ALT|SHIFT",
+			action = a.PromptInputLine({
+				description = wez.format({
+					{ Attribute = { Intensity = "Bold" } },
+					{ Text = "Enter name for new tab" },
+				}),
+				action = wez.action_callback(function(window, pane, line)
+					if line then
+						window:perform_action(a.SpawnTab("CurrentPaneDomain"), pane)
+						window:active_tab():set_title(line)
+					end
+				end),
+			}),
+		},
 		-- Switch to the next tab
 		{
 			key = "n",
@@ -97,7 +114,10 @@ function options.add_keymaps(config)
 			key = "r",
 			mods = "ALT",
 			action = a.PromptInputLine({
-				description = "Enter new name",
+				description = wez.format({
+					{ Attribute = { Intensity = "Bold" } },
+					{ Text = "Enter name for new tab" },
+				}),
 				action = wez.action_callback(function(window, pane, line)
 					if line then
 						window:active_tab():set_title(line)
