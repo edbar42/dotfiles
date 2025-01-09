@@ -171,3 +171,4 @@ function options.add_keymaps(config)
 end
 
 return options
+

@@ -11,11 +11,10 @@ local extra = require("custom.extra")
 local wez = require("wezterm")
 local config = wez.config_builder()
 
-looks.set_colors(config)
 looks.set_font(config)
 looks.set_bg_options(config)
 looks.set_tab_bar_options(config)
-looks.set_window_options(config)
+looks.set_colors(config)
 
 keymaps.add_keymaps(config)
 

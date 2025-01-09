@@ -55,7 +55,7 @@ end
 
 -- Set background options
 function options.set_bg_options(config)
-	config.window_background_opacity = 0.80
+	config.window_background_opacity = 0.84
 	config.inactive_pane_hsb = {
 		saturation = 0.7,
 		brightness = 0.4,
@@ -64,15 +64,13 @@ end
 
 -- Set tab bar options
 function options.set_tab_bar_options(config)
-	local LEFT_SEPARATOR = " " .. wez.nerdfonts.ple_pixelated_squares_big .. " "
-	local RIGHT_SEPARATOR = " " .. wez.nerdfonts.ple_pixelated_squares_big_mirrored .. " "
-
+	local LEFT_SEPARATOR = " " .. wez.nerdfonts.ple_pixelated_squares_big
+	local RIGHT_SEPARATOR = " " .. wez.nerdfonts.ple_pixelated_squares_big_mirrored
 	config.tab_bar_at_bottom = true
 	config.enable_tab_bar = true
 	config.show_new_tab_button_in_tab_bar = false
 	config.use_fancy_tab_bar = false
 	config.hide_tab_bar_if_only_one_tab = true
-
 	config.colors = {
 		tab_bar = {
 			background = "#1F1F28",
@@ -80,15 +78,25 @@ function options.set_tab_bar_options(config)
 	}
 	config.tab_max_width = 25
 
-	wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-		local title = tab.active_pane.title
+	-- Add a helper function to get the correct title
+	local function get_tab_title(tab)
+		local title = tab.tab_title
+		-- Use the custom title if it exists
+		if title and #title > 0 then
+			return title
+		end
+		-- Otherwise fall back to the pane title
+		return tab.active_pane.title
+	end
 
+	wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+		local title = get_tab_title(tab)
 		if tab.is_active then
 			return {
 				{ Background = { Color = "#2a2a37" } },
 				{ Foreground = { Color = "#44dd44" } },
 				{ Text = LEFT_SEPARATOR },
-				{ Text = " " .. title },
+				{ Text = "  " .. title },
 				{ Text = RIGHT_SEPARATOR },
 			}
 		else
@@ -96,12 +104,13 @@ function options.set_tab_bar_options(config)
 				{ Background = { Color = "#16161d" } },
 				{ Foreground = { Color = "#727169" } },
 				{ Text = LEFT_SEPARATOR },
-				{ Text = title },
+				{ Text = "  " .. title },
 				{ Text = RIGHT_SEPARATOR },
 			}
 		end
 	end)
 end
+
 -- Set window options
 function options.set_window_options(config)
 	config.window_padding = {
