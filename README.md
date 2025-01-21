@@ -19,7 +19,7 @@
   ```
  > [!WARNING]
  > This repository is poorly tested since I don't change machines too often. 
- > **USE IT AT YOUR OWN RISK**, and definetely do not use it if you don't even now what a `.config` directory is.
+ > **USE IT AT YOUR OWN RISK**, and definetely do not use it if you don't even know what a `.config` directory is.
 
 # How to Use
 ## First Usage
