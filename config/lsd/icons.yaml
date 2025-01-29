@@ -28,6 +28,7 @@ name:
   rust: 
   sql: 
   steam: 󰓓
+  svelte: 
   ts: 󰛦
   wezterm: 
   .wine: 󰨡
@@ -45,4 +46,5 @@ extension:
   mod: 
   rs: 
   sh: 
+  svelte: 
   zsh: 
