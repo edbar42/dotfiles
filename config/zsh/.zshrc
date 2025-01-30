@@ -32,7 +32,6 @@ alias cp="cp -irv"
 alias mv="mv -iv" 
 alias mkdir="mkdir -pv"
 alias less="less -N"
-alias jobs="jobs -p"
 
 # Colors in output
 alias diff="diff --color=auto"
@@ -48,16 +47,12 @@ alias lla="lsd -la"
 alias procs="procs --tree"
 alias vim="nvim -u NONE"
 alias bc="better-commits"
-alias lzg="lazygit"
 
 # OMEGALUL
 alias fastfetch="fastfetch --logo arch"
 
 # Go aliases
 alias gotst="go test -v -cover ./..."
-
-#pnpm aliases
-alias pnpx="pnpm dlx"
 
 # Wezterm aliases
 alias see="wezterm imgcat"
@@ -82,9 +77,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-# Start brew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Add mise-en-place
 eval "$(~/.local/bin/mise activate zsh)"
