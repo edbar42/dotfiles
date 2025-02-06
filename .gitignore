@@ -3,3 +3,6 @@
 
 # I don't think I need these version controlled
 config/yazi/flavors/
+
+# p10k auto generated files
+*.p10k.zsh
