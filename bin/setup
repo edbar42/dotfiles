@@ -38,6 +38,7 @@ setup_fresh() {
 	mkdir $HOME/.config
 
 	echo "Adding config files and custom scripts"
+	mkdir $HOME/.bin
 	link_dotfiles
 	
 	echo "Changing your shell to zsh"
