@@ -1,86 +1,138 @@
-#!/usr/bin/env perl
-# Copyright 2014 Pierre Mavro <deimos@deimos.fr>
-# Copyright 2014 Vivien Didelot <vivien@didelot.org>
-# Copyright 2014 Andreas Guldstrand <andreas.guldstrand@gmail.com>
-# Copyright 2014 Benjamin Chretien <chretien at lirmm dot fr>
+#!/usr/bin/env bash
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# Example i3blocks configurations:
 #
-# Edited by Andreas Lindlbauer <endeavouros.mousily@aleeas.com>
+# For AMD CPU:
+# [CPU-temperature]
+# command=~/.config/i3/scripts/temperature --chip k10temp-pci-00c3
+# interval=5
+# T_WARN=70
+# T_CRIT=90
+#
+# For AMD GPU:
+# [GPU-temperature]
+# command=~/.config/i3/scripts/temperature --chip amdgpu-pci-0300
+# interval=5
+# T_WARN=70
+# T_CRIT=90
+#
+# For NVIDIA GPU:
+# [GPU-temperature]
+# command=~/.config/i3/scripts/temperature --chip nvidia-gpu-0
+# interval=5
+# T_WARN=70
+# T_CRIT=90
+#
+# For NVMe drive:
+# [NVME-temperature]
+# command=~/.config/i3/scripts/temperature --chip nvme-pci-0100
+# interval=5
+# T_WARN=50
+# T_CRIT=70
 
-use strict;
-use warnings;
-use utf8;
-use Getopt::Long;
+# Default values
+T_WARN=${T_WARN:-70}
+T_CRIT=${T_CRIT:-90}
+SENSOR_CHIP=${1:-""}
 
-binmode(STDOUT, ":utf8");
-
-# default values
-my $t_warn = $ENV{T_WARN} || 70;
-my $t_crit = $ENV{T_CRIT} || 90;
-my $chip = $ENV{SENSOR_CHIP} || "";
-my $temperature = -9999;
-my $label = "😀 ";
-
-sub help {
-    print "Usage: temperature [-w <warning>] [-c <critical>] [--chip <chip>]\n";
-    print "-w <percent>: warning threshold to become yellow\n";
-    print "-c <percent>: critical threshold to become red\n";
-    print "--chip <chip>: sensor chip\n";
-    exit 0;
+# Help function
+show_help() {
+    echo "Usage: $0 [OPTIONS] --chip <chip>"
+    echo "Options:"
+    echo "  -w, --warn TEMP    Warning threshold temperature (default: 70°C)"
+    echo "  -c, --crit TEMP    Critical threshold temperature (default: 90°C)"
+    echo "  --chip CHIP        Sensor chip (e.g., k10temp-pci-00c3 for AMD CPU,"
+    echo "                     nvme-pci-0100 for NVMe, amdgpu-pci-0300 for AMD GPU)"
+    echo "  -h, --help         Show this help message"
+    exit 0
 }
 
-GetOptions("help|h" => \&help,
-           "w=i"    => \$t_warn,
-           "c=i"    => \$t_crit,
-           "chip=s" => \$chip);
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -w|--warn) T_WARN="$2"; shift 2 ;;
+        -c|--crit) T_CRIT="$2"; shift 2 ;;
+        --chip) SENSOR_CHIP="$2"; shift 2 ;;
+        -h|--help) show_help ;;
+        *) echo "Unknown parameter: $1"; show_help ;;
+    esac
+done
 
-# Get chip temperature
-open (SENSORS, "sensors -u $chip |") or die;
-while (<SENSORS>) {
-    if (/^\s+temp1_input:\s+[\+]*([\-]*\d+\.\d)/) {
-        $temperature = $1;
-        last;
-    }
+# Check if sensors command exists
+if ! command -v sensors &> /dev/null; then
+    echo "Error: 'sensors' command not found. Please install lm-sensors package."
+    exit 1
+fi
+
+# Function to get temperature based on chip type
+get_temperature() {
+    local chip=$1
+    local temp
+
+case $chip in
+        *"amdgpu"*)
+            # AMD GPU temperature
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].edge.temp1_input" 2>/dev/null)
+            ;;
+        *"nvidia"*)
+            # NVIDIA GPU temperature (requires nvidia-smi)
+            if command -v nvidia-smi &> /dev/null; then
+                temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+            fi
+            ;;
+        *"k10temp"*)
+            # AMD CPU temperature
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Tctl.temp1_input" 2>/dev/null)
+            ;;
+        *"coretemp"*)
+            # Intel CPU temperature
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Package\\ id\\ 0.temp1_input" 2>/dev/null)
+            ;;
+        *"nvme"*)
+            # NVMe drive temperature
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Composite.temp1_input" 2>/dev/null)
+            ;;
+        *)
+            # Generic temperature reading
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].temp1.temp1_input" 2>/dev/null)
+            ;;
+    esac
+
+    # Check if temperature was found
+    if [[ -z "$temp" || "$temp" == "null" ]]; then
+        echo "Error: Cannot read temperature from $chip"
+        exit 1
+    fi
+
+    echo "${temp%.*}"  # Remove decimal places
 }
-close(SENSORS);
 
-$temperature eq -9999 and die 'Cannot find temperature';
+# Get temperature
+TEMP=$(get_temperature "$SENSOR_CHIP")
 
-if ($temperature < 45) {
-  $label = '';
-} elsif ($temperature < 55) {
-  $label = '';
-} elsif ($temperature < 65) {
-  $label = '';
-} elsif ($temperature < 75) {
-  $label = '';
-} else {
-  $label = '';
-}
-# Print short_text, full_text
-print "${label}";
-print " $temperature °C\n";
-print "${label}";
-print " $temperature °C\n";
+# Select icon based on temperature
+if [ "$TEMP" -lt 45 ]; then
+    ICON=""
+elif [ "$TEMP" -lt 55 ]; then
+    ICON=""
+elif [ "$TEMP" -lt 65 ]; then
+    ICON=""
+elif [ "$TEMP" -lt 75 ]; then
+    ICON=""
+else
+    ICON=""
+fi
 
-# Print color, if needed
-if ($temperature >= $t_crit) {
-    print "#FF0000\n";
-    exit 33;
-} elsif ($temperature >= $t_warn) {
-    print "#FFCC00\n";
-}
+# Output temperature
+echo "$ICON $TEMP°C"
+echo "$ICON $TEMP°C"
 
-exit 0;
+# Set color based on temperature thresholds
+if [ "$TEMP" -ge "$T_CRIT" ]; then
+    echo "#FF0000"
+    exit 33
+elif [ "$TEMP" -ge "$T_WARN" ]; then
+    echo "#FFCC00"
+fi
+
+exit 0

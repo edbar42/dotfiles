@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Get current bandwidth usage
+update_rate="${BLOCK_INSTANCE:-1}"
+unit="${UNIT:-KB}"
+
+function calc_rate() {
+    local old_val=$1
+    local new_val=$2
+    
+    local rate=$(echo "scale=2; ($new_val - $old_val) / $update_rate" | bc)
+    echo "${rate}"
+}
+
+function format_value() {
+    local value=$1
+    if [[ $(echo "$value > 1024" | bc) -eq 1 ]]; then
+        echo "$(echo "scale=1; $value/1024" | bc)M"
+    else
+        echo "${value%.*}K"
+    fi
+}
+
+# Read current values
+read down < /sys/class/net/[ew]*/statistics/rx_bytes
+read up < /sys/class/net/[ew]*/statistics/tx_bytes
+
+# Sleep for update_rate
+sleep $update_rate
+
+# Read new values
+read down_new < /sys/class/net/[ew]*/statistics/rx_bytes
+read up_new < /sys/class/net/[ew]*/statistics/tx_bytes
+
+# Calculate rates
+down_rate=$(calc_rate $down $down_new)
+up_rate=$(calc_rate $up $up_new)
+
+# Convert to KB/s
+down_rate=$(echo "scale=2; $down_rate/1024" | bc)
+up_rate=$(echo "scale=2; $up_rate/1024" | bc)
+
+# Format output
+down_formatted=$(format_value $down_rate)
+up_formatted=$(format_value $up_rate)
+
+echo "↓$down_formatted ↑$up_formatted"
+echo "↓$down_formatted ↑$up_formatted"
+
+# Color based on activity
+if (( $(echo "$down_rate > 1024 || $up_rate > 1024" | bc -l) )); then
+    echo "#98c379"  # Green for high activity
+elif (( $(echo "$down_rate > 100 || $up_rate > 100" | bc -l) )); then
+    echo "#61afef"  # Blue for medium activity
+fi
