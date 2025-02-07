@@ -1,4 +1,4 @@
-# Enable Powerlevel10k instant prompt. 
+# Enable Powerlevel10k instant prompt.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 
@@ -10,7 +10,7 @@ fi
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.config/zsh//.p10k.zsh ]] || source ~/.config/zsh//.p10k.zsh
 
 # fzf options
 source /usr/share/fzf/completion.zsh
@@ -68,7 +68,7 @@ source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 eval "$(zoxide init --cmd cd zsh)"
 
 # Manage SSH sessions through keychain
-eval $(keychain --eval --agents ssh id_ed25519)
+eval $(keychain -q --eval --agents ssh $HOME/personal/auth/ssh/github)
 
 # pnpm
 export PNPM_HOME="/home/edbar/.local/share/pnpm"
@@ -77,6 +77,3 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-# Add mise-en-place
-eval "$(~/.local/bin/mise activate zsh)"
