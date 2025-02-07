@@ -48,9 +48,6 @@ alias procs="procs --tree"
 alias vim="nvim -u NONE"
 alias bc="better-commits"
 
-# OMEGALUL
-alias fastfetch="fastfetch --logo arch"
-
 # Go aliases
 alias gotst="go test -v -cover ./..."
 
