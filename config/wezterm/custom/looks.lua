@@ -49,8 +49,13 @@ end
 
 -- Set favorite font
 function options.set_font(config)
+	local host = os.getenv("HOSTNAME")
 	config.font = wez.font("CaskaydiaCove NF")
-	config.font_size = 14.0
+	if host == "thinkpad" then
+		config.font_size = 18.0
+	else
+		config.font_size = 18.0
+	end
 end
 
 -- Set background options
