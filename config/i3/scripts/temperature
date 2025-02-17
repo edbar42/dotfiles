@@ -1,35 +1,5 @@
 #!/usr/bin/env bash
 
-# Example i3blocks configurations:
-#
-# For AMD CPU:
-# [CPU-temperature]
-# command=~/.config/i3/scripts/temperature --chip k10temp-pci-00c3
-# interval=5
-# T_WARN=70
-# T_CRIT=90
-#
-# For AMD GPU:
-# [GPU-temperature]
-# command=~/.config/i3/scripts/temperature --chip amdgpu-pci-0300
-# interval=5
-# T_WARN=70
-# T_CRIT=90
-#
-# For NVIDIA GPU:
-# [GPU-temperature]
-# command=~/.config/i3/scripts/temperature --chip nvidia-gpu-0
-# interval=5
-# T_WARN=70
-# T_CRIT=90
-#
-# For NVMe drive:
-# [NVME-temperature]
-# command=~/.config/i3/scripts/temperature --chip nvme-pci-0100
-# interval=5
-# T_WARN=50
-# T_CRIT=70
-
 # Default values
 T_WARN=${T_WARN:-70}
 T_CRIT=${T_CRIT:-90}
@@ -69,7 +39,7 @@ get_temperature() {
     local chip=$1
     local temp
 
-case $chip in
+    case $chip in
         *"amdgpu"*)
             # AMD GPU temperature
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].edge.temp1_input" 2>/dev/null)
@@ -107,32 +77,38 @@ case $chip in
     echo "${temp%.*}"  # Remove decimal places
 }
 
+# Automatically detect the correct chip for CPU and GPU if not passed
+if [ -z "$SENSOR_CHIP" ]; then
+    if grep -i "amdgpu" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="amdgpu-pci-0300"  # Example AMD GPU chip ID
+    elif grep -i "nvidia" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="nvidia-gpu-0"  # Example NVIDIA GPU chip ID
+    elif grep -i "intel" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="coretemp"  # Example Intel CPU chip ID
+    elif [ -d "/sys/class/thermal" ]; then
+        # Assuming AMD or Intel CPU
+        SENSOR_CHIP="k10temp-pci-00c3"  # Example AMD CPU chip ID (you can adjust)
+    else
+        echo "Error: Unable to auto-detect sensor chip"
+        exit 1
+    fi
+fi
+
 # Get temperature
 TEMP=$(get_temperature "$SENSOR_CHIP")
 
-# Select icon based on temperature
-if [ "$TEMP" -lt 45 ]; then
-    ICON=""
-elif [ "$TEMP" -lt 55 ]; then
-    ICON=""
-elif [ "$TEMP" -lt 65 ]; then
-    ICON=""
-elif [ "$TEMP" -lt 75 ]; then
-    ICON=""
-else
-    ICON=""
-fi
-
-# Output temperature
-echo "$ICON $TEMP°C"
-echo "$ICON $TEMP°C"
-
-# Set color based on temperature thresholds
+# Define color based on temperature
 if [ "$TEMP" -ge "$T_CRIT" ]; then
-    echo "#FF0000"
-    exit 33
+    COLOR="#FF0000"  # Critical color (red)
 elif [ "$TEMP" -ge "$T_WARN" ]; then
-    echo "#FFCC00"
+    COLOR="#FFCC00"  # Warning color (yellow)
+else
+    COLOR="#98c379"  # Normal color (green)
 fi
+
+# Output temperature with color
+echo "<span color='$COLOR'>$TEMP°C</span>"
+echo "<span color='$COLOR'>$TEMP°C</span>"
 
 exit 0
+
