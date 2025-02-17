@@ -64,4 +64,5 @@ zathura-ps
 zathura-ypb
 zen-browser-bin
 zoxide
-
+zsh
+zsh-vi-mode
