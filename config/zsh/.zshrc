@@ -67,6 +67,8 @@ eval "$(zoxide init --cmd cd zsh)"
 # Manage SSH sessions through keychain
 eval $(keychain -q --eval --agents ssh $HOME/personal/auth/ssh/github)
 
+# Activate mise-en-place
+eval "$(mise activate zsh)"
 # pnpm
 export PNPM_HOME="/home/edbar/.local/share/pnpm"
 case ":$PATH:" in
