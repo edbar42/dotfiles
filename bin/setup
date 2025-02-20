@@ -11,10 +11,19 @@ set_wallpaper() {
 }
 
 install_dependencies() {
+	echo "Updating repositories..."
+	yay -Syy
+
+	echo "Installing dependencies..."
 	cat ~/dotfiles/assets/dependencies | xargs yay -S --needed --noconfirm
 }
 
-setup_fresh() {
+debloat() {
+	echo "Trying to remove unnecessary packages"
+	cat ~/dotfiles/assets/bloat | xargs yay -Rns
+}
+
+setup_routine() {
 	clear
 	echo "We need sudo priviledges for installing packages."
 	echo "Please authenticate."
@@ -23,12 +32,9 @@ setup_fresh() {
 	echo "Checking if yay is installed on your system..."
 	command -v yay &> /dev/null || { echo "Yay doesn't seem to be installed. Please install yay before trying again."; exit 1; }
 
-	echo "Updating repositories..."
-	yay -Syy
+	install_dependencies
 
-
-	echo "Installing dependencies..."
-	cat ~/dotfiles/assets/dependencies | xargs yay -S --needed --noconfirm
+	debloat
 
 	echo "Trying to export .zshenv"
 	ln -siv $HOME/dotfiles/.zshenv -t $HOME/
@@ -52,9 +58,6 @@ setup_fresh() {
 	echo "Setting up a random wallpaper. You can change it later."
 	set_wallpaper
 
-	echo "Trying to remove unnecessary packages"
-	install_dependencies
-
 	echo "System setup done."
 
 	sleep 1
@@ -65,18 +68,30 @@ setup_fresh() {
 
 }
 
-if [[ "$1" == "sync" ]]; then
+sync_routine() {
 	link_dotfiles
 	if [[ "$?" == 0 ]]; then
 		echo "Dotfiles updated with no errors."
 	fi
-elif [[ "$1" == "tidy" ]]; then
+}
+
+tidy_routine() {
 	install_dependencies
 	if [[ "$?" == 0 ]]; then
 		echo "Missing dependencies installed."
 	fi
+	debloat
+	if [[ "$?" == 0 ]]; then
+		echo "System debloat ran succesfully."
+	fi
+}
+
+if [[ "$1" == "sync" ]]; then
+	sync_routine
+elif [[ "$1" == "tidy" ]]; then
+	tidy_routine
 elif [ $# -eq 0 ]; then
-	setup_fresh
+	setup_routine
 else
 	echo "Unknown flag."
 fi
