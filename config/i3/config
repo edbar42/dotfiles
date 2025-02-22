@@ -7,7 +7,7 @@ set $mod Mod4
 workspace_layout default
 
 # thin borders
-hide_edge_borders both
+#hide_edge_borders both
 
 # Set inner/outer gaps
 gaps inner 0
@@ -225,7 +225,7 @@ set $surimiOrange #FFA066
 set $katanaGray #717C7C
 
 # target                 title        bg          text          indicator    border
-client.focused           $waveBlue2   $sumiInk0   $fujiWhite    $waveAqua1   $oniViolet
+client.focused           $waveBlue2   $sumiInk0   $fujiWhite    $waveAqua1   $springBlue
 client.focused_inactive  $katanaGray  $sumiInk1   $fujiWhite    $waveAqua1   $katanaGray
 client.unfocused         $katanaGray  $sumiInk1   $fujiWhite    $waveAqua1   $katanaGray
 client.urgent            $samuraiRed  $sumiInk1   $samuraiRed   $katanaGray  $samuraiRed
