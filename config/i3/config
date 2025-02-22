@@ -186,6 +186,7 @@ for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enabl
 for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse
+for_window [class="KeePassXC" instance="keepassxc"] floating enable, move position mouse
 
 # color pallette
 set $fujiWhite #DCD7BA
