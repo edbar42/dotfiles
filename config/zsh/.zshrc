@@ -18,6 +18,7 @@ alias cp="cp -irv"
 alias mv="mv -iv" 
 alias mkdir="mkdir -pv"
 alias less="less -N"
+alias lzd="lazydocker"
 
 # Colors in output
 alias diff="diff --color=auto"
