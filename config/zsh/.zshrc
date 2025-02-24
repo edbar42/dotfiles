@@ -1,17 +1,3 @@
-# Enable Powerlevel10k instant prompt.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Loads powerlevel10k
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.config/zsh//.p10k.zsh ]] || source ~/.config/zsh//.p10k.zsh
-
 # fzf options
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
@@ -69,6 +55,10 @@ eval $(keychain -q --eval --agents ssh $HOME/personal/auth/ssh/github)
 
 # Activate mise-en-place
 eval "$(mise activate zsh)"
+
+# starship prompt
+eval "$(starship init zsh)"
+
 # pnpm
 export PNPM_HOME="/home/edbar/.local/share/pnpm"
 case ":$PATH:" in
