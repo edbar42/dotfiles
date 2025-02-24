@@ -1,97 +1,103 @@
 #!/bin/bash
 
+# Configuration
+DOTFILES_DIR="$HOME/dotfiles"
+CONFIG_DIR="$HOME/.config"
+BIN_DIR="$HOME/.bin"
+WALLPAPERS_DIR="$HOME/Pictures/wallpapers"
+DEPENDENCIES_FILE="$DOTFILES_DIR/assets/dependencies"
+BLOAT_FILE="$DOTFILES_DIR/assets/bloat"
+
+# Error handling
+set -e  # Exit on error
+trap 'echo "Error occurred at line $LINENO"' ERR
+
+# Utility functions
+check_yay() {
+    if ! command -v yay &> /dev/null; then
+        echo "Error: yay package manager not found"
+        exit 1
+    fi
+}
+
+request_sudo() {
+    echo "We need sudo privileges for installing packages."
+    echo "Please authenticate."
+    sudo -v
+}
+
+# Core functions
 link_dotfiles() {
-	echo "Linking dotfiles..."
-	stow -v . -d ~/dotfiles/config/ -t ~/.config
-	stow -v . -d ~/dotfiles/bin/ -t ~/.bin
+    echo "Linking dotfiles..."
+    stow -v . -d "$DOTFILES_DIR/config/" -t "$CONFIG_DIR"
+    stow -v . -d "$DOTFILES_DIR/bin/" -t "$BIN_DIR"
 }
 
 set_wallpaper() {
-	/usr/bin/nitrogen --set-zoom-fill --random --save ~/Pictures/wallpapers/ > /dev/null/
+    /usr/bin/nitrogen --set-zoom-fill --random --save "$WALLPAPERS_DIR" > /dev/null
 }
 
 install_dependencies() {
-	echo "Updating repositories..."
-	yay -Syy
+    echo "Updating repositories..."
+    yay -Syy
 
-	echo "Installing dependencies..."
-	cat ~/dotfiles/assets/dependencies | xargs yay -S --needed --noconfirm
+    echo "Installing dependencies..."
+    xargs yay -S --needed --noconfirm < "$DEPENDENCIES_FILE"
 }
 
-debloat() {
-	echo "Trying to remove unnecessary packages"
-	cat ~/dotfiles/assets/bloat | xargs yay -Rns
+remove_bloat() {
+    echo "Removing unnecessary packages..."
+    xargs yay -Rns < "$BLOAT_FILE"
 }
 
+setup_zsh() {
+    echo "Setting up zsh and powerlevel10k..."
+    ln -siv "$DOTFILES_DIR/.zshenv" -t "$HOME/"
+    chsh -s /bin/zsh
+
+    git clone https://github.com/romkatv/powerlevel10k "$HOME/powerlevel10k"
+    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME/.zshrc"
+    p10k configure
+}
+
+backup_config() {
+    echo "Backing up existing .config to .old-config..."
+    mv "$CONFIG_DIR" "$HOME/.old-config"
+    mkdir "$CONFIG_DIR"
+    mkdir -p "$BIN_DIR"
+}
+
+# Main routines
 setup_routine() {
-	clear
-	echo "We need sudo priviledges for installing packages."
-	echo "Please authenticate."
-	sudo -v
+    clear
+    request_sudo
+    check_yay
 
-	echo "Checking if yay is installed on your system..."
-	command -v yay &> /dev/null || { echo "Yay doesn't seem to be installed. Please install yay before trying again."; exit 1; }
+    install_dependencies
+    remove_bloat
+    backup_config
+    link_dotfiles
+    setup_zsh
+    set_wallpaper
 
-	install_dependencies
-
-	debloat
-
-	echo "Trying to export .zshenv"
-	ln -siv $HOME/dotfiles/.zshenv -t $HOME/
-
-	echo "We are backing up your .config to .old-config"
-	mv $HOME/.config $HOME/.old-config
-	mkdir $HOME/.config
-
-	echo "Adding config files and custom scripts"
-	mkdir $HOME/.bin
-	link_dotfiles
-	
-	echo "Changing your shell to zsh"
-	chsh -s /bin/zsh
-
-	echo "You will now set up p10k"
-	git clone https://github.com/romkatv/powerlevel10k $HOME/powerlevel10k
-	echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-	p10k configure
-
-	echo "Setting up a random wallpaper. You can change it later."
-	set_wallpaper
-
-	echo "System setup done."
-
-	sleep 1
-	echo "We're logging you out of i3 to make sure everything is properly handled."
-
-	sleep 3
-	i3-msg exit
-
+    echo "System setup complete. Logging out of i3 in 3 seconds..."
+    sleep 3
+    i3-msg exit
 }
 
 sync_routine() {
-	link_dotfiles
-	if [[ "$?" == 0 ]]; then
-		echo "Dotfiles updated with no errors."
-	fi
+    link_dotfiles && echo "Dotfiles updated successfully."
 }
 
 tidy_routine() {
-	install_dependencies
-	if [[ "$?" == 0 ]]; then
-		echo "Missing dependencies installed."
-	fi
-	debloat
-	if [[ "$?" == 0 ]]; then
-		echo "System debloat ran succesfully."
-	fi
+    install_dependencies && echo "Missing dependencies installed."
+    remove_bloat && echo "System debloat completed."
 }
 
-if [[ "$1" == "sync" ]]; then
-	sync_routine
-elif [[ "$1" == "tidy" ]]; then
-	tidy_routine
-elif [ $# -eq 0 ]; then
-	setup_routine
-else
-	echo "Unknown flag."
-fi
+# Main script
+case "$1" in
+    "sync") sync_routine ;;
+    "tidy") tidy_routine ;;
+    "") setup_routine ;;
+    *) echo "Unknown flag: $1" ;;
+esac
