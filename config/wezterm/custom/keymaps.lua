@@ -103,6 +103,14 @@ function options.add_keymaps(config)
 				args = { "yazi" },
 			}),
 		},
+		-- Spawn yazi instance on new tab
+		{
+			key = "d",
+			mods = "ALT",
+			action = a.SpawnCommandInNewTab({
+				args = { "lazydocker" },
+			}),
+		},
 		-- Spawn quick switcher/workspace launcher
 		{
 			key = "f",
@@ -171,4 +179,3 @@ function options.add_keymaps(config)
 end
 
 return options
-
