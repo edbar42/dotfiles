@@ -4,16 +4,9 @@ return { -- Highlight, edit, and navigate code
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
-				"bash",
-				"c",
-				"cpp",
-				"elixir",
-				"elm",
 				"go",
-				"html",
 				"lua",
 				"luadoc",
-				"markdown",
 				"vim",
 				"vimdoc",
 			},
