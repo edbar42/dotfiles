@@ -67,3 +67,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# ------------------------ STARTUP CALLS --------------------------
+wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
