@@ -51,13 +51,9 @@ remove_bloat() {
 }
 
 setup_zsh() {
-    echo "Setting up zsh and powerlevel10k..."
+    echo "Setting up zsh..."
     ln -siv "$DOTFILES_DIR/.zshenv" -t "$HOME/"
     chsh -s /bin/zsh
-
-    git clone https://github.com/romkatv/powerlevel10k "$HOME/powerlevel10k"
-    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME/.zshrc"
-    p10k configure
 }
 
 backup_config() {
