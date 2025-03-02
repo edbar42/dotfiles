@@ -82,7 +82,18 @@ setup_routine() {
 }
 
 sync_routine() {
-    link_dotfiles && echo "Dotfiles updated successfully."
+    echo "Checking for missing dependencies..."
+    missing_packages=$(sort $DEPENDENCIES_FILE | comm -23 - <(yay -Qq | sort))
+
+    if [ -n "$missing_packages" ]; then
+        echo "Installing missing packages..."
+        echo "$missing_packages" | tr '\n' ' ' | xargs yay -S --noconfirm
+        echo "Installation finished."
+    else
+        echo "All dependencies are met."
+    fi
+
+	link_dotfiles && echo "Dotfiles updated successfully."
 }
 
 tidy_routine() {
