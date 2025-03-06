@@ -8,7 +8,7 @@ return {
 			["<Tab>"] = { "select_next", "fallback" },
 			["<S-Tab>"] = { "select_prev", "fallback" },
 			["<CR>"] = { "accept", "fallback" },
-			["<Esc>"] = { "hide", "fallback" },
+			["<BS>"] = { "hide", "fallback" },
 		},
 		appearance = {
 			use_nvim_cmp_as_default = true,
