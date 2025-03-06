@@ -53,6 +53,7 @@ remove_bloat() {
 setup_zsh() {
     echo "Setting up zsh..."
     ln -siv "$DOTFILES_DIR/.zshenv" -t "$HOME/"
+    ln -siv "$DOTFILES_DIR/.xprofile" -t "$HOME/"
     chsh -s /bin/zsh
 }
 
