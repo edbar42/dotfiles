@@ -20,10 +20,11 @@ vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
 
 -- Identation options
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
+vim.opt.expandtab = true
 
 -- Confirmation pop-up for quit without saving
 vim.opt.confirm = true
@@ -60,6 +61,9 @@ vim.opt.updatetime = 250
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "_", nbsp = "␣" }
 
+-- Smooth scroll with nvim 0.10
+vim.opt.smoothscroll = true
+
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -68,4 +72,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	group = highlight_group,
 	pattern = "*",
+})
+
+-- Auto create dir when saving a file
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	callback = function(event)
+		if event.match:match("^%w%w+:[\\/][\\/]") then
+			return
+		end
+		local file = vim.uv.fs_realpath(event.match) or event.match
+		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
 })
