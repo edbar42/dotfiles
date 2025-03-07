@@ -110,8 +110,9 @@ return { -- A collection of lsp related plugins
 
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				-- "stylua", -- Used to format Lua code
+				"stylua", -- Used to format Lua code
 				"gofumpt", -- Used to format Go code
+				"prettier", -- Front end formatting
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -151,6 +152,14 @@ return { -- A collection of lsp related plugins
 			formatters_by_ft = {
 				lua = { "stylua" },
 				go = { "gofumpt" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				-- Additional web-related formats you might want to add
+				css = { "prettier" },
+				html = { "prettier" },
+				json = { "prettier" },
 			},
 		},
 	},
