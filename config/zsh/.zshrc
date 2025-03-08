@@ -9,28 +9,26 @@ bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
 # enables native autocomplete
-autoload -U compinit; compinit
+autoload -Uz compinit && compinit
 
 # ----------------------------- ALIASES -----------------------------------
-# Useful aliases
-alias rm="rm -Iv" 
-alias cp="cp -irv" 
-alias mv="mv -iv" 
+# Base aliases
+alias rm="rm -Iv"
+alias cp="cp -irv"
+alias mv="mv -iv"
 alias mkdir="mkdir -pv"
-alias less="less -N"
-alias lzd="lazydocker"
 
-# Colors in output
+# Colors
 alias diff="diff --color=auto"
-alias ip="ip -color=auto"
+alias ip="ip --color=auto"
 alias bat="bat --theme='TwoDark' --color=always"
 
-# Moves to non-default terminal utils
+# Terminal tools
 alias ls="lsd"
 alias la="lsd -A"
 alias ll="lsd -l"
-alias lt="lsd --tree"
 alias lla="lsd -la"
+alias lt="lsd --tree"
 alias procs="procs --tree"
 alias vim="nvim -u NONE"
 alias bc="better-commits"
@@ -38,10 +36,10 @@ alias bc="better-commits"
 # Go aliases
 alias gotst="go test -v -cover ./..."
 
-# Wezterm aliases
+# Wezterm image viewer
 alias see="wezterm imgcat"
 
-# Fix mirrors in EndeavourOS
+# Fix typo in 'fix-mirrors' alias:
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
