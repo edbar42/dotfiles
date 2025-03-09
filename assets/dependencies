@@ -3,6 +3,8 @@ awesome-terminal-fonts
 bat
 better-commits
 bleachbit
+blueman
+bluez
 bottom
 diffutils
 dmenu
@@ -50,10 +52,12 @@ signal-desktop
 starship
 stow
 tokei
+tokyionight-gtk-theme-git
 ttf-cascadia-code-nerd
 ttf-cascadia-mono-nerd
 vhs
 wezterm
+whitesur-icon-theme
 wluma
 xcape
 xclip
