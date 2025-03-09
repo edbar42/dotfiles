@@ -1,9 +1,65 @@
-# general settings
-
-# monitor variables
+# Monitors
 set $fm DP-0
 set $sm HDMI-1
 
+# Mod keys setitngs
+set $mod Mod4
+set $alt Mod1
+
+# i3 settings
+workspace_layout default
+gaps inner 3
+gaps outer 2
+new_window pixel 1
+focus_follows_mouse no
+
+# Floating window rules
+for_window [class="Yad" instance="yad"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Xsane" instance="xsane"] floating enable
+for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
+for_window [class="qt5ct" instance="qt5ct"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [window_role="About"] floating enable
+for_window [class="(?i)gsimplecal"] floating enable, move position mouse
+for_window [class="KeePassXC" instance="keepassxc"] floating enable, move position mouse
+
+# Workspaces
+# Workspace names
+set $ws1 " "
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10 "
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+set $ws15 " "
+set $ws16 "16"
+set $ws17 "17"
+set $ws18 "18"
+set $ws19 "19"
+set $ws20 "20"
+
+# Bind programs to workspaces
+assign [class="wezterm"] $ws1
+for_window [class="wezterm"] focus
+
+assign [class="vesktop"] $ws15
+for_window [class="vesktop"] focus
+
+assign [class="zathura"] $ws11
+for_window [class="zathura"] focus
+
+# Assign workspaces to monitors
 workspace 1 output $fm
 workspace 2 output $fm
 workspace 3 output $fm
@@ -13,6 +69,7 @@ workspace 6 output $fm
 workspace 7 output $fm
 workspace 8 output $fm
 workspace 9 output $fm
+workspace 10 output $fm
 workspace 11 output $sm
 workspace 12 output $sm
 workspace 13 output $sm
@@ -24,29 +81,8 @@ workspace 18 output $sm
 workspace 19 output $sm
 workspace 20 output $sm
 
-# super as mod key
-set $mod Mod4
-
-# alt as a secondary key
-set $alt Mod1
-
-# default i3 tiling mode
-workspace_layout default
-
-# thin borders
-#hide_edge_borders both
-
-# Set inner/outer gaps
-gaps inner 0
-gaps outer 2
-
-# remove window title
-new_window pixel 1
-
-# Do not folow mouse focus
-focus_follows_mouse no
-
-# workspace settings
+# Keybindings
+# workspace keybindings
 bindsym $mod+1    workspace  $ws1
 bindsym $mod+2    workspace  $ws2
 bindsym $mod+3    workspace  $ws3
@@ -89,39 +125,6 @@ bindsym $mod+Shift+$alt+8    move container to workspace  $ws18
 bindsym $mod+Shift+$alt+9    move container to workspace  $ws19
 bindsym $mod+Shift+$alt+0    move container to workspace  $ws20
 
-# workspace names
-set $ws1 "1: "
-set $ws2 "2:2"
-set $ws3 "3:3"
-set $ws4 "4:4"
-set $ws5 "5:5"
-set $ws6 "6:6"
-set $ws7 "7:7"
-set $ws8 "8:8"
-set $ws9 "9:9"
-set $ws10 "10 "
-set $ws11 "11:11"
-set $ws12 "12:12"
-set $ws13 "13:13"
-set $ws14 "14:14"
-set $ws15 "15: "
-set $ws16 "16:16"
-set $ws17 "17:17"
-set $ws18 "18:18"
-set $ws19 "19:19"
-set $ws20 "20:20"
-
-# bind programs to workspaces
-assign [class="wezterm"] $ws1
-for_window [class="wezterm"] focus
-
-assign [class="vesktop"] $ws15
-for_window [class="vesktop"] focus
-
-assign [class="zathura"] $ws11
-for_window [class="zathura"] focus
-# resize mode settings
-
 bindsym $mod+r mode "resize"
 
 mode "resize" {
@@ -134,22 +137,13 @@ mode "resize" {
 	bindsym Escape mode "default"
 }
 
-# keybindings
-
-# kill focused window
 bindsym $mod+q kill
-
-# shutdown menu
-bindsym $mod+Shift+q exec ~/.config/i3/scripts/powermenu
-
-# lock the system
-bindsym $mod+z exec i3lock
-
-# reload and restart i3
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
+bindsym $mod+Shift+v split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
 
-# moving and changing focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -160,34 +154,21 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# split direction
-bindsym $mod+Shift+v split h
-bindsym $mod+v split v
-
-# fullscreen
-bindsym $mod+f fullscreen toggle
 
 # Media keys
-
-# volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_up
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_down
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume_brightness volume_mute
-
-# brightness keys
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_up
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/volume_brightness brightness_down
-
-# audio control
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
-# mute mic
 bindsym XF86AudioMicMute exec amixer sset Capture toggle
 
 # custom shortcuts
-
+bindsym $mod+Shift+q exec ~/.config/i3/scripts/powermenu
+bindsym $mod+z exec ~/.config/i3/scripts/lockscreen
 bindsym $mod+c exec /usr/bin/obsidian
 bindsym $mod+Return exec /usr/bin/wezterm
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
@@ -200,56 +181,16 @@ bindsym $mod+Shift+b exec ~/.config/i3/scripts/wallpaper -s
 bindsym $mod+d exec rofi -modi drun -show drun \
 		-config ~/.config/rofi/rofidmenu.rasi
 
-# autostart apps
-
-# compositor
-exec_always --no-startup-id picom -config  ~/.config/picom
-
-# polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
-
-# brightness controller
-exec_always --no-startup-id wluma
-
-# gnome auth service
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
-# dex execute .desktop files + apps using /etc/xdg/autostart.
-exec --no-startup-id dex --autostart --environment i3
-
-# set wallpaper
-exec --no-startup-id sleep 2 & nitrogen --restore
-
-# set powersavings for display:
-exec --no-startup-id xset s 480 dpms 600 600 600
-
-# desktop notifications
-exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/dunstrc"
-
-# autotiling script
-exec_always --no-startup-id autotiling
-
 # Autostart apps
-# exec --no-startup-id zsh $HOME/.bin/remap
-
-# system tray settings
-
-# start blueberry
+exec_always --no-startup-id picom -config  ~/.config/picom
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id wluma
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id sleep 2 & nitrogen --restore
+exec --no-startup-id xset s 480 dpms 600 600 600
+exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/dunstrc"
+exec_always --no-startup-id autotiling
 exec --no-startup-id blueberry-tray
-
-# networkmanager-applet
 exec --no-startup-id nm-applet
 
-# floating rules
-
-for_window [class="Yad" instance="yad"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [window_role="About"] floating enable
-for_window [class="(?i)gsimplecal"] floating enable, move position mouse
-for_window [class="KeePassXC" instance="keepassxc"] floating enable, move position mouse
