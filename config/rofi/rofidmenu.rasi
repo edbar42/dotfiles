@@ -5,9 +5,9 @@
  /* This file is a slightly modified version 
  of the default that ships with EndeavourOS*/
 configuration {
-    font:                "Caskaydia Monoi NerdFont 10";
+    font:                "Caskaydia Monoi NerdFont 20";
     show-icons:          true;
-    icon-theme:          "Qogir";
+    icon-theme:          "WhiteSur-light";
     display-drun:        "Apps";
     drun-display-format: "{name}";
     scroll-method:       0;
@@ -15,7 +15,7 @@ configuration {
     sidebar-mode:        true;
 }
 
-@import "~/.config/rofi/multicolor-doom_one.rasi"
+@import "~/.config/rofi/kanagawa.rasi"
 
 window {
     background-color: @background;
@@ -24,7 +24,7 @@ window {
 }
 listview {
     lines:   10;
-    columns: 3;
+    columns: 1;
 }
 mainbox {
     border:  0;

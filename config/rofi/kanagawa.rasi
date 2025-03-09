@@ -1,0 +1,46 @@
+* {
+    /* Base colors */
+    background:                  rgba ( 42, 42, 55, 88 % );    /* sumiInk2 */
+    foreground:                  rgba ( 200, 192, 147, 100 % ); /* oldWhite */
+    
+    /* Normal state */
+    normal-background:           rgba ( 54, 54, 70, 1 % );     /* sumiInk3 */
+    normal-foreground:           @foreground;
+    alternate-normal-background: rgba ( 54, 54, 70, 1 % );     /* sumiInk3 */
+    alternate-normal-foreground: @foreground;
+    
+    /* Selected state */
+     selected-normal-background:  rgba ( 106, 149, 137, 100 % ); /* waveAqua1 */
+    selected-normal-foreground:  rgba ( 22, 22, 29, 100 % );    /* sumiInk0 */
+    
+    /* Urgent state */
+    urgent-background:           rgba ( 67, 36, 43, 15 % );     /* winterRed */
+    urgent-foreground:           rgba ( 195, 64, 67, 100 % );   /* autumnRed */
+    alternate-urgent-background: rgba ( 67, 36, 43, 90 % );     /* winterRed */
+    alternate-urgent-foreground: @urgent-foreground;
+    selected-urgent-background:  rgba ( 232, 36, 36, 100 % );   /* samuraiRed */
+    selected-urgent-foreground:  rgba ( 220, 215, 186, 100 % ); /* fujiWhite */
+    
+    /* Active state */
+    active-background:           rgba ( 37, 37, 53, 17 % );     /* winterBlue */
+    active-foreground:           rgba ( 126, 156, 216, 100 % ); /* crystalBlue */
+    alternate-active-background: rgba ( 37, 37, 53, 88 % );     /* winterBlue */
+    alternate-active-foreground: @active-foreground;
+    selected-active-background:  rgba ( 34, 50, 73, 100 % );    /* waveBlue1 */
+    selected-active-foreground:  rgba ( 220, 215, 186, 100 % ); /* fujiWhite */
+    
+    /* Accent colors */
+    red:                         rgba ( 195, 64, 67, 100 % );   /* autumnRed */
+    blue:                        rgba ( 126, 156, 216, 100 % ); /* crystalBlue */
+    lightbg:                     rgba ( 54, 54, 70, 100 % );    /* sumiInk3 */
+    lightfg:                     rgba ( 114, 113, 105, 100 % ); /* fujiGray */
+    
+    /* Border and separator */
+    border-color:                rgba ( 113, 124, 124, 100 % ); /* katanaGray */
+    separatorcolor:              rgba ( 54, 54, 70, 1 % );      /* sumiInk3 */
+    
+    /* Misc */
+    spacing:                     2;
+    background-color:            rgba ( 0, 0, 0, 0 % );
+}
+
