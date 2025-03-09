@@ -205,6 +205,9 @@ bindsym $mod+d exec rofi -modi drun -show drun \
 # compositor
 exec_always --no-startup-id picom -config  ~/.config/picom
 
+# polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
 # brightness controller
 exec_always --no-startup-id wluma
 
@@ -250,92 +253,3 @@ for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse
 for_window [class="KeePassXC" instance="keepassxc"] floating enable, move position mouse
-
-# color pallette
-set $fujiWhite #DCD7BA
-set $oldWhite #C8C093
-set $sumiInk0 #16161D
-set $sumiInk1 #1F1F28cc
-set $sumiInk2 #2A2A37
-set $sumiInk3 #363646
-set $sumiInk4 #54546D
-set $waveBlue1 #223249
-set $waveBlue2 #2D4F67
-set $winterGreen #2B3328
-set $winterYellow #49443C
-set $winterRed #43242B
-set $winterBlue #252535
-set $autumnGreen #76946A
-set $autumnRed #C34043
-set $autumnYellow #DCA561
-set $samuraiRed #E82424
-set $roninYellow #FF9E3B
-set $waveAqua1 #6A9589
-set $dragonBlue #658594
-set $fujiGray #727169
-set $springViolet1 #938AA9
-set $oniViolet #957FB8
-set $crystalBlue #7E9CD8
-set $springViolet2 #9CABCA
-set $springBlue #7FB4CA
-set $waveAqua2 #7AA89F
-set $springGreen #98BB6C
-set $carpYellow #E6C384
-set $sakuraPink #D27E99
-set $waveRed #E46876
-set $peachRed #FF5D62
-set $surimiOrange #FFA066
-set $katanaGray #717C7C
-
-# target                 title        bg          text          indicator    border
-client.focused           $waveBlue2   $sumiInk0   $fujiWhite    $waveAqua1   $springBlue
-client.focused_inactive  $katanaGray  $sumiInk1   $fujiWhite    $waveAqua1   $katanaGray
-client.unfocused         $katanaGray  $sumiInk1   $fujiWhite    $waveAqua1   $katanaGray
-client.urgent            $samuraiRed  $sumiInk1   $samuraiRed   $katanaGray  $samuraiRed
-client.placeholder       $katanaGray  $sumiInk1   $fujiWhite    $katanaGray  $katanaGray
-client.background        $sumiInk2
-
-# bar settings
-bar {
-    status_command i3blocks -c ~/.config/i3/i3blocks_main.conf
-    font pango: CaskaydiaCove NerdFont 14
-    position top
-    i3bar_command i3bar --transparency
-    padding 5px
-    strip_workspace_numbers yes
-    output $fm
-
-    colors {
-        background         $sumiInk1
-        statusline         $fujiWhite
-        focused_statusline $fujiWhite
-        focused_separator  $sumiInk1
-        focused_workspace  $sumiInk1 $sumiInk1 $roninYellow
-        active_workspace   $sumiInk1 $sumiInk1 $waveAqua2
-        inactive_workspace $sumiInk1 $sumiInk1 $oniViolet
-        urgent_workspace   $sumiInk1 $sumiInk1 $winterRed
-        binding_mode       $sumiInk1 $sumiInk1 $sumiInk3
-    }
-}
-
-bar {
-    status_command i3blocks -c ~/.config/i3/i3blocks_sec.conf
-    font pango: CaskaydiaCove NerdFont 14
-    position top
-    i3bar_command i3bar
-    strip_workspace_numbers yes
-    output $sm
-
-    colors {
-        background         $sumiInk1
-        statusline         $fujiWhite
-        focused_statusline $fujiWhite
-        focused_separator  $sumiInk1
-        focused_workspace  $sumiInk1 $sumiInk1 $roninYellow
-        active_workspace   $sumiInk1 $sumiInk1 $waveAqua2
-        inactive_workspace $sumiInk1 $sumiInk1 $oniViolet
-        urgent_workspace   $sumiInk1 $sumiInk1 $winterRed
-        binding_mode       $sumiInk1 $sumiInk1 $sumiInk3
-    }
-}
-
