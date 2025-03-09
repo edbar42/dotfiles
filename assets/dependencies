@@ -4,7 +4,6 @@ bat
 better-commits
 bleachbit
 bottom
-brillo
 diffutils
 dmenu
 dmidecode
@@ -25,7 +24,6 @@ go
 gparted
 gsimplecal
 gthumb
-gtypist
 hwinfo
 keepassxc
 keychain
@@ -55,6 +53,7 @@ ttf-cascadia-code-nerd
 ttf-cascadia-mono-nerd
 vhs
 wezterm
+wluma
 xcape
 xclip
 xkblayout
@@ -70,3 +69,5 @@ zen-browser-bin
 zoxide
 zsh
 zsh-vi-mode
+zsh-autosuggestions
+zsh-syntax-highlighting

@@ -43,8 +43,10 @@ alias see="wezterm imgcat"
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
-# Better vim mode for zsh
+# zsh plugins
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
