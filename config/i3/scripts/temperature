@@ -41,53 +41,45 @@ get_temperature() {
 
     case $chip in
         *"amdgpu"*)
-            # AMD GPU temperature
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].edge.temp1_input" 2>/dev/null)
             ;;
         *"nvidia"*)
-            # NVIDIA GPU temperature (requires nvidia-smi)
             if command -v nvidia-smi &> /dev/null; then
                 temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
             fi
             ;;
         *"k10temp"*)
-            # AMD CPU temperature
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Tctl.temp1_input" 2>/dev/null)
             ;;
         *"coretemp"*)
-            # Intel CPU temperature
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Package\\ id\\ 0.temp1_input" 2>/dev/null)
             ;;
         *"nvme"*)
-            # NVMe drive temperature
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Composite.temp1_input" 2>/dev/null)
             ;;
         *)
-            # Generic temperature reading
             temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].temp1.temp1_input" 2>/dev/null)
             ;;
     esac
 
-    # Check if temperature was found
     if [[ -z "$temp" || "$temp" == "null" ]]; then
         echo "Error: Cannot read temperature from $chip"
         exit 1
     fi
 
-    echo "${temp%.*}"  # Remove decimal places
+    echo "${temp%.*}"
 }
 
-# Automatically detect the correct chip for CPU and GPU if not passed
+# Automatically detect the correct chip if not passed
 if [ -z "$SENSOR_CHIP" ]; then
     if grep -i "amdgpu" /proc/cpuinfo &> /dev/null; then
-        SENSOR_CHIP="amdgpu-pci-0300"  # Example AMD GPU chip ID
+        SENSOR_CHIP="amdgpu-pci-0300"
     elif grep -i "nvidia" /proc/cpuinfo &> /dev/null; then
-        SENSOR_CHIP="nvidia-gpu-0"  # Example NVIDIA GPU chip ID
+        SENSOR_CHIP="nvidia-gpu-0"
     elif grep -i "intel" /proc/cpuinfo &> /dev/null; then
-        SENSOR_CHIP="coretemp"  # Example Intel CPU chip ID
+        SENSOR_CHIP="coretemp"
     elif [ -d "/sys/class/thermal" ]; then
-        # Assuming AMD or Intel CPU
-        SENSOR_CHIP="k10temp-pci-00c3"  # Example AMD CPU chip ID (you can adjust)
+        SENSOR_CHIP="k10temp-pci-00c3"
     else
         echo "Error: Unable to auto-detect sensor chip"
         exit 1
@@ -97,18 +89,14 @@ fi
 # Get temperature
 TEMP=$(get_temperature "$SENSOR_CHIP")
 
-# Define color based on temperature
+# Output temperature with polybar formatting
 if [ "$TEMP" -ge "$T_CRIT" ]; then
-    COLOR="#FF0000"  # Critical color (red)
+    echo "%{F#E82424}${TEMP}°C%{F-}"  # Critical - samuraiRed
 elif [ "$TEMP" -ge "$T_WARN" ]; then
-    COLOR="#FFCC00"  # Warning color (yellow)
+    echo "%{F#FFA066}${TEMP}°C%{F-}"  # Warning - surimiOrange
 else
-    COLOR="#98c379"  # Normal color (green)
+    echo "${TEMP}°C"  # Normal - default color
 fi
-
-# Output temperature with color
-echo "<span color='$COLOR'>$TEMP°C</span>"
-echo "<span color='$COLOR'>$TEMP°C</span>"
 
 exit 0
 
