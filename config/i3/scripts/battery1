@@ -34,21 +34,20 @@ if ($bat_state !~ /:               (\w+)/) {
 }
 $status = $1;
 
-# Charging indicator
-if ($status eq 'charging') {
-    $full_text .= '󱐋';
+if ($percent < 20) {
+    $label = '󰂎';
+} elsif ($percent < 45) {
+    $label = '󰁺';
+} elsif ($percent < 70) {
+    $label = '󰁿';
+} elsif ($percent < 95) {
+    $label = '󰂁';
+} else {
+    $label = '󰁹';
 }
 
-if ($percent < 20) {
-  $label = '󰂎';
-} elsif ($percent < 45) {
-  $label = '󰁺';
-} elsif ($percent < 70) {
-  $label = '󰁿';
-} elsif ($percent < 95) {
-  $label = '󰂁';
-} else {
-  $label = '󰁹';
+if ($status eq 'charging') {
+    $label = '󱐋' . $label;
 }
 
 # Output with polybar formatting
