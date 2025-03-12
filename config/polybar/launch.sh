@@ -3,16 +3,10 @@
 # Terminate already running bar instances
 pkill polybar
 
-# Get the hostname
-HOSTNAME=$(hostname)
-
 # Determine the config file based on the hostname
-if [[ "$HOSTNAME" == "thinkpad" ]]; then
-  CONFIG_FILE="~/dotfiles/config/polybar/thinkpad.ini"
+if [[ "$(hostname)" == "thinkpad" ]]; then
+  polybar thinkpad
 else
-  CONFIG_FILE="~/dotfiles/config/polybar/config.ini"
+  polybar desktop
 fi
-
-# Launch polybar with the determined config file
-polybar -c "$CONFIG_FILE"
 
