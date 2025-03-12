@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
 # Terminate already running bar instances
-# If all your bars have ipc enabled, you can use 
 pkill polybar
-# Otherwise you can use the nuclear option:
-# killall -q polybar
 
-polybar
+# Get the hostname
+HOSTNAME=$(hostname)
+
+# Determine the config file based on the hostname
+if [[ "$HOSTNAME" == "thinkpad" ]]; then
+  CONFIG_FILE="~/dotfiles/config/polybar/thinkpad.ini"
+else
+  CONFIG_FILE="~/dotfiles/config/polybar/config.ini"
+fi
+
+# Launch polybar with the determined config file
+polybar -c "$CONFIG_FILE"
+
