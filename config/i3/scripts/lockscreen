@@ -1,12 +1,41 @@
 #!/usr/bin/env bash
 
-<<<<<<< Updated upstream
 DIR_PATH="$HOME/personal/Pictures/wallpapers/horizontal/"
 PICTURE="$DIR_PATH$(ls -1 $DIR_PATH | shuf -n 1)"
 JPG_FILE="$PICTURE"
 PNG_FILE="${PICTURE%.*}.png"
-=======
-# Function to lock the screen with a wallpaper
-lock_screen() {
-    # Set common directory path
-    DIR_PATH="$HOME/personal/Pictures/wallpapers"
+
+# Check if a PNG file already exists with the same name as the JPG file
+if [[ -f "$PNG_FILE" ]]; then
+    # Get screen resolution
+    SCREEN_RESOLUTION="$(xrandr | grep -oP '\d+x\d+' | head -n1)"
+    WIDTH=$(echo "$SCREEN_RESOLUTION" | cut -d 'x' -f 1)
+    HEIGHT=$(echo "$SCREEN_RESOLUTION" | cut -d 'x' -f 2)
+
+    # Get dimensions of the existing PNG file
+    PNG_WIDTH=$(identify -format "%w" "$PNG_FILE")
+    PNG_HEIGHT=$(identify -format "%h" "$PNG_FILE")
+
+    # Check if dimensions match the screen resolution
+    if [[ $PNG_WIDTH -eq $WIDTH && $PNG_HEIGHT -eq $HEIGHT ]]; then
+        PICTURE="$PNG_FILE"
+    else
+        # Resize and overwrite the existing PNG file with correct dimensions
+        convert "$JPG_FILE" -resize "${WIDTH}x${HEIGHT}^" -gravity center -extent "${WIDTH}x${HEIGHT}" "$PNG_FILE"
+        PICTURE="$PNG_FILE"
+    fi
+else
+    # Get screen resolution
+    SCREEN_RESOLUTION="$(xrandr | grep -oP '\d+x\d+' | head -n1)"
+    WIDTH=$(echo "$SCREEN_RESOLUTION" | cut -d 'x' -f 1)
+    HEIGHT=$(echo "$SCREEN_RESOLUTION" | cut -d 'x' -f 2)
+
+    # Check if the picture is in JPEG format and convert to PNG if needed
+    if [[ $JPG_FILE == *.jpg ]]; then
+        convert "$JPG_FILE" -resize "${WIDTH}x${HEIGHT}^" -gravity center -extent "${WIDTH}x${HEIGHT}" "$PNG_FILE"
+        PICTURE="$PNG_FILE"
+    fi
+fi
+
+# Lock screen with i3lock using the adjusted image
+i3lock -i "$PICTURE"
