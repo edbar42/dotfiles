@@ -19,12 +19,12 @@ vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 -- Better window navigation/interaction mappings
 vim.keymap.set("n", "<leader>vv", function()
 	vim.cmd("vsp")
-	require('telescope.builtin').find_files()
+	require("telescope.builtin").find_files()
 end, { desc = "Start vertical split" })
 
 vim.keymap.set("n", "<leader>hh", function()
 	vim.cmd("sp")
-	require('telescope.builtin').find_files()
+	require("telescope.builtin").find_files()
 end, { desc = "Start horizontal split" })
 
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below" })
