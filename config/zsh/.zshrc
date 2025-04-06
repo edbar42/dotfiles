@@ -1,4 +1,4 @@
-# fzf options
+# fzf optionsnvim
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
 
@@ -30,7 +30,7 @@ alias ll="lsd -l"
 alias lla="lsd -la"
 alias lt="lsd --tree"
 alias procs="procs --tree"
-alias vim="nvim -u NONE"
+# alias vim="nvim -u NONE"
 alias bc="better-commits"
 
 # Go aliases
