@@ -1,1 +1,21 @@
-{"background":"#08163f","margin":[0,0,0,0],"padding":[20,40,20,20],"window":false,"width":0,"height":0,"config":"default","theme":"doom-one","border":{"radius":25,"width":0,"color":"#515151"},"shadow":{"blur":20,"x":0,"y":0},"font":{"family":"CaskaydiaCove NF","file":"","size":12,"ligatures":true},"line_height":1,"line_numbers":false}
+{
+  "background": "#171717",
+  "margin": [0, 0, 0, 0],
+  "padding": [20, 40, 20, 20],
+  "window": false,
+  "width": 0,
+  "height": 0,
+  "config": "default",
+  "theme": "monokai",
+  "border": { "radius": 8, "width": 2, "color": "#515151" },
+  "shadow": { "blur": 0, "x": 0, "y": 0 },
+  "font": {
+    "family": "CaskaydiaCove NF",
+    "file": "",
+    "size": 12,
+    "ligatures": true
+  },
+  "line_height": 1.2,
+  "show_line_numbers": true
+}
+
