@@ -36,6 +36,6 @@ return { -- Dark colorscheme inspired by the famous painting
 				}
 			end,
 		})
-		vim.cmd("colorscheme kanagawa")
+		-- vim.cmd("colorscheme kanagawa")
 	end,
 }
