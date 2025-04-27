@@ -32,6 +32,7 @@ alias lt="lsd --tree"
 alias procs="procs --tree"
 # alias vim="nvim -u NONE"
 alias bc="better-commits"
+alias lzd="lazydocker"
 
 # Go aliases
 alias gotst="go test -v -cover ./..."
@@ -70,3 +71,7 @@ esac
 
 # ------------------------ STARTUP CALLS --------------------------
 wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
