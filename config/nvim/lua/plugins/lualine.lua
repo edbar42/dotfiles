@@ -24,7 +24,7 @@ return { -- NeoVim status line written in Lua
 				section_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				globalstatus = true,
-				theme = "auto",
+				theme = "nightfly",
 			},
 			sections = {
 				lualine_a = { custom_mode },

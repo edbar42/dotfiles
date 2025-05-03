@@ -2,7 +2,7 @@ return {
 	"NTBBloodbath/doom-one.nvim",
 	init = function()
 		-- Add color to cursor
-		vim.g.doom_one_cursor_coloring = false
+		vim.g.doom_one_cursor_coloring = true
 		-- Set :terminal colors
 		vim.g.doom_one_terminal_colors = true
 		-- Enable italic comments
@@ -10,7 +10,7 @@ return {
 		-- Enable TS support
 		vim.g.doom_one_enable_treesitter = true
 		-- Color whole diagnostic text or only underline
-		vim.g.doom_one_diagnostics_text_color = false
+		vim.g.doom_one_diagnostics_text_color = true
 		-- Enable transparent background
 		vim.g.doom_one_transparent_background = false
 
