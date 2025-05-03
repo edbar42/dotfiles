@@ -39,6 +39,7 @@ mupdf
 neovim
 nitrogen
 obsidian
+otf-atkinson-hyperlegible
 picom
 pnpm
 polybar
@@ -53,6 +54,7 @@ starship
 stow
 tokei
 tokyonight-gtk-theme-git
+ttf-atkinson-hyperlegible
 ttf-cascadia-code-nerd
 ttf-cascadia-mono-nerd
 vhs
@@ -73,6 +75,6 @@ zathura-ypb
 zen-browser-bin
 zoxide
 zsh
-zsh-vi-mode
 zsh-autosuggestions
 zsh-syntax-highlighting
+zsh-vi-mode
