@@ -11,6 +11,7 @@ dmenu
 dmidecode
 dmraid
 docker
+docker-compose
 dragon-drop
 duf
 dunst
