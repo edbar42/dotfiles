@@ -53,7 +53,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 eval "$(zoxide init --cmd cd zsh)"
 
 # Manage SSH sessions through keychain
-eval $(keychain -q --eval --agents ssh $HOME/personal/auth/ssh/github)
+eval $(keychain -q --eval ssh $HOME/personal/auth/ssh/github)
 
 # Activate mise-en-place
 eval "$(mise activate zsh)"
