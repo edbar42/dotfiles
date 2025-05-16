@@ -1,0 +1,78 @@
+/* General Bar Styling */
+#waybar {
+  background: #2a2a37;
+  color: #dcd7ba;
+  font-family: "CaskaydiaCoveNF", sans-serif;
+  font-size: 16px;
+  border-bottom: 7px solid #2a2a37;
+}
+
+/* Workspaces */
+#workspaces button {
+  background: #2a2a37;
+  color: #957fb8;
+  border: none;
+  padding: 0 5px;
+}
+
+#workspaces button.active {
+  color: #ff9e3b;
+}
+
+#workspaces button.urgent {
+  color: #e82424;
+}
+
+/* Clock */
+#clock {
+  color: #dcd7ba;
+}
+
+/* Memory */
+#memory {
+  color: #7e9cd8;
+}
+
+/* CPU Temperature */
+#custom-cpu_temp {
+  color: #ffa066;
+}
+
+/* GPU Temperature */
+#custom-gpu_temp {
+  color: #7aa89f;
+}
+
+/* Network */
+#network {
+  color: #dcd7ba;
+}
+
+#network.disconnected {
+  color: #e82424;
+}
+
+/* Pulseaudio */
+#pulseaudio {
+  color: #dcd7ba;
+}
+
+#pulseaudio.muted {
+  color: #e82424;
+}
+
+/* Keyboard Layout */
+#keyboard {
+  color: #e46876;
+}
+
+/* Tray */
+#tray {
+  background: #2a2a37;
+  color: #dcd7ba;
+}
+
+/* Battery */
+#custom-battery {
+  color: #98bb6c;
+}
