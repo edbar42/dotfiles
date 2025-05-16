@@ -98,8 +98,7 @@ sync_routine() {
 }
 
 tidy_routine() {
-    install_dependencies && echo "Missing dependencies installed."
-    remove_bloat && echo "System debloat completed."
+	link_dotfiles && echo "Dotfiles updated successfully."
 }
 
 # Main script
