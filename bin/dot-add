@@ -12,7 +12,5 @@ echo "Attempting to move $target to dotfiles"
 
 mv ~/.config/"$target" ~/dotfiles/config/
 
-setup sync
-
 exit 0
 
