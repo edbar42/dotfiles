@@ -1,3 +1,6 @@
 [tools]
 node = "22.10.0"
 usage = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]
