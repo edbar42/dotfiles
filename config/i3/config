@@ -179,7 +179,7 @@ bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 bindsym $mod+Shift+b exec ~/.config/i3/scripts/wallpaper -s
 bindsym $mod+d exec rofi -modi drun -show drun \
-		-config ~/.config/rofi/rofidmenu.rasi
+		-config ~/.config/rofi/menu.rasi
 
 # Autostart apps
 exec_always --no-startup-id picom -config  ~/.config/picom
@@ -192,4 +192,5 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/dunstrc"
 exec_always --no-startup-id autotiling
 exec --no-startup-id blueberry-tray
+exec --no-startup-id flameshot
 exec --no-startup-id nm-applet
