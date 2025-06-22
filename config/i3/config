@@ -174,7 +174,7 @@ bindsym $mod+Return exec /usr/bin/wezterm
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 bindsym $mod+w exec /usr/bin/zen-browser
 bindsym $mod+a exec /usr/bin/keepassxc
-bindsym Print exec /usr/bin/flameshot gui --path ~/Pictures/
+bindsym Print exec /usr/bin/flameshot gui -c
 bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 bindsym $mod+Shift+b exec ~/.config/i3/scripts/wallpaper -s
