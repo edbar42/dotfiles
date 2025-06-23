@@ -56,9 +56,6 @@ for_window [class="wezterm"] focus
 assign [class="vesktop"] $ws15
 for_window [class="vesktop"] focus
 
-assign [class="zathura"] $ws11
-for_window [class="zathura"] focus
-
 # Assign workspaces to monitors
 workspace 1 output $fm
 workspace 2 output $fm
@@ -174,7 +171,7 @@ bindsym $mod+Return exec /usr/bin/wezterm
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 bindsym $mod+w exec /usr/bin/zen-browser
 bindsym $mod+a exec /usr/bin/keepassxc
-bindsym Print exec /usr/bin/flameshot gui -c
+bindsym Print exec /usr/bin/flameshot launcher --path ~/Pictures/Screenshots/
 bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 bindsym $mod+Shift+b exec ~/.config/i3/scripts/wallpaper -s
