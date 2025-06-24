@@ -17,6 +17,7 @@ alias rm="rm -Iv"
 alias cp="cp -irv"
 alias mv="mv -iv"
 alias mkdir="mkdir -pv"
+alias vim="nvim"
 
 # Colors
 alias diff="diff --color=auto"
@@ -40,7 +41,6 @@ alias gotst="go test -v -cover ./..."
 # Wezterm image viewer
 alias see="wezterm imgcat"
 
-# Fix typo in 'fix-mirrors' alias:
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
 # ------------------------ ADDITIONAL PROGRAMS --------------------------
