@@ -71,7 +71,7 @@ setup_routine() {
     check_yay
 
     install_dependencies
-    remove_bloat
+    # remove_bloat
     backup_config
     link_dotfiles
     setup_zsh
@@ -106,5 +106,5 @@ case "$1" in
     "sync") sync_routine ;;
     "tidy") tidy_routine ;;
     "") setup_routine ;;
-    *) echo "Unknown flag: $1" ;;
+    *) echo "Unknown argument provided: $1" ;;
 esac
