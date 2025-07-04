@@ -2,7 +2,7 @@
 
 sleep 2
 
-if [ "$(hostname)" = "desktop" ]; then
+if [ $(hostname) = "desktop" ]; then
   ~/.screenlayout/mylayout.sh
 fi
 
