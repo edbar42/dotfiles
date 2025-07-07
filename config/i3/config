@@ -171,7 +171,7 @@ bindsym $mod+Return exec /usr/bin/wezterm
 bindsym $mod+g exec wezterm -e "/usr/bin/yazi"
 bindsym $mod+w exec /usr/bin/zen-browser
 bindsym $mod+a exec /usr/bin/keepassxc
-bindsym Print exec /usr/bin/flameshot launcher --path ~/Pictures/Screenshots/
+bindsym Print exec flameshot gui
 bindsym $mod+space exec ~/.config/i3/scripts/kbchange
 bindsym $mod+b exec ~/.config/i3/scripts/wallpaper
 bindsym $mod+Shift+b exec ~/.config/i3/scripts/wallpaper -s
@@ -181,7 +181,7 @@ bindsym $mod+d exec rofi -modi drun -show drun \
 # Autostart apps
 exec_always --no-startup-id picom -config  ~/.config/picom
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id wluma
+exec_always --no-startup-id ~/.screenlayout/my_layout.sh
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id sleep 2 & nitrogen --restore
