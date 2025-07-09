@@ -185,7 +185,7 @@ exec_always --no-startup-id ~/.screenlayout/my_layout.sh
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id sleep 2 & nitrogen --restore
-exec --no-startup-id xset s 480 dpms 600 600 600
+exec --no-startup-id xset -dpms
 exec --no-startup-id dbus-launch /usr/bin/dunst --config-file="~/.config/dunst/dunstrc"
 exec_always --no-startup-id autotiling
 exec --no-startup-id blueberry-tray
