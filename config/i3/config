@@ -124,6 +124,9 @@ bindsym $mod+Shift+$alt+0    move container to workspace  $ws20
 
 bindsym $mod+r mode "resize"
 
+# change view mode on i3
+bindsym $mod+u layout toggle tabbed
+
 mode "resize" {
 	bindsym l resize grow width 10 px or 10 ppt
 	bindsym k resize shrink height 10 px or 10 ppt
