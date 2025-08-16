@@ -6,3 +6,6 @@ config/yazi/flavors/
 
 # p10k auto generated files
 *.p10k.zsh
+
+# fzf-tab
+fzf-tab
