@@ -8,8 +8,9 @@ bindkey '^[[3~' delete-char
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
-# enables native autocomplete
+# enables fzf autocomplete with fzf-tab
 autoload -Uz compinit && compinit
+source ~/dotfiles/fzf-tab/fzf-tab.plugin.zsh
 
 # ----------------------------- ALIASES -----------------------------------
 # Base aliases
