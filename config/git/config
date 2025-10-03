@@ -1,7 +1,7 @@
 [alias]
 	fix = commit --amend
 	short = log --decorate=full --oneline
-	st = status -s
+	st = status
 	cmt = commit
 	ok = rebase --continue
 
@@ -22,7 +22,7 @@
 	format = ssh
 
 [init]
-	defaultBranch = main
+	defaultBranch = master
 
 [pull]
 	rebase = true
@@ -35,5 +35,5 @@
 
 [user]
 	name = Eduardo Barroso
-	email = dev@edbar.xyz
+	email = edbar42@proton.me
 	signingkey = ~/personal/auth/ssh/github.pub
