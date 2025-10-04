@@ -1,78 +1,142 @@
-/* General Bar Styling */
-#waybar {
-  background: #2a2a37;
-  color: #dcd7ba;
-  font-family: "CaskaydiaCoveNF", sans-serif;
-  font-size: 16px;
-  border-bottom: 7px solid #2a2a37;
+/* Define colors */
+@define-color background #262626;
+@define-color surface #404040;
+@define-color foreground #e6e6e6;
+@define-color shadow_color #000066;
+
+/* Accent Colors */
+@define-color red #e65c5c;
+@define-color green #66cc66;
+@define-color yellow #ffcc66;
+@define-color orange #ffaa88;
+@define-color blue #6699ff;
+@define-color magenta #cc66cc;
+@define-color cyan #66cccc;
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "CaskaydiaCoveNF", "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 18px;
+  min-height: 0;
 }
 
-/* Workspaces */
-#workspaces button {
-  background: #2a2a37;
-  color: #957fb8;
-  border: none;
+window#waybar {
+  background-color: @background;
+  color: @foreground;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#workspaces,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#custom-cputemp,
+#custom-gputemp,
+#memory,
+#tray,
+#custom-sep,
+#language {
+  background-color: transparent;
   padding: 0 5px;
+  color: @foreground;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background-color: transparent;
+  color: @magenta;
+  border-bottom: 3px solid transparent;
+}
+
+#workspaces button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+  border-bottom: 3px solid @foreground;
 }
 
 #workspaces button.active {
-  color: #ff9e3b;
+  color: @cyan;
+  border-bottom: 3px solid @yellow;
 }
 
 #workspaces button.urgent {
-  color: #e82424;
+  background-color: @red;
+  color: @background;
 }
 
-/* Clock */
 #clock {
-  color: #dcd7ba;
+  color: @foreground;
 }
 
-/* Memory */
 #memory {
-  color: #7e9cd8;
+  color: @blue;
 }
 
-/* CPU Temperature */
-#custom-cpu_temp {
-  color: #ffa066;
+#custom-cputemp {
+  color: @orange;
 }
 
-/* GPU Temperature */
-#custom-gpu_temp {
-  color: #7aa89f;
+#custom-gputemp {
+  color: @green;
 }
 
-/* Network */
-#network {
-  color: #dcd7ba;
-}
-
-#network.disconnected {
-  color: #e82424;
-}
-
-/* Pulseaudio */
 #pulseaudio {
-  color: #dcd7ba;
+  color: @foreground;
 }
 
 #pulseaudio.muted {
-  color: #e82424;
+  color: @red;
 }
 
-/* Keyboard Layout */
-#keyboard {
-  color: #e46876;
+#network {
+  color: @cyan;
 }
 
-/* Tray */
-#tray {
-  background: #2a2a37;
-  color: #dcd7ba;
+#network.disconnected {
+  background-color: @red;
+  color: @background;
 }
 
-/* Battery */
-#custom-battery {
-  color: #98bb6c;
+#battery {
+  color: @green;
+}
+
+#battery.good {
+  color: @green;
+}
+
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @green;
+}
+
+@keyframes blink {
+  to {
+    color: @red;
+  }
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#language {
+  color: @red;
 }

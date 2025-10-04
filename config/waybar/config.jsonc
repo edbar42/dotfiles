@@ -1,0 +1,109 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "spacing": 2,
+
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "memory",
+    "custom/sep",
+    "custom/cputemp",
+    "custom/sep",
+    "custom/gputemp",
+    "custom/sep",
+    "network",
+    "custom/sep",
+    "pulseaudio",
+    "custom/sep",
+    "battery",
+    "custom/sep",
+    "hyprland/language",
+    "tray",
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+  },
+
+  "tray": {
+    "icon-size": 25,
+    "spacing": 10,
+  },
+
+  "clock": {
+    "locale": "pt_BR.UTF-8",
+    "format": "󰥔 {:%H:%M | 󰸗 %a %d %b}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+  },
+
+  "memory": {
+    "format": "  {}%",
+    "interval": 2,
+  },
+
+  "custom/cputemp": {
+    "exec": "~/.config/hypr/scripts/temperature",
+    "format": "󰻠 {}",
+    "interval": 2,
+  },
+
+  "custom/gputemp": {
+    "exec": "~/.config/i3/scripts/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
+    "format": "󰢮 {}",
+    "interval": 2,
+  },
+
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 49,
+      "critical": 15,
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+  },
+
+  "network": {
+    // "interface": "wlan0",
+    "format-wifi": "󰤨 {essid} ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "format-ethernet": "󰈀 ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "tooltip-format": "{ifname} via {gwaddr} ",
+    "format-linked": "{ifname} (No IP)",
+    "format-disconnected": "󰤮 disconnected",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor", // Or your preferred network manager
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰖁 MUTED",
+    "on-click": "pavucontrol",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["󰕿", "󰖀", "󰕾"],
+    },
+  },
+
+  "hyprland/language": {
+    "format": "󰌌 {}",
+    "format-en": "EN",
+    "format-pt": "BR",
+  },
+
+  "custom/sep": {
+    "format": " ",
+    "interval": "once",
+    "tooltip": false,
+  },
+}
