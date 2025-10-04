@@ -31,6 +31,8 @@ link_dotfiles() {
     echo "Linking dotfiles..."
     stow -v . -d "$DOTFILES_DIR/config/" -t "$CONFIG_DIR"
     stow -v . -d "$DOTFILES_DIR/bin/" -t "$BIN_DIR"
+    sudo mkdir /etc/keyd
+    sudo stow -v . -d "$DOTFILES_DIR/extras/keyd/default.conf" -t "/etc/keyd/default.conf"
 }
 
 set_wallpaper() {
