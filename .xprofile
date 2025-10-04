@@ -1,9 +1,0 @@
-#!/bin/sh
-
-sleep 2
-
-if [ $(hostname) = "desktop" ]; then
-  ~/.screenlayout/mylayout.sh
-fi
-
-~/.bin/remap
