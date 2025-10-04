@@ -1,7 +1,10 @@
 return { -- Non-extensive config plugins
 
 	-- Comment lines in visual mode
-	{ "numToStr/Comment.nvim", opts = {} },
+	{ "numToStr/Comment.nvim", opts = {
+		sticky = true,
+		padding = true,
+	} },
 
 	-- Manage surrouding elements
 	{ "tpope/vim-surround" },
@@ -12,6 +15,9 @@ return { -- Non-extensive config plugins
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {},
 	},
+
+	-- Mini pairs: minimal and fast autopairs
+	{ "nvim-mini/mini.pairs", version = "*", opts = {} },
 
 	-- Elixir syntax highlighting
 	{ "elixir-editors/vim-elixir" },

@@ -4,7 +4,7 @@ return { -- Get diagnostic messages project wide
 		auto_close = true,
 		focus = true,
 		follow = true,
-	}, -- for default options, refer to the configuration section for custom setup.
+	},
 	cmd = "Trouble",
 	keys = {
 		{

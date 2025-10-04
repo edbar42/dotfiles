@@ -7,7 +7,7 @@ return { -- Git decorations on the sidebar
 			delete = { text = "" },
 			topdelete = { text = "" },
 			changedelete = { text = "▎" },
-			untracked = { text = "▎" },
+			untracked = { text = "" },
 		},
 		signs_staged = {
 			add = { text = "▎" },
