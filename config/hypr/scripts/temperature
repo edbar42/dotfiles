@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+# Default values
+T_WARN=${T_WARN:-70}
+T_CRIT=${T_CRIT:-90}
+SENSOR_CHIP=${1:-""}
+
+# Help function
+show_help() {
+    echo "Usage: $0 [OPTIONS] --chip <chip>"
+    echo "Options:"
+    echo "  -w, --warn TEMP    Warning threshold temperature (default: 70°C)"
+    echo "  -c, --crit TEMP    Critical threshold temperature (default: 90°C)"
+    echo "  --chip CHIP        Sensor chip (e.g., k10temp-pci-00c3 for AMD CPU,"
+    echo "                     nvme-pci-0100 for NVMe, amdgpu-pci-0300 for AMD GPU)"
+    echo "  -h, --help         Show this help message"
+    exit 0
+}
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -w|--warn) T_WARN="$2"; shift 2 ;;
+        -c|--crit) T_CRIT="$2"; shift 2 ;;
+        --chip) SENSOR_CHIP="$2"; shift 2 ;;
+        -h|--help) show_help ;;
+        *) echo "Unknown parameter: $1"; show_help ;;
+    esac
+done
+
+# Check if sensors command exists
+if ! command -v sensors &> /dev/null; then
+    echo "Error: 'sensors' command not found. Please install lm-sensors package."
+    exit 1
+fi
+
+# Function to get temperature based on chip type
+get_temperature() {
+    local chip=$1
+    local temp
+
+    case $chip in
+        *"amdgpu"*)
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].edge.temp1_input" 2>/dev/null)
+            ;;
+        *"nvidia"*)
+            if command -v nvidia-smi &> /dev/null; then
+                temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+            fi
+            ;;
+        *"k10temp"*)
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Tctl.temp1_input" 2>/dev/null)
+            ;;
+        *"coretemp"*)
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Package\\ id\\ 0.temp1_input" 2>/dev/null)
+            ;;
+        *"nvme"*)
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].Composite.temp1_input" 2>/dev/null)
+            ;;
+        *)
+            temp=$(sensors -j "$chip" 2>/dev/null | jq -r ".[\"$chip\"].temp1.temp1_input" 2>/dev/null)
+            ;;
+    esac
+
+    if [[ -z "$temp" || "$temp" == "null" ]]; then
+        echo "Error: Cannot read temperature from $chip"
+        exit 1
+    fi
+
+    echo "${temp%.*}"
+}
+
+# Automatically detect the correct chip if not passed
+if [ -z "$SENSOR_CHIP" ]; then
+    if grep -i "amdgpu" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="amdgpu-pci-0300"
+    elif grep -i "nvidia" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="nvidia-gpu-0"
+    elif grep -i "intel" /proc/cpuinfo &> /dev/null; then
+        SENSOR_CHIP="coretemp"
+    elif [ -d "/sys/class/thermal" ]; then
+        SENSOR_CHIP="k10temp-pci-00c3"
+    else
+        echo "Error: Unable to auto-detect sensor chip"
+        exit 1
+    fi
+fi
+
+# Get temperature
+TEMP=$(get_temperature "$SENSOR_CHIP")
+
+# Output temperature with polybar formatting
+if [ "$TEMP" -ge "$T_CRIT" ]; then
+    echo "%{F#E82424}${TEMP}°C%{F-}"  # Critical - samuraiRed
+elif [ "$TEMP" -ge "$T_WARN" ]; then
+    echo "%{F#FFA066}${TEMP}°C%{F-}"  # Warning - surimiOrange
+else
+    echo "${TEMP}°C"  # Normal - default color
+fi
+
+exit 0
+

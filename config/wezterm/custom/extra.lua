@@ -5,6 +5,7 @@ local options = {}
 
 function options.set_misc_options(config)
 	config.audible_bell = "Disabled"
+	config.enable_wayland = true
 	config.enable_kitty_graphics = true
 	config.prefer_to_spawn_tabs = false
 	config.log_unknown_escape_sequences = true

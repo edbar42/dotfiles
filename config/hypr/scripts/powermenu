@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Menu options
+declare -A menu=(
+  ["  Shutdown"]="systemctl poweroff"
+  ["  Reboot"]="systemctl reboot"
+  ["  Hibernate"]="systemctl hibernate"
+  ["  Suspend"]="systemctl suspend"
+  ["  Lock"]="hyprlock"
+  ["  Logout"]="hyprctl dispatch exit"
+)
+
+wofi_cmd() {
+  wofi --dmenu --prompt "$1"
+}
+
+selection=$(printf '%s\n' "${!menu[@]}" | sort | wofi_cmd "Action")
+
+if [[ -n "$selection" ]]; then
+  case "$selection" in
+    "  Shutdown" | "  Reboot" | "  Logout")
+      confirm=$(printf "No\nYes" | wofi_cmd "Are you sure?")
+      [[ "$confirm" == "Yes" ]] && eval "${menu[$selection]}"
+      ;;
+    *)
+      eval "${menu[$selection]}"
+      ;;
+  esac
+fi

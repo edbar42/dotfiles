@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+wallpapers_dir="$HOME/Pictures/wallpapers/horizontal"
+
+# Ensure swww is running
+if ! pgrep -x swww-daemon >/dev/null 2>&1; then
+  swww init
+fi
+
+# Collect image files (adjust extensions if needed)
+mapfile -t files < <(find "$wallpapers_dir" -type f \
+  \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \))
+
+if [ "${#files[@]}" -eq 0 ]; then
+  echo "No images found in $wallpapers_dir" >&2
+  exit 1
+fi
+
+# Pick one at random
+selected="${files[RANDOM % ${#files[@]}]}"
+
+# Set wallpaper
+swww img "$selected" --transition-type random --transition-angle 135

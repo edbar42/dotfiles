@@ -34,7 +34,6 @@
   },
 
   "clock": {
-    "locale": "pt_BR.UTF-8",
     "format": "󰥔 {:%H:%M | 󰸗 %a %d %b}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
   },
@@ -85,12 +84,6 @@
     "format-muted": "󰖁 MUTED",
     "on-click": "pavucontrol",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
       "default": ["󰕿", "󰖀", "󰕾"],
     },
   },
