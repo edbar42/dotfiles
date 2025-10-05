@@ -1,0 +1,222 @@
+/* Colors */
+/* Colors (palette-applied) */
+@define-color background            #262626;
+@define-color background-alt        #404040;
+@define-color background-alt-darker #333333; /* slightly darker than alt */
+@define-color accent-normal         #6699ff; /* green */
+@define-color accent-error          #e65c5c; /* red */
+@define-color bordercolor           #404040; /* inactive_border */
+@define-color fontcolor             #e6e6e6; /* foreground */
+@define-color fontaltcolor          #262626; /* background */
+/* Config */
+
+* {
+  font-family: "Caskaydia Cove NF";
+}
+
+/* Notification */
+
+.notification {
+  background: @background;
+  color: @fontcolor;
+  border: 3px solid @bordercolor;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.body {
+  color: @fontcolor;
+}
+
+.summary {
+  font-size: 16px;
+  font-weight: 700;
+  background: transparent;
+  color: @accent-normal;
+  text-shadow: none;
+}
+
+.time {
+  font-size: 16px;
+  font-weight: 700;
+  background: transparent;
+  color: @fontcolor;
+  text-shadow: none;
+  margin-right: 18px;
+}
+
+.close-button {
+  background-color: @accent-error;
+  color: @fontaltcolor;
+  margin-top: 5px;
+  margin-right: 5px;
+  border-radius: 6px;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  color: @fontcolor;
+  background: transparent;
+}
+
+.notification.critical progress {
+  background-color: @accent-error;
+}
+
+.notification.low progress,
+.notification.normal progress {
+  background-color: @accent-normal;
+}
+
+/* Control Center */
+
+.control-center {
+  background-color: @background;
+  color: @fontcolor;
+  border: 3px solid @bordercolor;
+  padding: 10px;
+}
+
+/* Notifications expanded-group */
+
+.notification-group {
+  background-color: transparent;
+  margin: 2px 8px 2px 8px;
+  font-size: 14px;
+}
+
+.notification-group-icon {
+  color: @fontcolor;
+}
+
+.notification-group-headers {
+  color: @fontcolor;
+}
+
+.notification-group-collapse-button,
+.notification-group-close-all-button {
+  background: @accent-normal;
+  color: @fontaltcolor;
+  margin: 4px;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.notification-group-collapse-button:hover,
+.notification-group-close-all-button:hover {
+  background: @accent-error;
+  color: @fontaltcolor;
+}
+
+/* widget title */
+.widget-title {
+  color: @fontcolor;
+}
+.widget-title > button {
+  font-size: 1rem;
+  color: @fontcolor;
+  background: @background-alt-darker;
+  box-shadow: none;
+}
+
+.widget-title > button:hover {
+  background: @accent-error;
+  color: @fontaltcolor;
+}
+
+/* widget button grid */
+button {
+  border: 0px;
+  min-width: 35px;
+  background: @background-alt;
+}
+
+.widget-buttons-grid {
+  font-size: x-large;
+  background: @background-alt-darker;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  color: @fontcolor;
+  margin: 8px;
+  padding: 10px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: alpha(@fontcolor, 0.55);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
+  background: @accent-normal;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked label {
+  color: @fontaltcolor;
+}
+
+/* dnd widget */
+.widget-dnd {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: large;
+  color: @fontcolor;
+}
+
+.widget-dnd > label {
+  color: @fontcolor;
+}
+
+.widget-dnd > switch {
+  background: @background-alt;
+  color: @fontcolor;
+  border-radius: 6px;
+}
+
+.widget-dnd > switch:checked {
+  background: @accent-error;
+  border: 1px solid @accent-error;
+}
+
+/* volume & backlight widget */
+
+.widget-volume {
+  background: @background-alt-darker;
+  color: @fontcolor;
+  font-size: x-large;
+}
+
+.widget-backlight {
+  background: @background-alt-darker;
+  color: @fontcolor;
+  font-size: x-large;
+}
+
+/* music player widget */
+.widget-mpris {
+  background: transparent;
+  margin: 8px;
+}
+
+.widget-mpris button {
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+.widget-mpris button:hover {
+  background-color: @accent-normal;
+  color: @fontaltcolor;
+}
+
+/* sliders in backlight and volume */
+
+trough slider {
+  background: @fontcolor;
+}
+
+trough slider:hover {
+  background: @accent-normal;
+}
+
+trough highlight {
+  background: @accent-normal;
+}
