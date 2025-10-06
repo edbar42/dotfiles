@@ -54,7 +54,7 @@ return { -- Highly extendable fuzzy finder
 
 		vim.keymap.set("n", "<leader>sn", function()
 			builtin.find_files({
-				vim.fn.stdpath("config"),
+				vim.fn.stdpath("~/.config/nvim"),
 			})
 		end, { desc = "[S]earch [N]eovim files" })
 	end,
