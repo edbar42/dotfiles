@@ -10,7 +10,7 @@ bindkey '^[[F' end-of-line
 
 # enables fzf autocomplete with fzf-tab
 autoload -Uz compinit && compinit
-source ~/dotfiles/fzf-tab/fzf-tab.plugin.zsh
+source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # ----------------------------- ALIASES -----------------------------------
 # Base aliases

@@ -2,24 +2,19 @@
   "layer": "top",
   "position": "top",
   "height": 34,
-  "spacing": 1,
+  "spacing": 0,
 
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
     "memory",
-    "custom/sep",
     "custom/cputemp",
-    "custom/sep",
     "custom/gputemp",
-    "custom/sep",
     "network",
-    "custom/sep",
     "pulseaudio",
-    "custom/sep",
     "battery",
-    "custom/sep",
     "hyprland/language",
+    "custom/sep",
     "tray",
   ],
 
@@ -34,8 +29,9 @@
   },
 
   "clock": {
-    "format": "󰥔 {:%H:%M | 󰸗 %a %d %b}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": "{:L%H:%M}",
+    "tooltip-format": "<big>{:L%A %d}</big>\n<tt><small>{calendar}</small></tt>",
+    "locale": "pt_BR.UTF-8",
   },
 
   "memory": {
@@ -69,14 +65,13 @@
   },
 
   "network": {
-    // "interface": "wlan0",
-    "format-wifi": "󰤨 {essid} ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "format-wifi": "󰤨 {essid}",
     "format-ethernet": "󰈀 ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
-    "tooltip-format": "{ifname} via {gwaddr} ",
+    "tooltip-format": "{ifname} via {gwaddr}",
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "󰤮 disconnected",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "nm-connection-editor", // Or your preferred network manager
+    "on-click": "nm-connection-editor",
   },
 
   "pulseaudio": {

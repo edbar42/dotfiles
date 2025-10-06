@@ -21,4 +21,4 @@ fi
 selected="${files[RANDOM % ${#files[@]}]}"
 
 # Set wallpaper
-swww img "$selected" --transition-type random --transition-angle 135
+swww img "$selected" --transition-type fade --transition-angle 135
