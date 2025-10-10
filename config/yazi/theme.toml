@@ -1,2 +1,145 @@
-[flavor]
-use = "kanagawa"
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#51afef" } # blue
+
+# Hovered
+hovered = { fg = "#bbc2cf", bg = "#21242b" } # fg on bg-alt
+preview_hovered = { underline = true }
+
+# Find
+find_keyword = { fg = "#ecbe7b", italic = true } # yellow
+find_position = { fg = "#ff6c6b", bg = "reset", italic = true } # red
+
+# Marker
+marker_selected = { fg = "#51afef", bg = "#51afef" } # blue
+marker_copied = { fg = "#ecbe7b", bg = "#ecbe7b" } # yellow
+marker_cut = { fg = "#ff6c6b", bg = "#ff6c6b" } # red
+
+# Tab
+tab_active = { fg = "#bbc2cf", bg = "#21242b" } # fg on bg-alt
+tab_inactive = { fg = "#5b6268", bg = "#282c34" } # fg-alt on bg
+tab_width = 1
+
+# Border
+border_symbol = "│"
+border_style = { fg = "#5b6268" } # fg-alt
+
+# Highlighting
+# You'll need to find a Doom One .tmTheme file for syntax highlighting.
+# A good place to look is https://github.com/doomemacs/themes
+syntect_theme = "~/.config/yazi/doom-one.tmTheme"
+
+# : }}}
+
+
+# : Status {{{
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#21242b", bg = "#21242b" } # bg-alt
+
+# Mode
+mode_normal = { fg = "#282c34", bg = "#98be65", bold = true } # bg on green
+mode_select = { fg = "#282c34", bg = "#51afef", bold = true } # bg on blue
+mode_unset = { fg = "#282c34", bg = "#ff6c6b", bold = true } # bg on red
+
+# Progress
+progress_label = { fg = "#bbc2cf", bold = true } # fg
+progress_normal = { fg = "#98be65", bg = "#21242b" } # green on bg-alt
+progress_error = { fg = "#ff6c6b", bg = "#21242b" } # red on bg-alt
+
+# Permissions
+permissions_t = { fg = "#c678dd" } # magenta
+permissions_r = { fg = "#98be65" } # green
+permissions_w = { fg = "#da8548" } # orange
+permissions_x = { fg = "#51afef" } # blue
+permissions_s = { fg = "#5b6268" } # fg-alt
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border = { fg = "#5b6268" } # fg-alt
+title = {}
+value = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Select {{{
+
+[select]
+border = { fg = "#5b6268" } # fg-alt
+active = { fg = "#c678dd" } # magenta
+inactive = {}
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border = { fg = "#5b6268" } # fg-alt
+title = {}
+hovered = { underline = true }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+mask = { bg = "#21242b" } # bg-alt
+cand = { fg = "#51afef" } # blue
+rest = { fg = "#5b6268" } # fg-alt
+desc = { fg = "#c678dd" } # magenta
+separator = "  "
+separator_style = { fg = "#5b6268" } # fg-alt
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on = { fg = "#c678dd" } # magenta
+exec = { fg = "#51afef" } # blue
+desc = { fg = "#5b6268" } # fg-alt
+hovered = { bg = "#3f444a", bold = true } # grey
+footer = { fg = "#282c34", bg = "#bbc2cf" } # bg on fg
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+    # Images
+    { mime = "image/*", fg = "#46d9ff" }, # cyan
+
+    # Videos & Audio
+    { mime = "video/*", fg = "#ecbe7b" }, # yellow
+    { mime = "audio/*", fg = "#ecbe7b" }, # yellow
+
+    # Archives
+    { mime = "application/zip", fg = "#ff6c6b" }, # red
+    { mime = "application/gzip", fg = "#ff6c6b" }, # red
+    { mime = "application/x-tar", fg = "#ff6c6b" }, # red
+    { mime = "application/x-bzip", fg = "#ff6c6b" }, # red
+    { mime = "application/x-bzip2", fg = "#ff6c6b" }, # red
+    { mime = "application/x-7z-compressed", fg = "#ff6c6b" }, # red
+    { mime = "application/x-rar", fg = "#ff6c6b" }, # red
+
+    # Fallback
+    { name = "*", fg = "#bbc2cf" }, # fg
+    { name = "*/", fg = "#51afef" }, # blue for directories
+]
+
+# : }}}

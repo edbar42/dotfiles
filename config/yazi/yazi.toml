@@ -10,9 +10,6 @@ edit = [
 play = [
 	{ run = 'mpv "$@"', orphan = true },
 ]
-listen = [
-	{ run = 'rhythmbox "$@"', orphan = true },
-]
 open = [
 	{ run = 'xdg-open "$@"', desc = "Open" },
 ]
