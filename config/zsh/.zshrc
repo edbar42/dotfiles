@@ -1,6 +1,24 @@
-# fzf optionsnvim
+# fzf options
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
+
+# zsh plugins
+source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source /usr/share/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+
+# Zoxide as a replacement to cd
+eval "$(zoxide init --cmd cd zsh)"
+
+# Manage SSH sessions through keychain
+eval $(keychain -q --eval $HOME/personal/auth/ssh/github)
+
+# Activate mise-en-place
+eval "$(mise activate zsh)"
+
+# starship prompt
+eval "$(starship init zsh)"
 
 # Proper key mappings (HyperX Alloy Origins 60)
 bindkey '^[[3' prefix-2
@@ -8,9 +26,11 @@ bindkey '^[[3~' delete-char
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
+# Loads fzf-tab-completion by pressing tab
+bindkey '^I' fzf_completion
+
 # enables fzf autocomplete with fzf-tab
 autoload -Uz compinit && compinit
-source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # ----------------------------- ALIASES -----------------------------------
 # Base aliases
@@ -43,32 +63,6 @@ alias gotst="go test -v -cover ./..."
 alias see="wezterm imgcat"
 
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
-
-# ------------------------ ADDITIONAL PROGRAMS --------------------------
-# zsh plugins
-source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-
-# Zoxide as a replacement to cd
-eval "$(zoxide init --cmd cd zsh)"
-
-# Manage SSH sessions through keychain
-eval $(keychain -q --eval $HOME/personal/auth/ssh/github)
-
-# Activate mise-en-place
-eval "$(mise activate zsh)"
-
-# starship prompt
-eval "$(starship init zsh)"
-
-# pnpm
-export PNPM_HOME="/home/edbar/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 # ------------------------ STARTUP CALLS --------------------------
 wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
