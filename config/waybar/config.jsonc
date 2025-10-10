@@ -32,8 +32,12 @@
     "format": "{:L%H:%M}",
     "tooltip-format": "<big>{:L%A %d}</big>\n<tt><small>{calendar}</small></tt>",
     "locale": "pt_BR.UTF-8",
+    "calendar": {
+      "format": {
+        "today": "<span background='#ffaa88' color='#404040'><b>{}</b></span>",
+      },
+    },
   },
-
   "memory": {
     "format": "  {}%",
     "interval": 2,

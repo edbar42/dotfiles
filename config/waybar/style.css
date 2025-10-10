@@ -1,5 +1,5 @@
 /* Define colors */
-@define-color background #262626;
+@define-color background rgba(38, 38, 38, 0.6);
 @define-color surface #404040;
 @define-color foreground #e6e6e6;
 @define-color shadow_color #000066;
@@ -40,7 +40,7 @@ window#waybar {
 #tray,
 #custom-sep,
 #language {
-  background-color: transparent;
+  background-color: @background-color;
   padding: 0 5px;
   color: @foreground;
 }
