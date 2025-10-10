@@ -20,5 +20,13 @@ fi
 # Pick one at random
 selected="${files[RANDOM % ${#files[@]}]}"
 
+if [ "$(hostname)" = "desktop" ]; then
+  selected2="${files[RANDOM % ${#files[@]}]}"
+  swww img "$selected" --transition-type fade --transition-angle 135 -o DP-1
+  swww img "$selected2" --transition-type fade --transition-angle 135 -o HDMI-A-2
+else
+  swww img "$selected" --transition-type fade --transition-angle 135
+fi
+
+
 # Set wallpaper
-swww img "$selected" --transition-type fade --transition-angle 135
