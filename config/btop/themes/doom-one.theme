@@ -1,0 +1,58 @@
+# btop theme: "doom-one"
+# author: T3 Chat (based on Eduardo's color scheme)
+
+theme[main_bg]="#282c34"
+theme[main_fg]="#bbc2cf"
+theme[title]="#dfdfdf"
+theme[hi_fg]="#ff6c6b"
+theme-inactive_fg="#5b6268"
+theme[div_line]="#a9a1e1"
+theme[graph_text]="#bbc2cf"
+
+# CPU box
+theme[cpu_box]="#51afef"
+theme[cpu_lo_color]="#98be65"
+theme[cpu_mid_color]="#ecbe7b"
+theme[cpu_hi_color]="#ff6c6b"
+
+# Memory box
+theme[mem_box]="#c678dd"
+theme[mem_main]="#98be65"
+theme[mem_cache]="#ecbe7b"
+theme[mem_swap]="#ff6c6b"
+
+# Network box
+theme[net_box]="#46d9ff"
+theme[net_lo]="#98be65"
+theme[net_mid]="#ecbe7b"
+theme[net_hi]="#ff6c6b"
+
+# Process box
+theme[proc_box]="#ecbe7b"
+theme[proc_misc]="#ff6c6b"
+
+# Meters
+theme[meter_bg]="#98be65"
+theme[meter_fg]="#282c34"
+
+# Gradients for graphs
+gradient[cpu_lo_graph_start]="#98be65"
+gradient[cpu_lo_graph_end]="#98be65"
+gradient[cpu_mid_graph_start]="#ecbe7b"
+gradient[cpu_mid_graph_end]="#ecbe7b"
+gradient[cpu_hi_graph_start]="#ff6c6b"
+gradient[cpu_hi_graph_end]="#ff6c6b"
+
+gradient[mem_main_graph_start]="#98be65"
+gradient[mem_main_graph_end]="#98be65"
+gradient[mem_cache_graph_start]="#ecbe7b"
+gradient[mem_cache_graph_end]="#ecbe7b"
+gradient[mem_swap_graph_start]="#ff6c6b"
+gradient[mem_swap_graph_end]="#ff6c6b"
+
+gradient[net_lo_graph_start]="#98be65"
+gradient[net_lo_graph_end]="#98be65"
+gradient[net_mid_graph_start]="#ecbe7b"
+gradient[net_mid_graph_end]="#ecbe7b"
+gradient[net_hi_graph_start]="#ff6c6b"
+gradient[net_hi_graph_end]="#ff6c6b"
