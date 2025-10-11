@@ -7,5 +7,7 @@ config/yazi/flavors/
 # p10k auto generated files
 *.p10k.zsh
 
-# fzf-tab
-fzf-tab
+# ignore screen settings because hyprland has
+# great defaults and nwg-displays is too good
+config/hypr/monitors.conf
+config/hypr/workspaces.conf
