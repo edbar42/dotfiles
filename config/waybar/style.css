@@ -140,3 +140,16 @@ window#waybar {
 #language {
   color: @red;
 }
+
+#custom-temp {
+  padding: 0 6px;
+}
+#custom-temp.normal {
+  color: @foreground;
+}
+#custom-temp.warn {
+  color: #ffa066;
+} /* surimiOrange */
+#custom-temp.crit {
+  color: #e82424;
+} /* samuraiRed */

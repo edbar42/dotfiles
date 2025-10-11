@@ -89,14 +89,17 @@ fi
 # Get temperature
 TEMP=$(get_temperature "$SENSOR_CHIP")
 
-# Output temperature with polybar formatting
-if [ "$TEMP" -ge "$T_CRIT" ]; then
-    echo "%{F#E82424}${TEMP}°C%{F-}"  # Critical - samuraiRed
-elif [ "$TEMP" -ge "$T_WARN" ]; then
-    echo "%{F#FFA066}${TEMP}°C%{F-}"  # Warning - surimiOrange
-else
-    echo "${TEMP}°C"  # Normal - default color
+if [ -z "$TEMP" ]; then
+  echo '{"text":"--°C","class":"normal"}'
+  exit 0
 fi
 
+if [ "$TEMP" -ge "$T_CRIT" ]; then
+  echo "{\"text\":\"${TEMP}°C\",\"class\":\"crit\"}"
+elif [ "$TEMP" -ge "$T_WARN" ]; then
+  echo "{\"text\":\"${TEMP}°C\",\"class\":\"warn\"}"
+else
+  echo "{\"text\":\"${TEMP}°C\",\"class\":\"normal\"}"
+fi
 exit 0
 

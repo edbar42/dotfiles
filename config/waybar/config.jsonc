@@ -48,8 +48,11 @@
     "format": "󰻠 {}",
     "interval": 2,
     "on-click": "wezterm -e btop",
+    "format": "󰻠 {text}",
+    "format-warn": "󰻠 {%text}",
+    "format-critical": "󰻠 {%text}",
+    "return-type": "json",
   },
-
   "custom/gputemp": {
     "exec": "~/.config/i3/scripts/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
     "format": "󰢮 {}",
