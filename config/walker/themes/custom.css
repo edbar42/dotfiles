@@ -1,10 +1,8 @@
-/* === Color palette === */
-@define-color base            rgba(38, 38, 38, 1.0); /* $background */
-@define-color text            rgba(230, 230, 230, 1.0); /* $foreground */
-@define-color border          rgba(64, 64, 64, 1.0); /* $inactive_border */
-@define-color selected-base   rgba(230, 92, 92, 1.0); /* $accent_red */
-@define-color selected-text   rgba(230, 230, 230, 1.0); /* $background */
-
+/* === Color palette (Doom One) === */
+@define-color base            rgba(40, 44, 52, 1.0); /* $background = --bg #282c34 */
+@define-color text            rgba(187, 194, 207, 1.0); /* $foreground = --fg #bbc2cf */
+@define-color selected-base   rgba(204, 102, 204, 1.0); /* keep as-is (#cc66cc) */
+@define-color selected-text   rgba(187, 194, 207, 1.0); /* match text/fg */
 /* Reset all elements */
 #window,
 #box,
@@ -27,7 +25,7 @@ slider,
 }
 
 * {
-  font-family: monospace;
+  font-family: CaskaydiaCoveNF;
   font-size: 18px;
 }
 
@@ -35,13 +33,13 @@ slider,
 #window {
   background: transparent;
   color: @text;
+  box-shadow: 10px 5px 5px @border;
 }
 
 /* Main box container */
 #box {
-  background: alpha(@base, 0.5);
+  background: alpha(@base, 0.3);
   padding: 20px;
-  border: 2px solid @border;
   border-radius: 10px;
 }
 
@@ -52,34 +50,17 @@ slider,
   margin-bottom: 0;
 }
 
-/* Hide prompt icon */
-#prompt {
-  opacity: 0;
-  min-width: 0;
-  margin: 0;
-}
-
-/* Hide clear button */
-#clear {
-  opacity: 0;
-  min-width: 0;
-}
-
 /* Input field */
 #input {
   background: alpha(@base, 0.5);
   color: @text;
-  padding: 0;
+  padding: 8;
 }
 
 #input placeholder {
   opacity: 0.5;
   color: @text;
-}
-
-/* Hide typeahead */
-#typeahead {
-  opacity: 0;
+  padding: 10;
 }
 
 /* List */
@@ -141,26 +122,8 @@ child:hover #label {
   color: @selected-text;
 }
 
-/* Hide sub text */
-#sub {
-  opacity: 0;
-  font-size: 0;
-  min-height: 0;
-}
-
-/* Hide activation label */
-#activationlabel {
-  opacity: 0;
-  min-width: 0;
-}
-
 /* Scrollbar styling */
 scrollbar {
-  opacity: 0;
-}
-
-/* Hide spinner */
-#spinner {
   opacity: 0;
 }
 
@@ -170,14 +133,4 @@ scrollbar {
 .aiItem {
   opacity: 0;
   min-height: 0;
-}
-
-/* Bar entry (switcher) */
-#bar {
-  opacity: 0;
-  min-height: 0;
-}
-
-.barentry {
-  opacity: 0;
 }
