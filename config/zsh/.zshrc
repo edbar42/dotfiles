@@ -1,12 +1,10 @@
-# fzf options
-source /usr/share/fzf/completion.zsh
-source /usr/share/fzf/key-bindings.zsh
+# fzf integration
+source <(fzf --zsh)
 
 # zsh plugins
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-source /usr/share/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
@@ -20,16 +18,14 @@ eval "$(mise activate zsh)"
 # starship prompt
 eval "$(starship init zsh)"
 
+# fzf integration
+
 # Proper key mappings (HyperX Alloy Origins 60)
 bindkey '^[[3' prefix-2
 bindkey '^[[3~' delete-char
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
-# Loads fzf-tab-completion by pressing tab
-bindkey '^I' fzf_completion
-
-# enables fzf autocomplete with fzf-tab
 autoload -Uz compinit && compinit
 
 # ----------------------------- ALIASES -----------------------------------
@@ -52,8 +48,7 @@ alias ll="lsd -l"
 alias lla="lsd -la"
 alias lt="lsd --tree"
 alias procs="procs --tree"
-# alias vim="nvim -u NONE"
-alias bc="better-commits"
+alias vim="nvim -u NONE"
 alias lzd="lazydocker"
 
 # Go aliases
@@ -66,7 +61,3 @@ alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score -
 
 # ------------------------ STARTUP CALLS --------------------------
 wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
