@@ -70,7 +70,7 @@
 
   "network": {
     "format-wifi": "󰤨 {essid}",
-    "format-ethernet": "󰈀 ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "format-ethernet": "󰈀 {ifname}",
     "tooltip-format": "{ifname} via {gwaddr}",
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "󰤮 disconnected",
