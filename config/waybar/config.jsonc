@@ -47,12 +47,14 @@
     "exec": "~/.config/hypr/scripts/temperature",
     "format": "󰻠 {}",
     "interval": 2,
+    "on-click": "wezterm -e btop",
   },
 
   "custom/gputemp": {
     "exec": "~/.config/i3/scripts/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
     "format": "󰢮 {}",
     "interval": 2,
+    "on-click": "wezterm -e btop",
   },
 
   "battery": {
