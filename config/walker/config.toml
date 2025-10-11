@@ -8,6 +8,14 @@ close = ["Esc"]
 [search]
 placeholder = "What would you like?"
 
+[builtins.applications]
+launch_prefix = "uwsm app -- "
+prioritize_new = false
+context_aware = false
+show_sub_when_single = false
+history = false
+icon = ""
+hidden = true
 # Brings duplicates with a terminal symbol for some reason
 [builtins.runner]
 shell_config = ""
