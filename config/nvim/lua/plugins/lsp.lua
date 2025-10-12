@@ -311,6 +311,7 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
+				astro = { "prettier" },
 			},
 			formatters = {
 				prettier = {
