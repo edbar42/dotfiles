@@ -1,19 +1,40 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Menu options
-declare -A menu=(
-  ["  Shutdown"]="systemctl poweroff"
-  ["  Reboot"]="systemctl reboot"
-  ["  Hibernate"]="systemctl hibernate"
-  ["  Suspend"]="systemctl suspend"
-  ["  Lock"]="hyprlock"
-  ["  Logout"]="hyprctl dispatch exit"
+# Ordered items: "Label|Command"
+items=(
+  "  Power off|systemctl poweroff"
+  "  Restart|systemctl reboot"
+  "  Sleep|systemctl suspend"
+  "  Lock|hyprlock"
+  "  Log out|hyprctl dispatch exit"
+  "  Cancel|:"
 )
 
-wofi_cmd() {
-  wofi --dmenu --prompt "$1"
+build_menu() {
+  local i=0
+  for it in "${items[@]}"; do
+    label="${it%%|*}"
+    # Prefix with an HTML comment holding the index. Needs --allow-markup.
+    # Comment is invisible but remains in the returned string.
+    printf "<!--%02d-->%s\n" "$i" "$label"
+    i=$((i + 1))
+  done
 }
 
-selection=$(printf '%s\n' "${!menu[@]}" | sort | wofi_cmd "Action")
+wofi_cmd() {
+  wofi --dmenu --allow-markup --prompt "" \
+       --width 100% --height 100% --location center \
+       --cache-file /dev/null \
+       --style "$HOME/.config/wofi/powermenu.css"
+}
 
-eval "${menu[$selection]}"
+selection="$(build_menu | wofi_cmd)"
+[ -z "${selection:-}" ] && exit 0
+
+# Extract the index from the leading HTML comment
+idx="$(printf '%s' "$selection" | sed -n 's/^<!--\([0-9]\+\)-->.*/\1/p')"
+[ -z "$idx" ] && exit 1
+
+cmd="${items[$idx]#*|}"
+eval "$cmd"
