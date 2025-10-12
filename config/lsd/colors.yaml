@@ -1,0 +1,30 @@
+user: "#46d9ff" # cyan
+group: "#bbc2cf" # foreground
+
+permission:
+  read: "#51afef" # blue
+  write: "#a9a1e1" # violet
+  exec: "#46d9ff" # cyan
+  exec-sticky: "#46d9ff" # cyan
+  no-access: "#ff6c6b" # red
+
+date:
+  hour-old: "#7c8794" # comment 20% lighter (~lightened #5b6268)
+  day-old: "#5b6268" # comment
+  older: "#1e2127" # current line (alt bg)
+
+size:
+  none: "#1e2127" # current line
+  small: "#98be65" # green
+  medium: "#da8548" # orange
+  large: "#ff6c6b" # red
+
+inode:
+  valid: "#bbc2cf" # foreground
+  invalid: "#ff6c6b" # red
+
+links:
+  valid: "#46d9ff" # cyan
+  invalid: "#ff6c6b" # red
+
+tree-edge: "#51afef" # blue
