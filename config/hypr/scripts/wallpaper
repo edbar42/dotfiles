@@ -1,32 +1,136 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Choose wallpapers via Wofi and set with swww.
+# Flags:
+#   -s main|secondary   set only one output
+#   -a                  set both outputs
+#
+# No flags: auto mode (both on host "desktop", else default output).
+
 wallpapers_dir="$HOME/Pictures/wallpapers/horizontal"
+
+# Edit to match your monitor names
+MAIN_OUT="DP-1"
+SEC_OUT="HDMI-A-2"
+
+usage() {
+  echo "Usage: $(basename "$0") [-s main|secondary] [-a]" >&2
+  exit 1
+}
+
+mode="auto"  # auto | main | secondary | all
+
+# Parse flags
+while getopts ":s:a" opt; do
+  case "$opt" in
+    s)
+      case "$OPTARG" in
+        main) mode="main" ;;
+        secondary) mode="secondary" ;;
+        *) usage ;;
+      esac
+      ;;
+    a) mode="all" ;;
+    \? | :) usage ;;
+  esac
+done
 
 # Ensure swww is running
 if ! pgrep -x swww-daemon >/dev/null 2>&1; then
   swww init
 fi
 
-# Collect image files (adjust extensions if needed)
+# Collect image files
 mapfile -t files < <(find "$wallpapers_dir" -type f \
-  \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \))
+  \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \) \
+  | sort -V)
 
 if [ "${#files[@]}" -eq 0 ]; then
   echo "No images found in $wallpapers_dir" >&2
   exit 1
 fi
 
-# Pick one at random
-selected="${files[RANDOM % ${#files[@]}]}"
+# Build menu: show basenames but keep a hidden numeric index in an HTML comment.
+# IMPORTANT: no zero-padding on the index to avoid octal parsing issues.
+build_menu() {
+  local i=0
+  for f in "${files[@]}"; do
+    printf "<!--%d-->%s\n" "$i" "$(basename "$f")"
+    i=$((i+1))
+  done
+}
 
-if [ "$(hostname)" = "desktop" ]; then
-  selected2="${files[RANDOM % ${#files[@]}]}"
-  swww img "$selected" --transition-type fade --transition-angle 135 -o DP-1
-  swww img "$selected2" --transition-type fade --transition-angle 135 -o HDMI-A-2
-else
-  swww img "$selected" --transition-type fade --transition-angle 135
-fi
+# Run wofi and return the raw selected line (with the HTML comment)
+pick_one() {
+  build_menu | wofi --dmenu --allow-markup --prompt "Wallpaper" \
+    --width 70% --height 70% --location center \
+    --cache-file /dev/null
+}
 
+# Extract integer index from the HTML comment
+idx_from_sel() {
+  sed -n 's/^<!--\([0-9]\+\)-->.*/\1/p'
+}
 
-# Set wallpaper
+# swww transition options
+TRANS=(--transition-type fade --transition-angle 135)
+
+set_one() {
+  local out="$1" img="$2"
+  if [ -n "$out" ]; then
+    swww img "$img" "${TRANS[@]}" -o "$out"
+  else
+    swww img "$img" "${TRANS[@]}"
+  fi
+}
+
+case "$mode" in
+  main)
+    sel="$(pick_one)" || exit 0
+    idx="$(printf '%s' "$sel" | idx_from_sel)"
+    [ -z "$idx" ] && exit 1
+    set_one "$MAIN_OUT" "${files[$idx]}"
+    ;;
+  secondary)
+    sel="$(pick_one)" || exit 0
+    idx="$(printf '%s' "$sel" | idx_from_sel)"
+    [ -z "$idx" ] && exit 1
+    set_one "$SEC_OUT" "${files[$idx]}"
+    ;;
+  all)
+    printf "Pick MAIN wallpaper\n" >/dev/tty || true
+    sel1="$(pick_one)" || exit 0
+    idx1="$(printf '%s' "$sel1" | idx_from_sel)"
+    [ -z "$idx1" ] && exit 1
+
+    printf "Pick SECONDARY wallpaper\n" >/dev/tty || true
+    sel2="$(pick_one)" || exit 0
+    idx2="$(printf '%s' "$sel2" | idx_from_sel)"
+    [ -z "$idx2" ] && exit 1
+
+    set_one "$MAIN_OUT" "${files[$idx1]}"
+    set_one "$SEC_OUT"  "${files[$idx2]}"
+    ;;
+  auto)
+    if [ "$(hostname)" = "desktop" ]; then
+      printf "Pick MAIN wallpaper\n" >/dev/tty || true
+      s1="$(pick_one)" || exit 0
+      i1="$(printf '%s' "$s1" | idx_from_sel)"
+      [ -z "$i1" ] && exit 1
+
+      printf "Pick SECONDARY wallpaper\n" >/dev/tty || true
+      s2="$(pick_one)" || exit 0
+      i2="$(printf '%s' "$s2" | idx_from_sel)"
+      [ -z "$i2" ] && exit 1
+
+      set_one "$MAIN_OUT" "${files[$i1]}"
+      set_one "$SEC_OUT"  "${files[$i2]}"
+    else
+      sel="$(pick_one)" || exit 0
+      idx="$(printf '%s' "$sel" | idx_from_sel)"
+      [ -z "$idx" ] && exit 1
+      set_one "" "${files[$idx]}"   # default output
+    fi
+    ;;
+esac
