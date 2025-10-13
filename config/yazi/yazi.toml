@@ -14,7 +14,7 @@ open = [
 	{ run = 'xdg-open "$@"', desc = "Open" },
 ]
 read = [
-	{ run = 'zathura "$@"', desc = "Read", orphan = true }
+	{ run = 'sioyek "$@"', desc = "Read", orphan = true }
 ]
 [open]
 prepend_rules = [
