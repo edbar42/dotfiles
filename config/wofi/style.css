@@ -2,77 +2,92 @@
 window {
   margin: 0;
   border: none;
-  background-color: #282c34; /* background */
+  background-color: rgba(40, 44, 52, 0.85); /* translucent background */
   font-family: "CaskaydiaCove NF";
   font-size: 18px;
-  color: #bbc2cf; /* foreground */
+  color: #bbc2cf;
 }
 
-/* Outer and inner boxes should respect the same rounding */
+/* Outer box with subtle shadow */
 #outer-box {
   padding: 0;
   border-radius: 12px;
   background: transparent;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* Inner box with translucent darker background */
 #inner-box {
   margin: 8px;
   padding: 4px;
   border-radius: 10px;
-  background: #1e2127; /* inactive_tab_background */
-  /* No border here; borders at inner corners can create sharp seams */
+  background: rgba(30, 33, 39, 0.6);
 }
 
-/* Input */
+/* Input field */
 #input {
   margin: 8px;
   padding: 10px 12px;
-  border: none; /* remove border to prevent edge artifacts */
-  background-color: #1e2127; /* inactive_tab_background */
-  color: #bbc2cf; /* foreground */
+  border: none;
+  background-color: rgba(30, 33, 39, 0.8);
+  color: #bbc2cf;
   border-radius: 10px;
-  box-shadow: inset 0 0 0 1px #3f444a; /* color8 / inactive_border_color */
+  box-shadow: inset 0 0 0 1px rgba(63, 68, 74, 0.5);
+  transition: all 0.2s ease;
 }
 
-/* List/scroll area */
+#input:focus {
+  box-shadow: inset 0 0 0 1px #51afef;
+  background-color: rgba(30, 33, 39, 0.95);
+}
+
+/* List scroll area */
 #scroll {
   margin: 0;
   border-radius: 10px;
 }
 
-/* Entries */
+/* Entries with smooth transitions */
 #entry {
   padding: 10px 12px;
   margin: 2px 8px;
   border-radius: 8px;
-  color: #bbc2cf; /* foreground */
+  color: #bbc2cf;
   background: transparent;
+  transition: all 0.15s ease;
 }
 
 #entry:hover {
-  background: rgba(239, 239, 239, 0.05); /* color15 with alpha */
+  background: rgba(81, 175, 239, 0.12);
+  transform: translateX(2px);
 }
 
 #entry:selected {
-  background-color: #51afef; /* color4 / active_border_color */
-  color: #282c34; /* background */
-  /* keep selected radius consistent to avoid visible corners */
+  background-color: #51afef;
+  color: #282c34;
   border-radius: 8px;
-  /* optional subtle outline to separate from dark bg without hard edge */
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 2px 8px rgba(81, 175, 239, 0.3);
 }
 
-/* Text and icon */
+/* Text */
 #text {
   margin: 0;
 }
 
+/* Icon spacing */
 #img {
   margin-right: 8px;
+  opacity: 0.9;
 }
 
-/* Prompt */
+#entry:selected #img {
+  opacity: 1;
+}
+
+/* Prompt with subtle styling */
 #prompt {
   margin: 8px 8px 0 8px;
-  color: #5b6268; /* inactive_tab_foreground */
+  padding: 4px 0;
+  color: #5b6268;
+  border-bottom: 1px solid rgba(63, 68, 74, 0.3);
 }
