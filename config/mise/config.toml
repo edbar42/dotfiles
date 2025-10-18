@@ -1,8 +1,8 @@
 [tools]
-node = "22.10.0"
 usage = "latest"
 pnpm = "latest"
 java = "24"
+deno = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
