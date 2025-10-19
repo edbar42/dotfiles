@@ -9,5 +9,5 @@ config/yazi/flavors/
 
 # ignore screen settings because hyprland has
 # great defaults and nwg-displays is too good
-config/hypr/monitors.conf
-config/hypr/workspaces.conf
+/config/hypr/monitors.conf
+/config/hypr/workspaces.conf

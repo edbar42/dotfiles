@@ -1,0 +1,95 @@
+""" Map leader to space ---------------------
+let mapleader=" "
+let maplocalleader=" "
+
+set nu
+set relativenumber
+set so=15
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+set showmode
+
+""" Plugins  --------------------------------
+set surround
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set highlightedyank
+set matchit
+set which-key
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>"
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Mappings --------------------------------
+map Q gq
+
+" Redo with U
+nnoremap U <C-R>
+
+" Copy to system clipboard
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>Y ggVG"+y
+
+" Better splits navigation
+nmap <C-k> <C-w>k
+nmap <C-j> <C-w>j
+nmap <C-h> <C-w>h
+nmap <C-l> <C-w>l
+
+" IDEA specific options
+vmap J <Action>(MoveLineDown)
+vmap K <Action>(MoveLineUp)
+
+" Navigation settings
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
+
+nmap gD <Action>(GotoTypeDeclaration)
+
+nmap <leader>1 <Action>(GoToTab1)
+nmap <leader>2 <Action>(GoToTab2)
+nmap <leader>3 <Action>(GoToTab3)
+nmap <leader>4 <Action>(GoToTab4)
+nmap <leader>5 <Action>(GoToTab5)
+nmap <leader>6 <Action>(GoToTab6)
+nmap <leader>7 <Action>(GoToTab7)
+nmap <leader>8 <Action>(GoToTab8)
+nmap <leader>9 <Action>(GoToTab9)
+
+nmap [e <Action>(GotoPreviousError)
+nmap ]e <Action>(GotoNextError)
+
+nmap <C-a> ggVG"+y
+
+" Searching options
+nmap <leader>ps <Action>(SearchEverywhere)
+nmap <leader>sf <Action>(GotoFile)
+
+" Terminal actions
+nmap <leader>tt <Action>(ActivateTerminalToolWindow)
+
+" New ...
+map <leader>nn <Action>(NewElement)
+map <leader>nd <Action>(NewDir)
+map <leader>nf <Action>(NewFile)
+map <leader>np <Action>(NewProject)
+map <leader>nm <Action>(NewModule)
+
+
+" todo
+nmap <leader>td <Action>(ActivateTODOToolWindow)
+
+" Debugger options
+nmap <leader>b <Action>(ToggleLineBreakpoint)
