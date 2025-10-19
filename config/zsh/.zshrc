@@ -62,5 +62,6 @@ alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score -
 # ------------------------ STARTUP CALLS --------------------------
 wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
 
-# bun completions
-[ -s "/home/edbar/.bun/_bun" ] && source "/home/edbar/.bun/_bun"
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
