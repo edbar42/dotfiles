@@ -95,10 +95,6 @@
         {
           "label": "",
           "command": "hyprlock"
-        },
-        {
-          "label": "",
-          "command": "~/.config/hypr/scripts/wlogout.sh"
         }
       ]
     }
