@@ -31,6 +31,8 @@ set ideajoin
 set ideastatusicon=gray
 set idearefactormode=keep
 
+set notimeout
+
 """ Mappings --------------------------------
 map Q gq
 
@@ -77,6 +79,10 @@ nmap <C-a> ggVG"+y
 nmap <leader>ps <Action>(SearchEverywhere)
 nmap <leader>sf <Action>(GotoFile)
 
+" Splitting options
+map <leader>vv <Action>(SplitVertically)
+map <leader>hh <Action>(SplitHorizontally)
+
 " Terminal actions
 nmap <leader>tt <Action>(ActivateTerminalToolWindow)
 
@@ -93,3 +99,7 @@ nmap <leader>td <Action>(ActivateTODOToolWindow)
 
 " Debugger options
 nmap <leader>b <Action>(ToggleLineBreakpoint)
+
+" Refactoring menu
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>re <Action>(Refactorings.QuickListPopupAction)
