@@ -1,0 +1,225 @@
+# oxker config file
+# oxker will also read .jsonc and .json files which use the same key/value structure & format as this file
+# Every key is optional, with defaults that oxker will choose if missing or invalid
+# The `--config-file` cli argument can be used to load configuration files from any readable location
+
+# Docker update interval in ms, minimum effectively 1000
+docker_interval = 1000
+
+# Attempt to colorize the logs, conflicts with "raw"
+color_logs = true
+
+# Show raw logs, default is to remove ansi formatting, conflicts with "color"
+raw_logs = false
+
+# Show self (the oxker container) when running as a docker container
+show_self = false
+
+# Show std_err in logs
+show_std_err = true
+
+# Show a timestamp for every log entry
+show_timestamp = true
+
+# Don't draw gui - for debugging - mostly pointless
+gui = true
+
+# Docker host location
+host = "/var/run/docker.sock"
+
+# Display the container logs timestamp with a given timezone, if timezone is unknown, defaults to UTC
+timezone = "Etc/UTC"
+
+# Display the timestamp in a custom format, if given option is invalid, it will default to %Y-%m-%dT%H:%M:%S.%8f -> 2025-02-18T12:34:56.012345678Z
+# *Should* accept any valid strftime string up to 32 chars, see https://strftime.org/
+timestamp_format = "%Y-%m-%dT%H:%M:%S.%8f"
+
+# Directory for saving exported logs, defaults to `$HOME`, this is automatically *correctly* calculated for Linux, Mac, and Windows
+save_dir = "$HOME/oxker/logs/"
+
+# Force use of docker cli when execing into containers, honestly mostly pointless
+use_cli = false
+
+# Show the logs section - this can be changed during operation with the log_section_toggle key
+show_logs = true
+
+# Use case-sensitive matching for logs
+log_search_case_sensitive = true
+
+#################
+# Custom Keymap #
+#################
+
+# Available keys are;
+# 1) a-z and A-Z
+# 2) 0-9
+# WARNING if using the \ key, it needs to be escaped, e.g. log_section_toggle = ["\\"]
+# 3) / \ , . # ' [ ] ; = -
+# 3) F1-F12
+# 4) backspace, tab, backtab, delete, end, esc, home, insert, pagedown, pageup, left, right, up, down
+
+# Each definition can have two keys associated with it
+
+# WARNING "scroll_many" only accepts control, alt, shift, with no secondary option
+
+# If any key clashes are found, oxker will revert to it's default keymap
+
+[keymap]
+# Clear any popup boxes, filter panel, or help panel
+clear = ["esc"]
+# Cancel delete - clear also works here
+delete_deny = ["n"]
+# Confirm Delete
+delete_confirm = ["y"]
+# Exec into the selected container
+exec = ["E"]
+# Enter filter mode
+filter_mode = ["/"]
+
+# Enter log search mode
+log_search_mode = ["#"]
+
+# Quit at anytime
+quit = ["q"]
+# Save logs of selected container to file on disk
+save_logs = ["S"]
+# scroll down a list by one item
+scroll_down = ["j"]
+
+# scroll down to the end of a list
+scroll_end = ["J"]
+# Modifier to scroll by 10 lines instead of one, used in conjunction with scroll_up/scroll_down
+scroll_many = ["control"]
+# scroll up to the start of a list
+scroll_start = ["K"]
+# scroll up a list by one item
+scroll_up = ["k"]
+# Horizontal scroll of the logs
+log_scroll_forward = ["l"]
+log_scroll_back = ["h"]
+# Select next panel
+select_next_panel = ["tab"]
+# Select previous panel
+select_previous_panel = ["backtab"]
+# Sort the containers based on specific column
+sort_by_name = ["1"]
+sort_by_state = ["2"]
+sort_by_status = ["3"]
+sort_by_cpu = ["4"]
+sort_by_memory = ["5"]
+sort_by_id = ["6"]
+sort_by_image = ["7"]
+sort_by_rx = ["8"]
+sort_by_tx = ["9"]
+# Reset the sorted containers
+sort_reset = ["0"]
+# Toggle the help panel
+toggle_help = ["H"]
+# Toggle mouse capture
+toggle_mouse_capture = ["m"]
+# Reduce the height of the logs list section
+log_section_height_decrease = ["-"]
+log_section_height_increase = ["+"]
+# Toggle visibility of the log section
+log_section_toggle = ["\\"]
+
+# Force a complete clear & redraw of the screen
+force_redraw = ["f"]
+
+#################
+# One Dark Pro  #
+#################
+
+[colors.headers_bar]
+background = "#282C34"      # match editor bg
+loading_spinner = "#B6BDCA" # light gray spinner
+text = "#ABB2BF"            # foreground
+text_selected = "#E5C07B"   # yellow accent for selected header
+
+[colors.borders]
+selected = "#C678DD"   # pink/purple accent for focused border
+unselected = "#5C6370" # muted gray for unfocused
+
+[colors.containers]
+icon = "#ABB2BF"
+background = "reset"
+text = "#61AFEF"       # names/ids/images in blue
+text_rx = "#E5C07B"    # yellow for RX
+text_tx = "#D19A66"    # orange for TX
+
+[colors.logs]
+background = "reset"
+text = "reset"         # inherit terminal; change to "#ABB2BF" if you want fixed fg
+
+[colors.container_state]
+dead = "#E06C75"              # red
+exited = "#E06C75"            # red
+paused = "#E5C07B"            # yellow
+removing = "#BE5046"          # lightred-ish, closer to OD error shade
+restarting = "#98C379"        # green (keeps it positive/progressy)
+running_healthy = "#98C379"   # green
+running_unhealthy = "#D19A66" # orange (warning)
+unknown = "#E06C75"           # red
+
+[colors.filter]
+background = "reset"
+text = "#5C6370"                 # muted gray
+selected_filter_background = "#3A3F4B" # darkened bg for selection
+selected_filter_text = "#ABB2BF"       # foreground
+highlight = "#C678DD"            # pink highlight
+
+[colors.log_search]
+background = "reset"
+text = "#5C6370"
+button_text = "#282C34"         # dark text on highlighted buttons
+highlight = "#C678DD"
+
+[colors.commands]
+background = "reset"
+pause = "#E5C07B"    # yellow
+restart = "#C678DD"  # pink/purple
+stop = "#E06C75"     # red
+delete = "#5C6370"   # gray
+resume = "#61AFEF"   # blue
+start = "#98C379"    # green
+
+[colors.chart_cpu]
+background = "reset"
+border = "#5C6370"
+title = "#98C379"    # green while running
+max = "#D19A66"      # orange for peaks
+points = "#C678DD"   # pink points
+y_axis = "#B6BDCA"
+
+[colors.chart_memory]
+background = "reset"
+border = "#5C6370"
+title = "#98C379"
+max = "#D19A66"
+points = "#56B6C2"   # cyan points
+y_axis = "#B6BDCA"
+
+[colors.chart_ports]
+background = "reset"
+border = "#5C6370"
+title = "#98C379"
+headings = "#E5C07B" # yellow headings
+text = "#ABB2BF"
+
+[colors.popup_help]
+background = "#282C34"
+text = "#ABB2BF"
+text_highlight = "#C678DD"
+
+[colors.popup_info]
+background = "#282C34"
+text = "#61AFEF"     # informational blue
+
+[colors.popup_delete]
+background = "#282C34"
+text = "#ABB2BF"
+text_highlight = "#E06C75" # red highlight for dangerous action
+
+[colors.popup_error]
+background = "#282C34"
+text = "#E06C75"     # red text on dark bg

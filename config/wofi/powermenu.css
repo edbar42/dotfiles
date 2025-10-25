@@ -1,209 +1,126 @@
-/* Palette */
+/* One Dark Pro palette */
 :root {
-  --fg: #bbc2cf;
-  --fg-weak: #5b6268;
+  --fg: #abb2bf;
+  --fg-weak: #5c6370;
   --bg: #282c34; /* base */
   --bg-alt: #1e2127; /* card */
-  --bg-dark: #16181c; /* deepest */
+  --bg-dark: #16181c;
 
-  --blue: #51afef; /* accent */
-  --violet: #a9a1e1; /* accent 2 */
-  --cyan: #46d9ff;
-  --green: #98be65; /* restart/ok */
-  --yellow: #ecbe7b;
-  --orange: #da8548;
-  --red: #ff6c6b; /* power off / sos */
+  --blue: #61afef;
+  --violet: #c678dd;
+  --cyan: #56b6c2;
+  --green: #98c379;
+  --yellow: #e5c07b;
+  --orange: #d19a66;
+  --red: #e06c75;
 
   --border: #3f444a;
-  --dim-overlay: rgba(22, 24, 28, 0.7); /* screen dimmer */
-  --ring: rgba(81, 175, 239, 0.45);
+  --ring: rgba(97, 175, 239, 0.45);
 }
 
-/* Full-screen dimmed backdrop */
+/* Window is just the card; no full-screen overlay */
 window {
   margin: 0;
   padding: 0;
   border: none;
   border-radius: 0;
-  background: transparent; /* covers entire screen */
+  background: transparent;
   box-shadow: none;
 
   font-family: "CaskaydiaCove NF", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--fg);
 }
 
-/* Layout containers */
+/* Outer box fills the small window; align items vertically */
 #outer-box {
   margin: 0;
   padding: 0;
   background: transparent;
   border: none;
-  border-radius: 0;
 
-  /* Center column */
   display: flex;
-  align-items: center;
+  align-items: center; /* vertical center inside small window */
   justify-content: center;
 }
 
+/* Inner card */
 #inner-box {
-  /* Central column wrapper, like Android vertical stack */
   margin: 0;
-  padding: 24px;
-  max-width: 90vw;
-  background: transparent; /* we keep only buttons visible, no card */
-  border: none;
+  padding: 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
-/* Optional title prompt (shown by --prompt) */
+/* Optional title (shown via --prompt "") */
 #prompt {
-  margin: 8px 8px 12px 8px;
+  margin: 6px 6px 10px 6px;
   color: var(--fg);
   font-weight: 700;
   letter-spacing: 0.2px;
-  text-align: center;
-  font-size: 18px;
+  text-align: left;
+  font-size: 16px;
 }
 
-/* Hide input in dmenu mode but keep structure tidy */
+/* Hide input in dmenu mode */
 #input {
   display: none;
 }
 
-/* Scroll area (column of buttons) */
+/* Scroll column */
 #scroll {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
 }
 
-/* Generic button style (entries) */
+/* Entry buttons: compact vertical list */
 #entry {
-  /* Make each entry a tile */
-  margin: 10px;
-  padding: 18px 20px;
-  min-width: 220px; /* adjust for how many columns you set */
-  min-height: 88px; /* taller, button-like */
-  border-radius: 20px;
+  margin: 6px 4px;
+  padding: 10px 12px;
+  min-width: 220px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center; /* center icon+text */
   gap: 10px;
-  text-align: center;
+  text-align: left;
+  color: var(--fg);
+  background: #2b3038; /* slight lift from bg-alt */
+  border: 1px solid transparent;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
 }
 
-/* Icon size hint (if Wofi supplies #img) */
 #img {
-  margin-right: 10px;
+  margin-right: 6px;
 }
 
-/* Label */
 #text {
   margin: 0;
 }
 
-/* Hover state */
+/* Hover and selected */
 #entry:hover {
-  background: rgba(40, 44, 52, 0.95);
-  border-color: rgba(81, 175, 239, 0.35);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  background: #313641;
+  border-color: rgba(97, 175, 239, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-/* Selected state = stronger accent ring */
 #entry:selected {
-  background: linear-gradient(
-    180deg,
-    rgba(40, 44, 52, 1) 0%,
-    rgba(30, 33, 39, 1) 100%
-  );
+  background: linear-gradient(180deg, #2f3440 0%, #262a33 100%);
   border: 1px solid var(--ring);
   box-shadow:
-    0 0 0 2px rgba(81, 175, 239, 0.25),
-    0 12px 28px rgba(0, 0, 0, 0.45);
+    0 0 0 2px rgba(97, 175, 239, 0.25),
+    0 10px 22px rgba(0, 0, 0, 0.35);
   color: var(--fg);
 }
 
-/* Per-action coloring: match Android buttons using Doom colors */
-#entry:nth-child(1) {
-  /* Power off */
-  background: rgba(255, 108, 107, 0.16);
-  border-color: rgba(255, 108, 107, 0.45);
-}
-#entry:nth-child(1):hover,
-#entry:nth-child(1):selected {
-  background: rgba(255, 108, 107, 0.22);
-  border-color: rgba(255, 108, 107, 0.65);
-}
-
-#entry:nth-child(2) {
-  /* Restart */
-  background: rgba(152, 190, 101, 0.16);
-  border-color: rgba(152, 190, 101, 0.45);
-}
-#entry:nth-child(2):hover,
-#entry:nth-child(2):selected {
-  background: rgba(152, 190, 101, 0.22);
-  border-color: rgba(152, 190, 101, 0.65);
-}
-
-#entry:nth-child(3) {
-  /* Hibernate */
-  background: rgba(169, 161, 225, 0.14);
-  border-color: rgba(169, 161, 225, 0.45);
-}
-#entry:nth-child(3):hover,
-#entry:nth-child(3):selected {
-  background: rgba(169, 161, 225, 0.2);
-  border-color: rgba(169, 161, 225, 0.65);
-}
-
-#entry:nth-child(4) {
-  /* Sleep */
-  background: rgba(81, 175, 239, 0.14);
-  border-color: rgba(81, 175, 239, 0.45);
-}
-#entry:nth-child(4):hover,
-#entry:nth-child(4):selected {
-  background: rgba(81, 175, 239, 0.2);
-  border-color: rgba(81, 175, 239, 0.65);
-}
-
-#entry:nth-child(5) {
-  /* Lock */
-  background: rgba(70, 217, 255, 0.12);
-  border-color: rgba(70, 217, 255, 0.45);
-}
-#entry:nth-child(5):hover,
-#entry:nth-child(5):selected {
-  background: rgba(70, 217, 255, 0.18);
-  border-color: rgba(70, 217, 255, 0.65);
-}
-
-#entry:nth-child(6) {
-  /* Log out */
-  background: rgba(236, 190, 123, 0.14);
-  border-color: rgba(236, 190, 123, 0.45);
-}
-#entry:nth-child(6):hover,
-#entry:nth-child(6):selected {
-  background: rgba(236, 190, 123, 0.2);
-  border-color: rgba(236, 190, 123, 0.65);
-}
-
-#entry:nth-child(7) {
-  /* Cancel */
-  background: rgba(63, 68, 74, 0.18);
-  border-color: rgba(63, 68, 74, 0.55);
-}
-#entry:nth-child(7):hover,
-#entry:nth-child(7):selected {
-  background: rgba(63, 68, 74, 0.26);
-  border-color: rgba(63, 68, 74, 0.75);
-}
-
-/* Keyboard focus ring */
+/* Focus ring */
 :focus {
   outline: 2px solid transparent;
   box-shadow: 0 0 0 2px var(--ring);
-  border-radius: 12px;
+  border-radius: 10px;
 }

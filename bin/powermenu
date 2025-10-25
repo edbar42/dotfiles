@@ -5,9 +5,7 @@ set -euo pipefail
 items=(
   "  Power off|systemctl poweroff"
   "  Restart|systemctl reboot"
-  "  Sleep|systemctl suspend"
   "  Lock|hyprlock"
-  "  Log out|hyprctl dispatch exit"
   "  Cancel|:"
 )
 
@@ -24,7 +22,8 @@ build_menu() {
 
 wofi_cmd() {
   wofi --dmenu --allow-markup --prompt "" \
-       --width 100% --height 100% --location center \
+       --width 360 --height 60% \
+       --location right --y center --x-margin 32 \
        --cache-file /dev/null \
        --style "$HOME/.config/wofi/powermenu.css"
 }

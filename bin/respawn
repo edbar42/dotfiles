@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# respawn: kill a service/process by name, then start it via Hyprland's dispatcher.
+# Usage: respawn <process_name_or_pattern>
+
+set -euo pipefail
+
+err() {
+  printf "ERROR: %s\n" "$*" >&2
+}
+
+if [[ $# -ne 1 ]]; then
+  err "expected exactly 1 argument: the process/service name to respawn"
+  err "usage: respawn <process_name_or_pattern>"
+  exit 2
+fi
+
+name="$1"
+
+# Try to kill matching processes. Use -x to match exact name if you prefer strictness.
+# -e: echo the names of processes killed
+# -f: match against full command line (useful for scripts/wrappers)
+# You can tune these flags; here we try name and fallback to full cmdline.
+killed=false
+
+# First attempt: exact process name match
+if pkill -e -x -- "$name" 2>/dev/null; then
+  killed=true
+else
+  # Second attempt: match in full command line
+  if pkill -e -f -- "$name" 2>/dev/null; then
+    killed=true
+  fi
+fi
+
+if [[ "$killed" == false ]]; then
+  err "could not find any running process matching \"$name\" to kill"
+  exit 1
+fi
+
+# Launch via Hyprland dispatcher
+# Note: requires Hyprland + hyprctl in PATH and a running Hyprland session.
+if ! command -v hyprctl >/dev/null 2>&1; then
+  err "hyprctl not found in PATH. Is Hyprland installed?"
+  exit 1
+fi
+
+# Use `dispatch exec <cmd>`; quote name so it can be a command with args.
+# If you intend 'name' to be a desktop file or have spaces, keep it as a single string.
+if ! hyprctl dispatch exec "$name"; then
+  err "failed to execute \"$name\" via hyprctl dispatch exec"
+  exit 1
+fi

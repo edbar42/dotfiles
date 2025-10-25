@@ -8,9 +8,11 @@ fi
 
 target="$1"
 
-echo "Attempting to move $target to dotfiles"
+echo "Moving to move $target to dotfiles"
 
 mv ~/.config/"$target" ~/dotfiles/config/
+
+tidy
 
 exit 0
 

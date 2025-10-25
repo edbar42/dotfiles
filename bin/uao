@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check if an argument was provided
 if [ $# -eq 0 ]; then
@@ -13,5 +13,5 @@ mv $target $target_dir
 pushd $target_dir
 unzip $target
 cd "$target_dir/$(basename $target .zip)"
-idea .&
+intellij-idea-ultimate-edition &
 

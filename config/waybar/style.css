@@ -141,15 +141,16 @@ window#waybar {
   color: @red;
 }
 
-#custom-temp {
-  padding: 0 6px;
-}
-#custom-temp.normal {
-  color: @foreground;
-}
-#custom-temp.warn {
+#custom-cputemp.warn {
   color: #ffa066;
 } /* surimiOrange */
-#custom-temp.crit {
+#custom-cputemp.crit {
+  color: #e82424;
+} /* samuraiRed */
+
+#custom-gputemp.warn {
+  color: #ffa066;
+} /* surimiOrange */
+#custom-gputemp.crit {
   color: #e82424;
 } /* samuraiRed */

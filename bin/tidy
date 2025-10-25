@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -u
+
+DOTFILES_DIR="$HOME/dotfiles"
+CONFIG_DIR="$HOME/.config"
+BIN_DIR="$HOME/.bin"
+
+err() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+echo "Linking dotfiles..."
+stow -v . -d "$DOTFILES_DIR/config" -t "$CONFIG_DIR" || err "Failed to update dotfiles"
+
+echo "Updating scripts..."
+stow -v . -d "$DOTFILES_DIR/bin" -t "$BIN_DIR" || err "Failed to update scripts"
+
+echo "Done."

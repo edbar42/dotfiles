@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Change this to match the "signal" field in Waybar (custom/volume)
+WAYBAR_SIGNAL=5
+
+# Find default sink name reliably
+default_sink() {
+  pactl info | awk -F': ' '/Default Sink/{print $2}'
+}
+
+# Get volume percentage (max over all channels)
+get_volume() {
+  local sink vol
+  sink=$(default_sink)
+  # Example line: Volume: front-left: 65536 / 100% / 0.00 dB, ...
+  vol=$(pactl get-sink-volume "$sink" \
+    | awk -F'/' '{gsub(/[% ]/,"",$2); print $2}' \
+    | sort -nr | head -n1)
+  # Fallback to 0 if empty
+  printf "%s" "${vol:-0}"
+}
+
+# Is muted? -> true/false
+is_muted() {
+  local sink
+  sink=$(default_sink)
+  pactl get-sink-mute "$sink" | awk '{print tolower($2)}'
+}
+
+# Emit JSON for Waybar
+print_status_json() {
+  local vol mute icon text
+  vol=$(get_volume)
+  mute=$(is_muted)
+
+  if [[ "$mute" == "yes" ]]; then
+    icon=" "
+    text="MUTED"
+  else
+    if (( vol >= 66 )); then icon=""
+    elif (( vol >= 33 )); then icon="󰕾"
+    else icon=" "; fi
+    text="${vol}%"
+  fi
+
+  printf '{"text":"%s","tooltip":"Volume: %s","class":["%s"],"percentage":%d}\n' \
+    "$icon $text" "$text" "$([[ $mute == yes ]] && echo muted || echo active)" "$vol"
+}
+
+bump() {
+  local delta="$1" cap="${2:-125}"
+  local sink vol
+  sink=$(default_sink)
+  vol=$(get_volume)
+  if [[ "$delta" == "+"* ]]; then
+      pactl set-sink-volume "$sink" "+1%"
+  else
+    pactl set-sink-volume "$sink" "-1%"
+  fi
+}
+
+notify_waybar() {
+  pkill -RTMIN+$WAYBAR_SIGNAL waybar 2>/dev/null || true
+}
+
+usage() {
+  echo "Usage: $0 {inc|dec|mute|status}"
+}
+
+cmd="${1:-status}"
+
+case "$cmd" in
+  status)
+    print_status_json
+    ;;
+  inc)
+    bump "+1%" 150
+    notify_waybar
+    ;;
+  dec)
+    bump "-1%" 150
+    notify_waybar
+    ;;
+  mute)
+    pactl set-sink-mute "$(default_sink)" toggle
+    notify_waybar
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac
