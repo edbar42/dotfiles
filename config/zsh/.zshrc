@@ -47,9 +47,8 @@ alias la="lsd -A"
 alias ll="lsd -l"
 alias lla="lsd -la"
 alias lt="lsd --tree"
-alias procs="procs --tree"
 alias vim="nvim -u NONE"
-alias lzd="lazydocker"
+alias lzd="oxker"
 
 # Go aliases
 alias gotst="go test -v -cover ./..."
