@@ -51,11 +51,5 @@ return { -- Highly extendable fuzzy finder
 		vim.keymap.set("n", "<leader><leader>", function()
 			builtin.buffers(ivy)
 		end, { desc = "[ ] Find existing buffers" })
-
-		vim.keymap.set("n", "<leader>sn", function()
-			builtin.find_files({
-				vim.fn.stdpath("~/.config/nvim"),
-			})
-		end, { desc = "[S]earch [N]eovim files" })
 	end,
 }
