@@ -12,4 +12,4 @@ export MANPAGER="nvim +Man!"
 # pnpm settings
 export PNPM_HOME="$HOME/.local/share/pnpm"
 
-export PATH="$PATH:$HOME/.bin:$HOME/go/bin/:$PNPM_HOME"
+export PATH="$PATH:$HOME/.bin:$HOME/go/bin/:$PNPM_HOME:$HOME/.local/bin"
