@@ -11,3 +11,7 @@ config/yazi/flavors/
 # great defaults and nwg-displays is too good
 /config/hypr/monitors.conf
 /config/hypr/workspaces.conf
+
+# gh cli secrets
+/config/gh/hosts.yaml
+/config/gh/hosts.yml
