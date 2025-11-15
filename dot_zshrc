@@ -49,6 +49,7 @@ alias lla="lsd -la"
 alias lt="lsd --tree"
 alias vim="nvim -u NONE"
 alias lzd="oxker"
+alias ccd="chezmoi cd"
 
 # Go aliases
 alias gotst="go test -v -cover ./..."
