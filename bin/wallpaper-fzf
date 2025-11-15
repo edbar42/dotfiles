@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Choose wallpapers via fzf with image preview and set with swww.
+# Flags:
+#   -s main|secondary   set only one output
+#   -a                  set both outputs
+#
+# No flags: auto mode (both on host "desktop", else default output).
+
+wallpapers_dir="$HOME/Pictures/wallpapers/horizontal"
+
+# Edit to match your monitor names
+MAIN_OUT="DP-1"
+SEC_OUT="HDMI-A-2"
+
+usage() {
+  echo "Usage: $(basename "$0") [-s main|secondary] [-a]" >&2
+  exit 1
+}
+
+mode="auto"  # auto | main | secondary | all
+
+# Parse flags
+while getopts ":s:a" opt; do
+  case "$opt" in
+    s)
+      case "$OPTARG" in
+        main) mode="main" ;;
+        secondary) mode="secondary" ;;
+        *) usage ;;
+      esac
+      ;;
+    a) mode="all" ;;
+    \? | :) usage ;;
+  esac
+done
+
+# Ensure swww is running
+if ! pgrep -x swww-daemon >/dev/null 2>&1; then
+  swww init
+fi
+
+# Change to wallpapers directory
+cd "$wallpapers_dir" || exit 1
+
+# Collect image files
+mapfile -t files < <(find . -maxdepth 1 -type f \
+  \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' \) \
+  -printf '%f\n' | sort -V)
+
+if [ "${#files[@]}" -eq 0 ]; then
+  echo "No images found in $wallpapers_dir" >&2
+  exit 1
+fi
+
+# Determine best preview method
+# chafa with sixel protocol works well with WezTerm and is fast
+if command -v chafa &>/dev/null; then
+  PREVIEW_CMD="chafa -f sixel -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
+elif command -v wezterm &>/dev/null; then
+  PREVIEW_CMD="wezterm imgcat {}"
+elif command -v kitty &>/dev/null && [ "$TERM" = "xterm-kitty" ]; then
+  PREVIEW_CMD="kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place=\${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {}"
+else
+  # Fallback to identify (ImageMagick) for basic info
+  PREVIEW_CMD="identify {} 2>/dev/null || echo 'No preview available'"
+fi
+
+# Run fzf with image preview
+# Takes optional prompt message
+pick_one() {
+  local prompt="${1:-Wallpaper}"
+  printf '%s\n' "${files[@]}" | fzf \
+    --prompt="$prompt > " \
+    --preview="$PREVIEW_CMD" \
+    --preview-window=right:60%:wrap \
+    --layout=reverse \
+    --border \
+    --height=100% \
+    --bind=tab:down,shift-tab:up
+}
+
+# swww transition options
+TRANS=(--transition-type fade --transition-angle 135)
+
+set_one() {
+  local out="$1" img="$2"
+  # Convert relative path to absolute for swww
+  local abs_img="$wallpapers_dir/$img"
+  if [ -n "$out" ]; then
+    swww img "$abs_img" "${TRANS[@]}" -o "$out"
+  else
+    swww img "$abs_img" "${TRANS[@]}"
+  fi
+}
+
+case "$mode" in
+  main)
+    sel="$(pick_one "Main Monitor")" || exit 0
+    set_one "$MAIN_OUT" "$sel"
+    ;;
+  secondary)
+    sel="$(pick_one "Secondary Monitor")" || exit 0
+    set_one "$SEC_OUT" "$sel"
+    ;;
+  all)
+    echo "Pick MAIN wallpaper"
+    sel1="$(pick_one "Main Monitor")" || exit 0
+
+    echo "Pick SECONDARY wallpaper"
+    sel2="$(pick_one "Secondary Monitor")" || exit 0
+
+    set_one "$MAIN_OUT" "$sel1"
+    set_one "$SEC_OUT"  "$sel2"
+    ;;
+  auto)
+    if [ "$(hostname)" = "desktop" ]; then
+      echo "Pick MAIN wallpaper"
+      s1="$(pick_one "Main Monitor")" || exit 0
+
+      echo "Pick SECONDARY wallpaper"
+      s2="$(pick_one "Secondary Monitor")" || exit 0
+
+      set_one "$MAIN_OUT" "$s1"
+      set_one "$SEC_OUT"  "$s2"
+    else
+      sel="$(pick_one "Wallpaper")" || exit 0
+      set_one "" "$sel"
+    fi
+    ;;
+esac
