@@ -6,7 +6,6 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
-			{ "folke/neodev.nvim", opts = {} },
 		},
 
 		config = function()
@@ -21,9 +20,7 @@ return {
 				severity_sort = true,
 				float = {
 					border = "rounded",
-					source = "always",
-					header = "",
-					prefix = "",
+					source = "if_many",
 				},
 			})
 

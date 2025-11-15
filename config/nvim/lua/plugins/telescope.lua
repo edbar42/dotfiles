@@ -4,10 +4,20 @@ return { -- Highly extendable fuzzy finder
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{ "nvim-tree/nvim-web-devicons", enabled = true },
+		"debugloop/telescope-undo.nvim",
 	},
 
 	config = function()
 		require("telescope").setup({
+			extensions = {
+				undo = {
+					side_by_side = true,
+					layout_strategy = "vertical",
+					layout_config = {
+						preview_height = 0.6,
+					},
+				},
+			},
 			defaults = {
 				winblend = 20,
 				previewer = true,
@@ -16,6 +26,7 @@ return { -- Highly extendable fuzzy finder
 
 		-- Enable Telescope extensions if they are installed
 		pcall(require("telescope").load_extension, "fzf")
+		pcall(require("telescope").load_extension, "undo")
 
 		local builtin = require("telescope.builtin")
 		local ivy = require("telescope.themes").get_ivy()
@@ -51,5 +62,7 @@ return { -- Highly extendable fuzzy finder
 		vim.keymap.set("n", "<leader><leader>", function()
 			builtin.buffers(ivy)
 		end, { desc = "[ ] Find existing buffers" })
+
+		vim.keymap.set("n", "<leader>uu", "<cmd>Telescope undo<CR>", { desc = "[ ] Find existing buffers" })
 	end,
 }

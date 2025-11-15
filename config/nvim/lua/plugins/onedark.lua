@@ -4,7 +4,7 @@ return { -- One dark and light colorscheme for neovim
 	config = function()
 		require("onedark").setup({
 			style = "warmer",
-			-- transparent = true,
+			transparent = true,
 			term_colors = true,
 			cmp_itemkind_reverse = true,
 			toggle_style_key = "<leader>cs",

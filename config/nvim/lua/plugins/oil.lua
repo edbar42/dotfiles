@@ -5,6 +5,7 @@ return { -- Neovim file explorer
 
 	config = function()
 		require("oil").setup({
+			default_file_explorer = true,
 			win_options = {
 				wrap = true,
 				signcolumn = "yes",
@@ -13,7 +14,6 @@ return { -- Neovim file explorer
 			skip_confirm_for_simple_edits = true,
 			watch_for_changes = true,
 
-			-- See :help oil-actions for a list of all available actions
 			keymaps = {
 				["?"] = "actions.show_help",
 				["<CR>"] = "actions.select",

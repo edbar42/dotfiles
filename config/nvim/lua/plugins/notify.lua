@@ -13,7 +13,7 @@ return { -- A fancy, configurable, notification manager for NeoVim
 				TRACE = "✎",
 			},
 			top_down = false,
-			position = "bottom_right"
+			position = "top_right",
 		})
 	end,
 }
