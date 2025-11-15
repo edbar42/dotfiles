@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Keyd configuration script
+# Writes keyd config to /etc/keyd/default.conf and ensures daemon is running
+
+KEYD_CONF="/etc/keyd/default.conf"
+
+# The keyd configuration content
+read -r -d '' KEYD_CONFIG << 'EOF' || true
+[ids]
+*
+
+[main]
+capslock = overload(control, esc)
+EOF
+
+# Check if file exists and prompt for removal
+if [ -f "$KEYD_CONF" ]; then
+  echo "Keyd config file already exists at $KEYD_CONF"
+  read -p "Do you want to overwrite it? (y/N): " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Aborted."
+    exit 0
+  fi
+fi
+
+# Write the config file (requires sudo)
+echo "Writing keyd configuration to $KEYD_CONF..."
+echo "$KEYD_CONFIG" | sudo tee "$KEYD_CONF" > /dev/null
+
+echo "Configuration written successfully."
+
+# Check if keyd daemon is running
+if ! pgrep -x keyd >/dev/null 2>&1; then
+  echo "Keyd daemon is not running."
+  read -p "Do you want to start the keyd daemon? (y/N): " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Starting keyd daemon..."
+    sudo systemctl start keyd
+    sudo systemctl enable keyd
+    echo "Keyd daemon started and enabled."
+  else
+    echo "Note: You need to start keyd daemon for the configuration to take effect."
+    echo "Run: sudo systemctl start keyd"
+  fi
+else
+  echo "Keyd daemon is already running. Reloading configuration..."
+  sudo systemctl reload keyd 2>/dev/null || sudo systemctl restart keyd
+  echo "Configuration reloaded."
+fi
+
+echo "Done!"
