@@ -4,6 +4,7 @@
 	st = status
 	cmt = commit
 	ok = rebase --continue
+  patch = commit --amend --no-edit
 
 [commit]
 	gpgsign = true
