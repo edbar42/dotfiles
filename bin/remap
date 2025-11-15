@@ -12,10 +12,13 @@ read -r -d '' KEYD_CONFIG << 'EOF' || true
 *
 
 [main]
-capslock = overload(control, esc)
+# esc when pressed, meta when held
+capslock = overload(meta, esc)
+
+# esc to capslock
+esc = capslock
 EOF
 
-# Check if file exists and prompt for removal
 if [ -f "$KEYD_CONF" ]; then
   echo "Keyd config file already exists at $KEYD_CONF"
   read -p "Do you want to overwrite it? (y/N): " -n 1 -r
@@ -26,7 +29,6 @@ if [ -f "$KEYD_CONF" ]; then
   fi
 fi
 
-# Write the config file (requires sudo)
 echo "Writing keyd configuration to $KEYD_CONF..."
 echo "$KEYD_CONFIG" | sudo tee "$KEYD_CONF" > /dev/null
 
