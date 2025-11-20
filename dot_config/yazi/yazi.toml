@@ -3,19 +3,28 @@
 	sort_sensitive = false
 	sort_dir_first = true
 	show_symlink = true
+  ratio = [1, 4, 4]
+  scrolloff = 10
+
+[preview]
+  wrap = "yes"
+  tab_size = 3
+
+
 [opener]
-edit = [
-	{ run = 'nvim "$@"', block = true },
-]
-play = [
-	{ run = 'mpv "$@"', orphan = true },
-]
-open = [
-	{ run = 'xdg-open "$@"', desc = "Open" },
-]
-read = [
-	{ run = 'sioyek "$@"', desc = "Read", orphan = true }
-]
+  edit = [
+    { run = 'nvim "$@"', block = true },
+  ]
+  play = [
+    { run = 'mpv "$@"', orphan = true },
+  ]
+  open = [
+    { run = 'xdg-open "$@"', desc = "Open" },
+  ]
+  read = [
+    { run = 'sioyek "$@"', desc = "Read", orphan = true }
+  ]
+
 [open]
 prepend_rules = [
 	{ name = "*.pdf", use = "read" },
