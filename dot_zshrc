@@ -1,3 +1,13 @@
+# config function
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
 # fzf integration
 source <(fzf --zsh)
 
@@ -49,7 +59,11 @@ alias lla="lsd -la"
 alias lt="lsd --tree"
 alias vim="nvim -u NONE"
 alias lzd="oxker"
+
+# Chezmoi alias
 alias ccd="chezmoi cd"
+alias tidy="chezmoi apply"
+alias cadd="chezmoi add"
 
 # Go aliases
 alias gotst="go test -v -cover ./..."
