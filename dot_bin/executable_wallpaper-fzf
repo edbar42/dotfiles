@@ -38,7 +38,7 @@ done
 
 # Ensure swww is running
 if ! pgrep -x swww-daemon >/dev/null 2>&1; then
-  swww init
+  hyrpctl dispatch exec swww-daemon
 fi
 
 # Change to wallpapers directory
