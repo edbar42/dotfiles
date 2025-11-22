@@ -1,0 +1,11 @@
+chezmoi
+keychain
+oxker
+keyd
+lsd
+nwg-displays
+syncthing
+wezterm-nightly-bin
+wofi
+zen-browser-bin
+zsh
