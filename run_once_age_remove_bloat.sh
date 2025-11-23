@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SOURCE_DIR="$(chezmoi source-path)"
+SOURCE_DIR=$HOME/.local/share/chezmoi
 
 echo "Removing Omarchy bloat..."
-[ -f "$SOURCE_DIR/bloat.txt" ] && \
-  xargs -r yay -Rns --noconfirm
+
+[ -f "$SOURCE_DIR/bloat.list" ] && \
+  xargs yay -Rns < "$SOURCE_DIR/bloat.list"
