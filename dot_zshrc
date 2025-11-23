@@ -74,9 +74,6 @@ alias see="wezterm imgcat"
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
 
 # ------------------------ STARTUP CALLS --------------------------
-wezterm imgcat /home/edbar/personal/Pictures/assets/edbar.png
-
-
 export LIBVA_DRIVER_NAME=nvidia
 export XDG_SESSION_TYPE=wayland
 export GBM_BACKEND=nvidia-drm
