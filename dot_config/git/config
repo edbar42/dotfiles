@@ -18,6 +18,7 @@
 [delta]
 	line-numbers = true
 	side-by-side = true
+  navigate = true
 
 [gpg]
 	format = ssh
