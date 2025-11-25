@@ -3,7 +3,7 @@ progress = true
 verbose = true
 
 [add]
-secrets = ["LEAK"]
+secrets = "LEAK"
 
 [diff]
 pager = "delta"
