@@ -1,7 +1,9 @@
 1password-beta
 1password-cli
 alacritty
+elephant
 eza
+fcitx5-qt
 gnome-calculator
 kdenlive
 lazydocker
@@ -11,4 +13,5 @@ localsend-bin
 mako
 pinta
 typora
+walker-bin
 xournalpp
