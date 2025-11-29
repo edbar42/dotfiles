@@ -1,7 +1,0 @@
-color:
-  when: always
-  theme: custom
-header: true
-icons:
-  theme: fancy
-indicators: true
