@@ -57,7 +57,7 @@ alias ld="eza -D --icons"
 alias la="eza -a --icons --git"
 alias ll="eza -lh --icons --git"
 alias lla="eza -lah --icons --git"
-alias lt="lsd --tree"
+alias lt="eza --tree --icons"
 alias vim="nvim -u NONE"
 alias lzd="oxker"
 
