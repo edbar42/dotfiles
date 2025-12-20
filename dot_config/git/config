@@ -38,4 +38,4 @@
 [user]
 	name = Eduardo Barroso
 	email = edbar42@proton.me
-	signingkey = ~/personal/auth/ssh/github.pub
+	signingkey = ~/personal/auth/ssh/git.pub

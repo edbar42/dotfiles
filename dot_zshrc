@@ -19,8 +19,8 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
 
-# Manage SSH sessions through keychain
-eval $(keychain -q --eval $HOME/personal/auth/ssh/github)
+# Manage SSH keys
+eval $(keychain -q --eval $HOME/personal/auth/ssh/git)
 
 # Activate mise-en-place
 eval "$(mise activate zsh)"
