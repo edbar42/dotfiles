@@ -1,6 +1,0 @@
-[als.none]
-
-[[output.backlight]]
-name = "eDP"
-path = "/sys/class/backlight/amdgpu_bl1"
-capturer = "none"
