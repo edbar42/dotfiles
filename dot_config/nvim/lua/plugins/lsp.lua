@@ -146,6 +146,16 @@ return {
 						clangdFileStatus = true,
 					},
 				},
+				csharp_ls = {
+					cmd = { "csharp-ls" },
+					cmd_env = {
+						DOTNET_ROOT = vim.fn.expand("~/.local/share/mise/installs/dotnet/10.0.101"),
+					},
+					handlers = {
+						["textDocument/definition"] = require("csharpls_extended").handler,
+						["textDocument/typeDefinition"] = require("csharpls_extended").handler,
+					},
+				},
 				gopls = {
 					settings = {
 						gopls = {
