@@ -39,6 +39,9 @@ bindkey '^[[F' end-of-line
 autoload -Uz compinit && compinit
 
 # ----------------------------- ALIASES -----------------------------------
+# Enable completion for aliases
+setopt complete_aliases
+compdef _eza lt
 # Base aliases
 alias rm="rm -Iv"
 alias cp="cp -irv"
