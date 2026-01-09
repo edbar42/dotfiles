@@ -146,14 +146,10 @@ return {
 						clangdFileStatus = true,
 					},
 				},
-				csharp_ls = {
-					cmd = { "csharp-ls" },
+				omnisharp = {
+					cmd = { "OmniSharp" },
 					cmd_env = {
 						DOTNET_ROOT = vim.fn.expand("~/.local/share/mise/installs/dotnet/10.0.101"),
-					},
-					handlers = {
-						["textDocument/definition"] = require("csharpls_extended").handler,
-						["textDocument/typeDefinition"] = require("csharpls_extended").handler,
 					},
 				},
 				gopls = {
@@ -304,21 +300,21 @@ return {
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports" },
 				python = { "isort", "black" },
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
+				javascript = { "prettier", "biome" },
+				typescript = { "prettier", "biome" },
+				javascriptreact = { "prettier", "biome" },
+				typescriptreact = { "prettier", "biome" },
 				vue = { "prettier" },
 				css = { "prettier" },
 				scss = { "prettier" },
 				less = { "prettier" },
-				html = { "prettier" },
-				json = { "prettier" },
-				jsonc = { "prettier" },
+				html = { "prettier", "biome" },
+				json = { "prettier", "biome" },
+				jsonc = { "prettier", "biome" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
-				astro = { "prettier" },
+				astro = { "prettier", "biome" },
 			},
 			formatters = {
 				prettier = {
