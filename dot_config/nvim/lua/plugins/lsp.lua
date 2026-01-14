@@ -297,6 +297,7 @@ return {
 				}
 			end,
 			formatters_by_ft = {
+				cs = { "csharpier" },
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports" },
 				python = { "isort", "black" },
