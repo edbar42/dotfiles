@@ -146,13 +146,30 @@ return {
 						clangdFileStatus = true,
 					},
 				},
-				omnisharp = {
-					cmd = { "OmniSharp" },
-					cmd_env = {
-						DOTNET_ROOT = vim.fn.expand("~/.local/share/mise/installs/dotnet/10.0.101"),
-					},
-				},
-				gopls = {
+
+omnisharp = {
+	cmd = { "OmniSharp" },
+	cmd_env = {
+		DOTNET_ROOT = vim.fn.expand("~/.local/share/mise/installs/dotnet/10.0.101"),
+	},
+	enable_roslyn_analyzers = true,
+	organize_imports_on_format = true,
+	enable_import_completion = true,
+	settings = {
+		FormattingOptions = {
+			EnableEditorConfigSupport = true,
+			OrganizeImports = true,
+		},
+		RoslynExtensionsOptions = {
+			EnableAnalyzersSupport = true,
+			EnableImportCompletion = true,
+			AnalyzeOpenDocumentsOnly = false,
+		},
+		Sdk = {
+			IncludePrereleases = false,
+		},
+	},
+},				gopls = {
 					settings = {
 						gopls = {
 							completeUnimported = true,
