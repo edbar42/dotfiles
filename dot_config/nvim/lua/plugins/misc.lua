@@ -75,57 +75,21 @@ return { -- Non-extensive config plugins
 			},
 		},
 	},
-
-	{ -- Performant indent guides for NeoVim
-		"saghen/blink.indent",
-		config = function()
-			require("blink.indent").setup({
-				blocked = {
-					-- default: 'terminal', 'quickfix', 'nofile', 'prompt'
-					buftypes = { include_defaults = true },
-					-- default: 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'dashboard', ''
-					filetypes = { include_defaults = true },
-				},
-				mappings = {
-					-- which lines around the scope are included for 'ai': 'top', 'bottom', 'both', or 'none'
-					border = "both",
-					-- set to '' to disable
-					-- textobjects (e.g. `y2ii` to yank current and outer scope)
-					object_scope = "ii",
-					object_scope_with_border = "ai",
-					-- motions
-					goto_top = "[i",
-					goto_bottom = "]i",
-				},
-				static = {
-					enabled = true,
-					char = "▎",
-					whitespace_char = nil, -- inherits from `vim.opt.listchars:get().space` when `nil` (see `:h listchars`)
-					priority = 1,
-					-- specify multiple highlights here for rainbow-style indent guides
-					-- highlights = { 'BlinkIndentRed', 'BlinkIndentOrange', 'BlinkIndentYellow', 'BlinkIndentGreen', 'BlinkIndentViolet', 'BlinkIndentCyan' },
-					highlights = { "BlinkIndent" },
-				},
-				scope = {
-					enabled = true,
-					char = "▎",
-					priority = 1000,
-					-- set this to a single highlight, such as 'BlinkIndent' to disable rainbow-style indent guides
-					-- highlights = { 'BlinkIndentScope' },
-					-- optionally add: 'BlinkIndentRed', 'BlinkIndentCyan', 'BlinkIndentYellow', 'BlinkIndentGreen'
-					highlights = { "BlinkIndentOrange", "BlinkIndentViolet", "BlinkIndentBlue" },
-					-- enable to show underlines on the line above the current scope
-					underline = {
-						enabled = false,
-						-- optionally add: 'BlinkIndentRedUnderline', 'BlinkIndentCyanUnderline', 'BlinkIndentYellowUnderline', 'BlinkIndentGreenUnderline'
-						highlights = {
-							"BlinkIndentOrangeUnderline",
-							"BlinkIndentVioletUnderline",
-							"BlinkIndentBlueUnderline",
-						},
-					},
-				},
-			})
-		end,
+	{
+		"f-person/git-blame.nvim",
+		-- load the plugin at startup
+		event = "VeryLazy",
+		-- Because of the keys part, you will be lazy loading this plugin.
+		-- The plugin will only load once one of the keys is used.
+		-- If you want to load the plugin at startup, add something like event = "VeryLazy",
+		-- or lazy = false. One of both options will work.
+		opts = {
+			-- your configuration comes here
+			-- for example
+			enabled = true, -- if you want to enable the plugin
+			message_template = " <author> • <date> • <summary>", -- template for the blame message, check the Message template section for more options
+			date_format = "%r", -- template for the date, check Date format section for more options
+			virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
+		},
 	},
 }
