@@ -33,36 +33,52 @@ return { -- Highly extendable fuzzy finder
 
 		vim.keymap.set("n", "<leader>sh", function()
 			builtin.help_tags(ivy)
-		end, { desc = "[S]earch [H]elp" })
+		end, { desc = "Telescope: [S]earch [H]elp" })
 
 		vim.keymap.set("n", "<leader>gf", function()
 			builtin.git_files(ivy)
-		end, { desc = "[G]it [F]ile Search" })
+		end, { desc = "Telescope: [G]it [F]ile Search" })
 
 		vim.keymap.set("n", "<leader>sk", function()
 			builtin.keymaps(ivy)
-		end, { desc = "[S]earch [K]eymaps" })
+		end, { desc = "Telescope: [S]earch [K]eymaps" })
 
 		vim.keymap.set("n", "<leader>sf", function()
 			builtin.find_files(ivy)
-		end, { desc = "[S]earch [F]iles" })
+		end, { desc = "Telescope: [S]earch [F]iles" })
+
+		vim.keymap.set("n", "<leader>fs", function()
+			builtin.current_buffer_fuzzy_find(ivy)
+		end, { desc = "Telescope: [F]uzzy [S]earch the current buffer" })
 
 		vim.keymap.set("n", "<leader>ps", function()
 			builtin.live_grep(ivy)
-		end, { desc = "[S]earch by [G]rep" })
+		end, { desc = "Telescope: [S]earch by [G]rep" })
 
 		vim.keymap.set("n", "<leader>gw", function()
 			builtin.grep_string(ivy)
-		end, { desc = "[G]rep current [W]ord" })
+		end, { desc = "Telescope: [G]rep current [W]ord" })
 
 		vim.keymap.set("n", "<leader>rc", function()
 			builtin.commands(ivy)
-		end, { desc = "[R]un [C]ommand" })
+		end, { desc = "Telescope: [R]un [C]ommand" })
 
 		vim.keymap.set("n", "<leader><leader>", function()
 			builtin.buffers(ivy)
-		end, { desc = "[ ] Find existing buffers" })
+		end, { desc = "Telescope: [ ] Find existing buffers" })
 
-		vim.keymap.set("n", "<leader>uu", "<cmd>Telescope undo<CR>", { desc = "[ ] Find existing buffers" })
+		vim.keymap.set("n", "<leader>ch", function()
+			builtin.command_history(ivy)
+		end, { desc = "Telescope: Browse [C]ommand [H]istory" })
+
+		vim.keymap.set("n", "<leader>uu", "<cmd>Telescope undo<CR>", { desc = "Telescope: Browse undo history" })
+
+		vim.keymap.set("n", "<leader>gc", function()
+			builtin.git_commits(ivy)
+		end, { desc = "Telescope: [G]it [C]ommits with diff view" })
+
+		vim.keymap.set("n", "<leader>bgc", function()
+			builtin.git_commits(ivy)
+		end, { desc = "Telescope: Current [B]uffer's [G]it [C]ommits with diff view" })
 	end,
 }

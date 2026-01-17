@@ -17,3 +17,4 @@ return { -- A fancy, configurable, notification manager for NeoVim
 		})
 	end,
 }
+
