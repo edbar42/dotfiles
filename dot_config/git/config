@@ -39,3 +39,6 @@
 	name = Eduardo Barroso
 	email = edbar42@proton.me
 	signingkey = ~/personal/auth/ssh/git.pub
+
+[includeIf "gitdir/i:~/Suri/"]
+    path = ~/personal/smol_backups/work_git_config/.gitconfig-suri
