@@ -11,8 +11,15 @@ set -euo pipefail
 wallpapers_dir="$HOME/Pictures/wallpapers/horizontal"
 
 # Edit to match your monitor names
-MAIN_OUT="DP-1"
-SEC_OUT="HDMI-A-2"
+{{- if eq .chezmoi.hostname "desktop" }}
+  MAIN_OUT="DP-1"
+  SEC_OUT="HDMI-A-2"
+{{- end }}
+
+{{- if eq .chezmoi.hostname "thinkpad" }}
+  MAIN_OUT="eDP-1"
+  SEC_OUT="HDMI-A-1"
+{{- end }}
 
 usage() {
   echo "Usage: $(basename "$0") [-s main|secondary] [-a]" >&2
