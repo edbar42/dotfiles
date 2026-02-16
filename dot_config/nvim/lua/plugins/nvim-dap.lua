@@ -122,8 +122,15 @@ return {
             elements = {
               { id = "scopes", size = 1.0 }, -- 100% of this panel is scopes
             },
-            size = 15,                       -- height in lines (adjust to taste)
-            position = "bottom",             -- "left", "right", "top", "bottom"
+            size = 15,                       -- height in lines
+            position = "bottom",
+          },
+          {
+            elements = {
+              { id = "repl", size = 1.0 }, -- 100% of this panel is REPL
+            },
+            size = 50,                     -- width in columns
+            position = "right",
           },
         },
       })
