@@ -8,11 +8,11 @@ return { -- Getting you where you want with the fewest keystrokes
 
 		local harpoon = require("harpoon")
 
-		vim.keymap.set("n", "<leader>a", function()
+		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():add()
 		end, { desc = "Add buffer to Harpoon UI" })
 
-		vim.keymap.set("n", "<leader>e", function()
+		vim.keymap.set("n", "<leader>hm", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "Show Harpoon UI" })
 
