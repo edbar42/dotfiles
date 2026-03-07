@@ -3,7 +3,15 @@ return { -- Roslyn LSP plugin for neovim
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     ft = { "cs", "razor" },
-    opts = {
-        -- your configuration comes here; leave empty for default settings
-    },
+    opts = {},
+    init = function()
+        local dotnet_root = "/home/edbar/.local/share/mise/installs/dotnet/10.0.102"
+        vim.lsp.config("roslyn", {
+            cmd_env = {
+                DOTNET_ROOT = dotnet_root,
+                PATH = dotnet_root .. ":" .. vim.env.PATH,
+                Configuration = vim.env.Configuration or "Debug",
+            },
+        })
+    end,
 }
