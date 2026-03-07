@@ -68,10 +68,18 @@ return { -- Quickstart configs for Nvim LSP
 				map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace symbols")
 
 				-- Actions
-				map("<leader>rn", vim.lsp.buf.rename, "Rename")
-				map("<leader>ca", vim.lsp.buf.code_action, "Code action", { "n", "v" })
-				map("K", vim.lsp.buf.hover, "Hover documentation")
-				map("<C-k>", vim.lsp.buf.signature_help, "Signature help", "i")
+				map("<leader>rn", vim.lsp.buf.rename, "LSP: [R]e[n]ame")
+				map("<leader>ca", vim.lsp.buf.code_action, "LSP: [C]ode [A]ction", { "n", "v" })
+				map("K", vim.lsp.buf.hover, "LSP: Hover documentation")
+				map("gK", vim.lsp.buf.signature_help, "LSP: Signature help")
+				map("<C-k>", vim.lsp.buf.signature_help, "LSP: Signature help", "i")
+				map("<leader>cf", function()
+					vim.lsp.buf.format({ async = true })
+				end, "LSP: [C]ode [F]ormat", { "n", "v" })
+
+				-- Call hierarchy
+				map("<leader>ci", require("telescope.builtin").lsp_incoming_calls, "LSP: [C]all [I]ncoming")
+				map("<leader>co", require("telescope.builtin").lsp_outgoing_calls, "LSP: [C]all [O]utgoing")
 
 				-- Diagnostics
 				map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
@@ -80,11 +88,15 @@ return { -- Quickstart configs for Nvim LSP
 				map("<leader>q", vim.diagnostic.setloclist, "Diagnostic quickfix")
 
 				-- Workspace
-				map("<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
-				map("<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
+				map("<leader>wa", vim.lsp.buf.add_workspace_folder, "LSP: [W]orkspace [A]dd folder")
+				map("<leader>wr", vim.lsp.buf.remove_workspace_folder, "LSP: [W]orkspace [R]emove folder")
 				map("<leader>wl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-				end, "List workspace folders")
+				end, "LSP: [W]orkspace [L]ist folders")
+
+				-- LSP management
+				map("<leader>li", "<cmd>LspInfo<cr>", "LSP: [L]SP [I]nfo")
+				map("<leader>lr", "<cmd>LspRestart<cr>", "LSP: [L]SP [R]estart")
 
 				-- Document highlight
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -121,6 +133,11 @@ return { -- Quickstart configs for Nvim LSP
 					map("<leader>th", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 					end, "Toggle inlay hints")
+				end
+
+				-- Code lens (if supported)
+				if client and client.server_capabilities.codeLensProvider then
+					map("<leader>cl", vim.lsp.codelens.run, "LSP: [C]ode [L]ens run")
 				end
 			end,
 		})
