@@ -57,15 +57,15 @@ return { -- Quickstart configs for Nvim LSP
 				end
 
 				-- Navigation
-				map("gd", require("telescope.builtin").lsp_definitions, "LSP: [G]o to [D]efinition")
-				map("gr", require("telescope.builtin").lsp_references, "LSP: [G]o to [R]eferences")
-				map("gI", require("telescope.builtin").lsp_implementations, "Goto implementation")
+				map("gd", require("fzf-lua").lsp_definitions, "LSP: [G]o to [D]efinition")
+				map("gr", require("fzf-lua").lsp_references, "LSP: [G]o to [R]eferences")
+				map("gI", require("fzf-lua").lsp_implementations, "Goto implementation")
 				map("gD", vim.lsp.buf.declaration, "Goto declaration")
-				map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type definition")
+				map("<leader>D", require("fzf-lua").lsp_typedefs, "Type definition")
 
 				-- Symbols
-				map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "Document symbols")
-				map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace symbols")
+				map("<leader>ds", require("fzf-lua").lsp_document_symbols, "Document symbols")
+				map("<leader>ws", require("fzf-lua").lsp_workspace_symbols, "Workspace symbols")
 
 				-- Actions
 				map("<leader>rn", vim.lsp.buf.rename, "LSP: [R]e[n]ame")
@@ -78,8 +78,8 @@ return { -- Quickstart configs for Nvim LSP
 				end, "LSP: [C]ode [F]ormat", { "n", "v" })
 
 				-- Call hierarchy
-				map("<leader>ci", require("telescope.builtin").lsp_incoming_calls, "LSP: [C]all [I]ncoming")
-				map("<leader>co", require("telescope.builtin").lsp_outgoing_calls, "LSP: [C]all [O]utgoing")
+				map("<leader>ci", require("fzf-lua").lsp_incoming_calls, "LSP: [C]all [I]ncoming")
+				map("<leader>co", require("fzf-lua").lsp_outgoing_calls, "LSP: [C]all [O]utgoing")
 
 				-- Diagnostics
 				map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
