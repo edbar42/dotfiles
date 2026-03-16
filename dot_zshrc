@@ -56,12 +56,12 @@ alias ip="ip --color=auto"
 alias bat="bat --theme='TwoDark' --color=always"
 
 # Terminal tools
-alias ls="eza --icons -- level=3"
+alias ls="eza --icons"
 alias ld="eza -D --icons"
 alias la="eza -a --icons --git"
 alias ll="eza -lh --icons --git"
 alias lla="eza -lah --icons --git"
-alias lt="eza --tree --icons"
+alias lt="eza --tree --icons --level=3"
 alias vim="nvim -u NONE"
 alias lzd="oxker"
 
