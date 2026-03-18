@@ -15,6 +15,14 @@ return {
 
       require("dapui").setup()
       require("dap-go").setup()
+      require("nvim-dap-virtual-text").setup({
+        display_callback = function(variable, _, _, _, _)
+          if #variable.value > 50 then
+            return " = " .. string.sub(variable.value, 1, 50) .. "..."
+          end
+          return " = " .. variable.value
+        end,
+      })
 
       -- Go debugging
       dap.adapters.go = {
@@ -46,7 +54,15 @@ return {
           request = "launch",
           program = function()
             return require("nvim-dap-dotnet").build_dll_path()
-          end
+          end,
+          justMyCode = false,
+        },
+        {
+          type = "coreclr",
+          name = "Attach to running dotnet process",
+          request = "attach",
+          processId = require("dap.utils").pick_process,
+          justMyCode = false,
         },
       }
 
@@ -59,12 +75,19 @@ return {
 
       -- Eval var under cursor
       vim.keymap.set("n", "<space>?", function()
-        require("dapui").eval(
-          nil,
-          { enter = true },
-          { desc = "DEBUG: Evaluate expression under cursor" }
-        )
-      end)
+        require("dapui").eval(nil, { enter = true })
+      end, { desc = "DEBUG: Evaluate expression under cursor" })
+
+      -- Conditional breakpoint
+      vim.keymap.set("n", "<space>B", function()
+        dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+      end, { desc = "DEBUG: Set conditional breakpoint" })
+
+      -- Toggle UI panels
+      vim.keymap.set("n", "<space>du", ui.toggle, { desc = "DEBUG: Toggle UI" })
+      vim.keymap.set("n", "<space>de", function()
+        ui.toggle({ layout = 2 })
+      end, { desc = "DEBUG: Toggle REPL" })
 
       vim.keymap.set(
         "n",
@@ -92,6 +115,20 @@ return {
         dap.restart,
         { desc = "DEBUG: Restart execution" }
       )
+
+      -- Signs
+      vim.fn.sign_define("DapBreakpoint",          { text = "●", texthl = "DapBreakpoint",         linehl = "",           numhl = "" })
+      vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DapBreakpointCondition", linehl = "",           numhl = "" })
+      vim.fn.sign_define("DapBreakpointRejected",  { text = "●", texthl = "DapBreakpointRejected",  linehl = "",           numhl = "" })
+      vim.fn.sign_define("DapLogPoint",            { text = "◆", texthl = "DapLogPoint",            linehl = "",           numhl = "" })
+      vim.fn.sign_define("DapStopped",             { text = "▶", texthl = "DapStopped",             linehl = "DapStoppedLine", numhl = "" })
+
+      vim.api.nvim_set_hl(0, "DapBreakpoint",         { fg = "#e51400" })
+      vim.api.nvim_set_hl(0, "DapBreakpointCondition",{ fg = "#f5a623" })
+      vim.api.nvim_set_hl(0, "DapBreakpointRejected", { fg = "#555555" })
+      vim.api.nvim_set_hl(0, "DapLogPoint",           { fg = "#61afef" })
+      vim.api.nvim_set_hl(0, "DapStopped",            { fg = "#98c379" })
+      vim.api.nvim_set_hl(0, "DapStoppedLine",        { bg = "#2a3021" })
 
       dap.listeners.before.attach.dapui_config = function()
         ui.open()

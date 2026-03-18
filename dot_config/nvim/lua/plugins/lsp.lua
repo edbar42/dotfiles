@@ -255,14 +255,13 @@ return { -- Quickstart configs for Nvim LSP
 			ensure_installed = ensure_installed,
 		})
 
-		require("mason-lspconfig").setup({
-			handlers = {
-				function(server_name)
-					local server = servers[server_name] or {}
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			},
-		})
+		-- Configure each server via vim.lsp.config (Neovim 0.11+)
+		for server_name, server_config in pairs(servers) do
+			server_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
+			vim.lsp.config(server_name, server_config)
+		end
+
+		-- mason-lspconfig v2: automatic_enable handles vim.lsp.enable()
+		require("mason-lspconfig").setup()
 	end,
 }

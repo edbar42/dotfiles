@@ -53,6 +53,7 @@ return {
 
     local fzf = require("fzf-lua")
 
+    vim.keymap.set("n", "<leader>sr", fzf.oldfiles, { desc = "fzf: [S]earch [R]ecent files" })
     vim.keymap.set("n", "<leader>sh", fzf.help_tags, { desc = "fzf: [S]earch [H]elp" })
     vim.keymap.set("n", "<leader>gf", fzf.git_files, { desc = "fzf: [G]it [F]ile Search" })
     vim.keymap.set("n", "<leader>sk", fzf.keymaps, { desc = "fzf: [S]earch [K]eymaps" })
@@ -65,5 +66,9 @@ return {
     vim.keymap.set("n", "<leader>ch", fzf.command_history, { desc = "fzf: Browse [C]ommand [H]istory" })
     vim.keymap.set("n", "<leader>gc", fzf.git_commits, { desc = "fzf: [G]it [C]ommits with diff view" })
     vim.keymap.set("n", "<leader>bgc", fzf.git_bcommits, { desc = "fzf: Current [B]uffer's [G]it [C]ommits with diff view" })
+    vim.keymap.set("n", "<leader>gx", function()
+      vim.cmd("GitConflictListQf")
+      fzf.quickfix()
+    end, { desc = "fzf: List [G]it Conflicts" })
   end,
 }
