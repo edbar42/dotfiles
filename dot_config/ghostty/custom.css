@@ -1,0 +1,24 @@
+/* Tab bar background */
+tabbar {
+    background-color: #1F1F28;
+}
+
+/* All tabs */
+tabbar tabbox tab {
+    background-color: #16161d;
+    border: none;
+    border-radius: 0;
+}
+
+tabbar tabbox tab label {
+    color: #727169;
+}
+
+/* Active tab */
+tabbar tabbox tab:selected {
+    background-color: #2a2a37;
+}
+
+tabbar tabbox tab:selected label {
+    color: #44dd44;
+}

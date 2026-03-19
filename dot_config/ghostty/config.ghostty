@@ -1,0 +1,62 @@
+font-family = CaskaydiaCove NF
+font-size = 14
+
+# --- Colors ---
+theme = One Double Dark
+
+# --- Background ---
+background-opacity = 0.8
+
+# --- Inactive pane dimming ---
+# wezterm used saturation=0.7, brightness=0.4 — Ghostty only has opacity control.
+unfocused-split-opacity = 0.4
+
+# --- Window padding ---
+window-padding-x = 8
+window-padding-y = 0
+
+# --- Tab bar ---
+gtk-custom-css = ~/.config/ghostty/custom.css
+window-new-tab-position = current
+window-show-tab-bar = auto
+gtk-tabs-location = bottom
+
+# -- Misc --
+copy-on-select = true
+
+# --- Keybindings ---
+# Tabs
+keybind = alt+t=new_tab
+keybind = alt+n=next_tab
+keybind = alt+p=previous_tab
+keybind = alt+r=prompt_tab_title
+
+# Splits
+keybind = alt+enter=new_split:right
+keybind = alt+shift+enter=new_split:down
+keybind = alt+m=toggle_split_zoom
+keybind = alt+q=close_surface
+
+# Navigate panes
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:bottom
+keybind = alt+k=goto_split:top
+keybind = alt+l=goto_split:right
+
+# Resize panes
+keybind = alt+shift+h=resize_split:left,10
+keybind = alt+shift+j=resize_split:down,10
+keybind = alt+shift+k=resize_split:up,10
+keybind = alt+shift+l=resize_split:right,10
+
+# Unbind default CTRL +/-/= font size bindings
+keybind = ctrl+minus=unbind
+keybind = ctrl+equal=unbind
+keybind = ctrl+shift+equal=unbind
+
+# NOTE: the following have no Ghostty equivalent and were not migrated:
+#   ALT+SHIFT+t  — new tab with prompted name
+#   ALT+v        — copy mode
+#   ALT+g        — spawn yazi in new tab
+#   ALT+d        — spawn lazydocker in new tab
+#   ALT+f        — fuzzy tab switcher
