@@ -59,13 +59,15 @@ return { -- Quickstart configs for Nvim LSP
 				-- Navigation
 				map("gd", require("fzf-lua").lsp_definitions, "LSP: [G]o to [D]efinition")
 				map("gr", require("fzf-lua").lsp_references, "LSP: [G]o to [R]eferences")
-				map("gI", require("fzf-lua").lsp_implementations, "Goto implementation")
-				map("gD", vim.lsp.buf.declaration, "Goto declaration")
-				map("<leader>D", require("fzf-lua").lsp_typedefs, "Type definition")
+				map("gI", require("fzf-lua").lsp_implementations, "LSP: [G]oto [I]mplementation")
+				map("gD", require("fzf-lua").lsp_declarations, "LSP: [G]oto [D]eclaration")
+				map("<leader>D", require("fzf-lua").lsp_typedefs, "LSP: [T]ype [D]efinition")
+				map("<leader>lf", require("fzf-lua").lsp_finder, "LSP: [L]SP [F]inder (definitions + references)")
 
 				-- Symbols
-				map("<leader>ds", require("fzf-lua").lsp_document_symbols, "Document symbols")
-				map("<leader>ws", require("fzf-lua").lsp_workspace_symbols, "Workspace symbols")
+				map("<leader>ds", require("fzf-lua").lsp_document_symbols, "LSP: [D]ocument [S]ymbols")
+				map("<leader>ws", require("fzf-lua").lsp_workspace_symbols, "LSP: [W]orkspace [S]ymbols")
+				map("<leader>wS", require("fzf-lua").lsp_live_workspace_symbols, "LSP: [W]orkspace [S]ymbols (live search)")
 
 				-- Actions
 				map("<leader>rn", vim.lsp.buf.rename, "LSP: [R]e[n]ame")
@@ -132,7 +134,7 @@ return { -- Quickstart configs for Nvim LSP
 				if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 					map("<leader>th", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-					end, "Toggle inlay hints")
+					end, "LSP: [T]oggle Inlay [H]ints")
 				end
 
 				-- Code lens (if supported)
