@@ -1,11 +1,19 @@
 font-family = CaskaydiaCove NF
+
+
+{{- if eq .chezmoi.hostname "desktop" }}
 font-size = 14
+{{- end }}
+
+{{- if eq .chezmoi.hostname "thinkpad" }}
+font-size = 18
+{{- end }}
 
 # --- Colors ---
 theme = One Double Dark
 
 # --- Background ---
-background-opacity = 0.8
+background-opacity = 0.75
 
 # --- Inactive pane dimming ---
 # wezterm used saturation=0.7, brightness=0.4 — Ghostty only has opacity control.
@@ -13,7 +21,7 @@ unfocused-split-opacity = 0.4
 
 # --- Window padding ---
 window-padding-x = 8
-window-padding-y = 0
+window-padding-y = 4
 
 # --- Tab bar ---
 gtk-custom-css = ~/.config/ghostty/custom.css
@@ -44,10 +52,10 @@ keybind = alt+k=goto_split:top
 keybind = alt+l=goto_split:right
 
 # Resize panes
-keybind = alt+shift+h=resize_split:left,10
-keybind = alt+shift+j=resize_split:down,10
-keybind = alt+shift+k=resize_split:up,10
-keybind = alt+shift+l=resize_split:right,10
+keybind = alt+shift+h=resize_split:left,50
+keybind = alt+shift+j=resize_split:down,50
+keybind = alt+shift+k=resize_split:up,50
+keybind = alt+shift+l=resize_split:right,50
 
 # Unbind default CTRL +/-/= font size bindings
 keybind = ctrl+minus=unbind
@@ -58,5 +66,4 @@ keybind = ctrl+shift+equal=unbind
 #   ALT+SHIFT+t  — new tab with prompted name
 #   ALT+v        — copy mode
 #   ALT+g        — spawn yazi in new tab
-#   ALT+d        — spawn lazydocker in new tab
 #   ALT+f        — fuzzy tab switcher

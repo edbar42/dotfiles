@@ -60,16 +60,9 @@ if [ "${#files[@]}" -eq 0 ]; then
   exit 1
 fi
 
-# Determine best preview method
-# chafa with sixel protocol works well with WezTerm and is fast
 if command -v chafa &>/dev/null; then
-  PREVIEW_CMD="chafa -f sixel -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
-elif command -v wezterm &>/dev/null; then
-  PREVIEW_CMD="wezterm imgcat {}"
-elif command -v kitty &>/dev/null && [ "$TERM" = "xterm-kitty" ]; then
-  PREVIEW_CMD="kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place=\${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {}"
+  PREVIEW_CMD="printf '\033_Ga=d,d=A\033\\\\'; chafa -f kitty -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
 else
-  # Fallback to identify (ImageMagick) for basic info
   PREVIEW_CMD="identify {} 2>/dev/null || echo 'No preview available'"
 fi
 
