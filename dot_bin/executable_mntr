@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEFAULT_NAME="backup"
+DEFAULT_MOUNTPOINT="$HOME/Public"
+
+# Pick a partition using fzf, or accept one as an argument
+if [[ -n "${1:-}" ]]; then
+    PARTITION="$1"
+else
+    PARTITION=$(lsblk -rno NAME,SIZE,TYPE,FSTYPE | awk '$3 == "part" {print "/dev/" $1, $2, $4}' \
+        | fzf --prompt="Select partition: " \
+        | awk '{print $1}') || { echo "No partition selected."; exit 1; }
+fi
+
+read -rp "Mapper name [${DEFAULT_NAME}]: " NAME
+NAME="${NAME:-$DEFAULT_NAME}"
+
+read -rp "Mount point [${DEFAULT_MOUNTPOINT}]: " MOUNTPOINT
+MOUNTPOINT="${MOUNTPOINT:-$DEFAULT_MOUNTPOINT}"
+
+mkdir -p "$MOUNTPOINT"
+
+sudo cryptsetup luksOpen "$PARTITION" "$NAME"
+sudo mount "/dev/mapper/${NAME}" "$MOUNTPOINT"
+
+echo "Mounted /dev/mapper/${NAME} at ${MOUNTPOINT}"
