@@ -1,23 +1,45 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+DEFAULT_PARTITION="/dev/sda1"
 DEFAULT_NAME="backup"
 DEFAULT_MOUNTPOINT="$HOME/Public"
+INTERACTIVE=false
 
-# Pick a partition using fzf, or accept one as an argument
-if [[ -n "${1:-}" ]]; then
-    PARTITION="$1"
+usage() {
+    echo "Usage: mntr [-i] [partition]"
+    echo "  -i    Interactive mode (fzf picker, prompts for name/mountpoint)"
+    echo "  Without -i, mounts with defaults (partition: $DEFAULT_PARTITION, name: $DEFAULT_NAME, mountpoint: $DEFAULT_MOUNTPOINT)"
+    exit 1
+}
+
+while getopts ":i" opt; do
+    case $opt in
+        i) INTERACTIVE=true ;;
+        *) usage ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if $INTERACTIVE; then
+    if [[ -n "${1:-}" ]]; then
+        PARTITION="$1"
+    else
+        PARTITION=$(lsblk -rno NAME,SIZE,TYPE,FSTYPE | awk '$3 == "part" {print "/dev/" $1, $2, $4}' \
+            | fzf --prompt="Select partition: " \
+            | awk '{print $1}') || { echo "No partition selected."; exit 1; }
+    fi
+
+    read -rp "Mapper name [${DEFAULT_NAME}]: " NAME
+    NAME="${NAME:-$DEFAULT_NAME}"
+
+    read -rp "Mount point [${DEFAULT_MOUNTPOINT}]: " MOUNTPOINT
+    MOUNTPOINT="${MOUNTPOINT:-$DEFAULT_MOUNTPOINT}"
 else
-    PARTITION=$(lsblk -rno NAME,SIZE,TYPE,FSTYPE | awk '$3 == "part" {print "/dev/" $1, $2, $4}' \
-        | fzf --prompt="Select partition: " \
-        | awk '{print $1}') || { echo "No partition selected."; exit 1; }
+    PARTITION="${1:-$DEFAULT_PARTITION}"
+    NAME="$DEFAULT_NAME"
+    MOUNTPOINT="$DEFAULT_MOUNTPOINT"
 fi
-
-read -rp "Mapper name [${DEFAULT_NAME}]: " NAME
-NAME="${NAME:-$DEFAULT_NAME}"
-
-read -rp "Mount point [${DEFAULT_MOUNTPOINT}]: " MOUNTPOINT
-MOUNTPOINT="${MOUNTPOINT:-$DEFAULT_MOUNTPOINT}"
 
 mkdir -p "$MOUNTPOINT"
 
