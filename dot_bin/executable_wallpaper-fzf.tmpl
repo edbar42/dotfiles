@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Choose wallpapers via fzf with image preview and set with swww.
+# Choose wallpapers via fzf with image preview and set with awww.
 # Flags:
 #   -s main|secondary   set only one output
 #   -a                  set both outputs
@@ -42,9 +42,9 @@ while getopts ":s:a" opt; do
   esac
 done
 
-# Ensure swww is running
-if ! pgrep -x swww-daemon >/dev/null 2>&1; then
-  hyprctl dispatch exec swww-daemon
+# Ensure awww is running
+if ! pgrep -x awww-daemon >/dev/null 2>&1; then
+  hyprctl dispatch exec awww-daemon
 fi
 
 # Change to wallpapers directory
@@ -80,17 +80,17 @@ pick_one() {
     --bind=tab:down,shift-tab:up
 }
 
-# swww transition options
+# awww transition options
 TRANS=(--transition-type fade --transition-angle 135)
 
 set_one() {
   local out="$1" img="$2"
-  # Convert relative path to absolute for swww
+  # Convert relative path to absolute for awww
   local abs_img="$wallpapers_dir/$img"
   if [ -n "$out" ]; then
-    swww img "$abs_img" "${TRANS[@]}" -o "$out"
+    awww img "$abs_img" "${TRANS[@]}" -o "$out"
   else
-    swww img "$abs_img" "${TRANS[@]}"
+    awww img "$abs_img" "${TRANS[@]}"
   fi
 }
 
