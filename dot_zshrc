@@ -66,7 +66,7 @@ alias vim="nvim -u NONE"
 alias lzd="oxker"
 
 # Chezmoi alias
-alias ccd="chezmoi cd"
+alias ccd="cd ~/.local/share/chezmoi/"
 alias tidy="chezmoi apply"
 alias cadd="chezmoi add"
 
