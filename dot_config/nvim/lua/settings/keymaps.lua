@@ -18,6 +18,25 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
+-- Extend Ctrl-a/Ctrl-x to toggle booleans
+local bool_toggles = { ["true"] = "false", ["false"] = "true", ["True"] = "False", ["False"] = "True" }
+vim.keymap.set("n", "<C-a>", function()
+	local word = vim.fn.expand("<cword>")
+	if bool_toggles[word] then
+		vim.cmd("normal! ciw" .. bool_toggles[word])
+	else
+		vim.cmd("normal! \x01")
+	end
+end, { desc = "Increment number or toggle boolean" })
+vim.keymap.set("n", "<C-x>", function()
+	local word = vim.fn.expand("<cword>")
+	if bool_toggles[word] then
+		vim.cmd("normal! ciw" .. bool_toggles[word])
+	else
+		vim.cmd("normal! \x18")
+	end
+end, { desc = "Decrement number or toggle boolean" })
+
 -- Better window navigation/interaction mappings
 vim.keymap.set("n", "<leader>vv", function()
 	vim.cmd("vsp")
