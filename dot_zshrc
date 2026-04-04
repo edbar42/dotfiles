@@ -17,6 +17,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 
 # source login tokens
 source ~/personal/auth/tokens
+
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
 
