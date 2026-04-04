@@ -30,19 +30,17 @@ eval "$(mise activate zsh)"
 # starship prompt
 eval "$(starship init zsh)"
 
-# fzf integration
-
 # Proper key mappings (HyperX Alloy Origins 60)
 bindkey '^[[3' prefix-2
 bindkey '^[[3~' delete-char
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
-autoload -Uz compinit && compinit
-
 # ----------------------------- ALIASES -----------------------------------
 # Enable completion for aliases
 setopt complete_aliases
+fpath=(~/.config/zsh/completions $fpath)
+autoload -Uz compinit && compinit
 compdef _eza lt
 # Base aliases
 alias rm="rm -Iv"
@@ -63,7 +61,6 @@ alias la="eza -a --icons --git"
 alias ll="eza -lh --icons --git"
 alias lla="eza -lah --icons --git"
 alias lt="eza --tree --icons --level=3"
-alias vim="nvim -u NONE"
 alias lzd="oxker"
 
 # Chezmoi alias
@@ -78,17 +75,3 @@ alias gotst="go test -v -cover ./..."
 alias see="wezterm imgcat"
 
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
-
-# ------------------------ STARTUP CALLS --------------------------
-export LIBVA_DRIVER_NAME=nvidia
-export XDG_SESSION_TYPE=wayland
-export GBM_BACKEND=nvidia-drm
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
-export WLR_NO_HARDWARE_CURSORS=1
-
-# Use nvim for everything
-export EDITOR="nvim"
-export VISUAL="nvim"
-export MANPAGER="nvim +Man!"
-
-export PATH="$PATH:$HOME/.bin:$HOME/go/bin/:$PNPM_HOME:$HOME/.local/bin"
