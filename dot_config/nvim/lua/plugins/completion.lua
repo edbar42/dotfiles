@@ -27,24 +27,24 @@ return { -- Performant, batteries-included completion plugin for Neovim
 				["<CR>"] = { "accept", "fallback" },
 				["<C-e>"] = { "hide", "fallback" },
 				["<Tab>"] = {
-					"select_next",
-					function(fallback)
+					function()
 						if ls.expand_or_locally_jumpable() then
 							ls.expand_or_jump()
-						else
-							fallback()
+							return true
 						end
 					end,
+					"select_next",
+					"fallback",
 				},
 				["<S-Tab>"] = {
-					"select_prev",
-					function(fallback)
+					function()
 						if ls.jumpable(-1) then
 							ls.jump(-1)
-						else
-							fallback()
+							return true
 						end
 					end,
+					"select_prev",
+					"fallback",
 				},
 			},
 		}
