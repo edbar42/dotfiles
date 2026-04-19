@@ -2,51 +2,31 @@ return { -- Performant, batteries-included completion plugin for Neovim
 	"Saghen/blink.cmp",
 	version = "v0.*",
 	dependencies = { "L3MON4D3/LuaSnip", "rafamadriz/friendly-snippets" },
-	opts = function()
-		local ls = require("luasnip")
-
-		return {
-			appearance = {
-				use_nvim_cmp_as_default = true,
-				nerd_font_variant = "mono",
+	opts = {
+		appearance = {
+			use_nvim_cmp_as_default = true,
+			nerd_font_variant = "mono",
+		},
+		snippets = { preset = "luasnip" },
+		sources = { default = { "lsp", "path", "buffer", "snippets" } },
+		completion = {
+			documentation = { auto_show = true, auto_show_delay_ms = 500 },
+			ghost_text = { enabled = false },
+			menu = {
+				auto_show = function(ctx)
+					return ctx.mode ~= "cmdline"
+				end,
 			},
-			snippets = { preset = "luasnip" },
-			sources = { default = { "lsp", "path", "buffer", "snippets" } },
-			completion = {
-				documentation = { auto_show = true, auto_show_delay_ms = 500 },
-				ghost_text = { enabled = false },
-				menu = {
-					auto_show = function(ctx)
-						return ctx.mode ~= "cmdline"
-					end,
-				},
-			},
-			signature = { enabled = true },
-			keymap = {
-				preset = "none",
-				["<CR>"] = { "accept", "fallback" },
-				["<C-e>"] = { "hide", "fallback" },
-				["<Tab>"] = {
-					function()
-						if ls.expand_or_locally_jumpable() then
-							ls.expand_or_jump()
-							return true
-						end
-					end,
-					"select_next",
-					"fallback",
-				},
-				["<S-Tab>"] = {
-					function()
-						if ls.jumpable(-1) then
-							ls.jump(-1)
-							return true
-						end
-					end,
-					"select_prev",
-					"fallback",
-				},
-			},
-		}
-	end,
+		},
+		signature = { enabled = true },
+		keymap = {
+			preset = "none",
+			["<CR>"] = { "accept", "fallback" },
+			["<C-e>"] = { "hide", "fallback" },
+			["<C-n>"] = { "select_next", "fallback_to_mappings" },
+			["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+			["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+			["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+		},
+	},
 }
