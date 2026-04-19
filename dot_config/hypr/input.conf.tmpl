@@ -1,0 +1,27 @@
+# settings for input devices
+input {
+    kb_layout = us,br
+{{- if eq .chezmoi.hostname "thinkpad" }}
+    kb_variant = ,thinkpad
+    kb_model = ,thinkpad60
+{{- else }}
+    kb_variant = ,abnt2
+{{- end }}
+
+    # Mouse settings
+    force_no_accel = true
+    follow_mouse = 2
+
+{{ if eq .chezmoi.hostname "thinkpad" -}}
+    # Touchpad settings
+    touchpad {
+        natural_scroll = true
+        disable_while_typing = true
+        scroll_factor = 0.4
+    }
+{{- end }}
+}
+
+{{ if eq .chezmoi.hostname "thinkpad" -}}
+gesture = 3, horizontal, workspace
+{{- end }}

@@ -1,6 +1,8 @@
+{{ if eq .chezmoi.hostname "desktop" }}
 # Set environemnt variables for Nvidia
 env = LIBVA_DRIVER_NAME,nvidia
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+{{ end }}
 
 # Native wayland support for electron apps
 env = ELECTRON_OZONE_PLATFORM_HINT,auto
@@ -18,26 +20,13 @@ source = ~/.config/hypr/monitors.conf
 source = ~/.config/hypr/workspaces.conf
 
 # ayaka theme used as base
-# ayaka theme by https://github.com/abhijeet-swami/omarchy-ayaka-theme
 source = ~/.config/hypr/look_and_feel.conf
 
 # Load window rules
 source = ~/.config/hypr/window-rules.conf
 
-# settings for input devices
-input {
-    kb_layout = us,br
-    kb_variant = ,abnt2
-
-    # Mouse settings
-    force_no_accel = true
-    follow_mouse = 2
-
-    # Touchpad settings
-  touchpad {
-    disable_while_typing = true
-  }
-}
+# Load input devices config
+source = ~/.config/hypr/input.conf
 
 # https://wiki.hyprland.org/Configuring/Variables/#misc
 misc {
@@ -46,6 +35,8 @@ misc {
     disable_hyprland_logo = true
 }
 
+{{ if eq .chezmoi.hostname "thinkpad" }}
 # closing lid turns off laptop display
 bindl = , switch:on:Lid Switch, exec, hyprctl dispatch dpms off
 bindl = , switch:off:Lid Switch, exec, hyprctl dispatch dpms on
+{{ end }}
