@@ -1,0 +1,18 @@
+{
+  "model": "opus",
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"/home/edbar/.claude/plugins/cache/caveman/caveman/600e8efcd6ac/hooks/caveman-statusline.sh\""
+  }
+}
