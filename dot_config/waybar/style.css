@@ -154,3 +154,8 @@ window#waybar {
 #custom-gputemp.crit {
   color: #e82424;
 } /* samuraiRed */
+
+#custom-waycal {
+  font-size: 20px;
+  padding: 0 8px;
+}

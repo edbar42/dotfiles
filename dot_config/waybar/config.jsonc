@@ -5,7 +5,7 @@
   "spacing": 0,
 
   "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["clock"],
+  "modules-center": ["custom/waycal", "clock"],
   "modules-right": [
     "memory",
     "custom/cputemp",
@@ -15,32 +15,27 @@
     "battery",
     "hyprland/language",
     "custom/sep",
-    "tray",
+    "tray"
   ],
 
   "hyprland/workspaces": {
     "format": "{name}",
-    "on-click": "activate",
+    "on-click": "activate"
   },
 
   "tray": {
     "icon-size": 25,
-    "spacing": 10,
+    "spacing": 10
   },
 
   "clock": {
     "format": "{:L%H:%M}",
-    "tooltip-format": "<big>{:L%A %d}</big>\n<tt><small>{calendar}</small></tt>",
     "locale": "pt_BR.UTF-8",
-    "calendar": {
-      "format": {
-        "today": "<span background='#ffaa88' color='#404040'><b>{}</b></span>",
-      },
-    },
+    "calendar": {}
   },
   "memory": {
     "format": "  {}%",
-    "interval": 2,
+    "interval": 2
   },
 
   "custom/cputemp": {
@@ -51,7 +46,7 @@
     "format": "󰻠 {text}",
     "format-warn": "󰻠 {%text}",
     "format-critical": "󰻠 {%text}",
-    "return-type": "json",
+    "return-type": "json"
   },
   "custom/gputemp": {
     "exec": "~/.bin/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
@@ -61,20 +56,20 @@
     "format": "󰢮 {text}",
     "format-warn": "󰢮 {%text}",
     "format-critical": "󰢮 {%text}",
-    "return-type": "json",
+    "return-type": "json"
   },
 
   "battery": {
     "states": {
       "good": 95,
       "warning": 49,
-      "critical": 15,
+      "critical": 15
     },
     "format": "{icon} {capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": "󰂄 {capacity}%",
     "format-alt": "{time} {icon}",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
 
   "network": {
@@ -84,7 +79,7 @@
     "format-linked": "{ifname} (No IP)",
     "format-disconnected": "󰤮 disconnected",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "nm-connection-editor",
+    "on-click": "nm-connection-editor"
   },
 
   "pulseaudio": {
@@ -92,19 +87,26 @@
     "format-muted": "󰖁 MUTED",
     "on-click": "pavucontrol",
     "format-icons": {
-      "default": ["󰕿", "󰖀", "󰕾"],
-    },
+      "default": ["󰕿", "󰖀", "󰕾"]
+    }
   },
 
   "hyprland/language": {
     "format": "󰌌 {}",
     "format-en": "EN",
-    "format-pt": "BR",
+    "format-pt": "BR"
   },
 
   "custom/sep": {
     "format": " ",
     "interval": "once",
-    "tooltip": false,
+    "tooltip": false
   },
+
+  "custom/waycal": {
+    "format": "󰃭",
+    "on-click": "pkill -x waycal || waycal",
+    "interval": "once",
+    "tooltip": false
+  }
 }
