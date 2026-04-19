@@ -1,10 +1,10 @@
-/* Define colors */
-@define-color background rgba(38, 38, 38, 0.6);
-@define-color surface #404040;
+@define-color background rgba(38, 38, 38, 0.34);
+@define-color background-solid #262626;
+@define-color surface rgba(38, 38, 38, 0.46);
+@define-color border rgba(230, 230, 230, 0.06);
 @define-color foreground #e6e6e6;
-@define-color shadow_color #000066;
+@define-color shadow rgba(0, 0, 0, 0.42);
 
-/* Accent Colors */
 @define-color red #e65c5c;
 @define-color green #66cc66;
 @define-color yellow #ffcc66;
@@ -15,61 +15,102 @@
 
 * {
   border: none;
-  border-radius: 0;
-  font-family: "CaskaydiaCoveNF", "Font Awesome 6 Free";
-  font-weight: 900;
-  font-size: 15px;
   min-height: 0;
+  font-family: "CaskaydiaCoveNF", "Font Awesome 6 Free";
+  font-size: 15px;
+  font-weight: 700;
 }
 
 window#waybar {
-  background-color: @transparent;
+  background: @background;
   color: @foreground;
-  transition-property: background-color;
-  transition-duration: 0.5s;
+}
+
+tooltip {
+  background: rgba(28, 28, 28, 0.96);
+  border: 1px solid @border;
+  border-radius: 12px;
+}
+
+tooltip label {
+  color: @foreground;
+  padding: 2px;
 }
 
 #workspaces,
+#custom-waycal,
 #clock,
-#battery,
-#pulseaudio,
-#network,
+#memory,
 #custom-cputemp,
 #custom-gputemp,
-#memory,
-#tray,
-#custom-sep,
-#language {
-  background-color: @background-color;
-  padding: 0 5px;
+#network,
+#pulseaudio,
+#battery,
+#language,
+#tray {
+  margin: 3px 3px 2px;
+  padding: 0 10px;
+  min-height: 24px;
   color: @foreground;
+  background: @surface;
+  border: 1px solid @border;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+#workspaces {
+  margin-left: 6px;
+  padding: 2px 4px;
 }
 
 #workspaces button {
-  padding: 0 5px;
-  background-color: transparent;
+  min-width: 22px;
+  margin: 0 2px;
+  padding: 0 8px;
   color: @magenta;
-  border-bottom: 3px solid transparent;
+  background: transparent;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px transparent;
 }
 
 #workspaces button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
-  border-bottom: 3px solid @foreground;
+  color: @foreground;
+  background: rgba(204, 102, 204, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(204, 102, 204, 0.24);
 }
 
 #workspaces button.active {
   color: @cyan;
-  border-bottom: 3px solid @yellow;
+  background: rgba(102, 204, 204, 0.16);
+  box-shadow:
+    inset 0 -2px 0 @yellow,
+    inset 0 0 0 1px rgba(102, 204, 204, 0.22);
 }
 
 #workspaces button.urgent {
-  background-color: @red;
-  color: @background;
+  color: @background-solid;
+  background: @red;
+  box-shadow: none;
+}
+
+#custom-waycal {
+  margin-right: 0;
+  padding-right: 8px;
+  font-size: 16px;
+  color: @yellow;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 #clock {
-  color: @foreground;
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 #memory {
@@ -84,78 +125,84 @@ window#waybar {
   color: @green;
 }
 
-#pulseaudio {
-  color: @foreground;
-}
-
-#pulseaudio.muted {
-  color: @red;
-}
-
 #network {
   color: @cyan;
 }
 
-#network.disconnected {
-  background-color: @red;
-  color: @background;
+#pulseaudio {
+  color: @foreground;
 }
 
 #battery {
   color: @green;
 }
 
-#battery.good {
-  color: @green;
+#language {
+  margin-right: 0;
+  padding: 0 10px;
+  color: @red;
+  font-weight: 800;
+}
+
+#tray {
+  margin-left: 0;
+  margin-right: 6px;
+  padding: 0 8px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#network.disconnected,
+#pulseaudio.muted,
+#battery.critical:not(.charging) {
+  color: @red;
+  background: rgba(230, 92, 92, 0.14);
 }
 
 #battery.warning {
   color: @yellow;
-}
-
-#battery.critical {
-  color: @red;
+  background: rgba(255, 204, 102, 0.12);
 }
 
 #battery.charging,
 #battery.plugged {
   color: @green;
+  background: rgba(102, 204, 102, 0.12);
 }
 
 @keyframes blink {
   to {
-    color: @red;
+    color: @foreground;
   }
 }
 
 #battery.critical:not(.charging) {
-  color: @red;
   animation-name: blink;
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
 
-#language {
+#custom-cputemp.warn,
+#custom-gputemp.warn {
+  color: @yellow;
+}
+
+#custom-cputemp.crit,
+#custom-gputemp.crit {
   color: @red;
 }
 
-#custom-cputemp.warn {
-  color: #ffa066;
-} /* surimiOrange */
-#custom-cputemp.crit {
-  color: #e82424;
-} /* samuraiRed */
-
-#custom-gputemp.warn {
-  color: #ffa066;
-} /* surimiOrange */
-#custom-gputemp.crit {
-  color: #e82424;
-} /* samuraiRed */
-
-#custom-waycal {
-  font-size: 20px;
-  padding: 0 8px;
+#custom-sep {
+  margin: 3px 1px 2px;
+  padding: 0;
+  min-width: 4px;
+  background: transparent;
 }
