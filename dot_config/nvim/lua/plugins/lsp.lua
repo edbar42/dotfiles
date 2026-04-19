@@ -67,7 +67,11 @@ return { -- Quickstart configs for Nvim LSP
 				-- Symbols
 				map("<leader>ds", require("fzf-lua").lsp_document_symbols, "LSP: [D]ocument [S]ymbols")
 				map("<leader>ws", require("fzf-lua").lsp_workspace_symbols, "LSP: [W]orkspace [S]ymbols")
-				map("<leader>wS", require("fzf-lua").lsp_live_workspace_symbols, "LSP: [W]orkspace [S]ymbols (live search)")
+				map(
+					"<leader>wS",
+					require("fzf-lua").lsp_live_workspace_symbols,
+					"LSP: [W]orkspace [S]ymbols (live search)"
+				)
 
 				-- Actions
 				map("<leader>rn", vim.lsp.buf.rename, "LSP: [R]e[n]ame")
@@ -100,8 +104,9 @@ return { -- Quickstart configs for Nvim LSP
 				map("<leader>li", "<cmd>LspInfo<cr>", "LSP: [L]SP [I]nfo")
 				map("<leader>lr", "<cmd>LspRestart<cr>", "LSP: [L]SP [R]estart")
 
-				-- Document highlight
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+				-- Document highlight
 				if client and client.server_capabilities.documentHighlightProvider then
 					local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -259,7 +264,8 @@ return { -- Quickstart configs for Nvim LSP
 
 		-- Configure each server via vim.lsp.config (Neovim 0.11+)
 		for server_name, server_config in pairs(servers) do
-			server_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
+			server_config.capabilities =
+				vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
 			vim.lsp.config(server_name, server_config)
 		end
 

@@ -34,6 +34,28 @@ return {
 				},
 			}
 
+			-- Rust debugging
+			local codelldb = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
+			if vim.fn.executable(codelldb) == 1 then
+				dap.adapters.codelldb = {
+					type = "executable",
+					command = codelldb,
+				}
+
+				dap.configurations.rust = {
+					{
+						name = "Rust: Launch executable",
+						type = "codelldb",
+						request = "launch",
+						cwd = "${workspaceFolder}",
+						stopOnEntry = false,
+						program = function()
+							return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+						end,
+					},
+				}
+			end
+
 			---------- .NET / C# debugging ----------
 
 			local function find_project_root_by_csproj(start_path)
@@ -121,7 +143,6 @@ return {
 					justMyCode = false,
 				},
 			}
-
 
 			vim.keymap.set("n", "<space>b", dap.toggle_breakpoint, { desc = "DEBUG: Toggle breakpoint" })
 

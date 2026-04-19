@@ -32,6 +32,7 @@ return { -- Lightweight yet powerful formatter
 			cs = { "csharpier" },
 			lua = { "stylua" },
 			go = { "gofumpt", "goimports" },
+			rust = { "rustfmt" },
 			javascript = { "prettier", "biome" },
 			typescript = { "prettier", "biome" },
 			javascriptreact = { "prettier", "biome" },
