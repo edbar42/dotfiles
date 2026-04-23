@@ -48,6 +48,8 @@
     "format-critical": "󰻠 {%text}",
     "return-type": "json"
   },
+
+  {{- if eq .chezmoi.hostname "desktop" }}
   "custom/gputemp": {
     "exec": "~/.bin/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
     "format": "󰢮 {}",
@@ -58,7 +60,9 @@
     "format-critical": "󰢮 {%text}",
     "return-type": "json"
   },
+  {{- end }}
 
+  {{- if eq .chezmoi.hostname "thinkpad" }}
   "battery": {
     "states": {
       "good": 95,
@@ -71,6 +75,7 @@
     "format-alt": "{time} {icon}",
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
+  {{- end }}
 
   "network": {
     "format-wifi": "󰤨 {essid}",
