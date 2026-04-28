@@ -4,6 +4,7 @@
 	st = status
 	cmt = commit
 	ok = rebase --continue
+  last = diff HEAD~1 HEAD
   patch = commit --amend --no-edit
 
 [commit]
