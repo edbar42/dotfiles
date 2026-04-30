@@ -1,13 +1,13 @@
 font-family = CaskaydiaCove NF
 
-
-{{- if eq .chezmoi.hostname "desktop" }}
-font-size = 14
-{{- end }}
-
 {{- if eq .chezmoi.hostname "thinkpad" }}
 font-size = 18
+{{- else }}
+font-size = 14
 {{- end }}
+font-feature = calt
+font-frature = liga
+font-feature = clig
 
 # --- Colors ---
 theme = One Double Dark
