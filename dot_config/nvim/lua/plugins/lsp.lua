@@ -36,16 +36,7 @@ return { -- Quickstart configs for Nvim LSP
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 		end
 
-		-- LSP handlers with borders
-		local handlers = {
-			["textDocument/hover"] = vim.lsp.handlers.hover,
-			["textDocument/signatureHelp"] = vim.lsp.handlers.signature_help,
-		}
-		for k, v in pairs(handlers) do
-			vim.lsp.handlers[k] = vim.lsp.with(v, { border = "rounded" })
-		end
-
-		vim.api.nvim_create_autocmd("LspAttach", {
+vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 			callback = function(event)
 				local map = function(keys, func, desc, mode)
@@ -88,10 +79,24 @@ return { -- Quickstart configs for Nvim LSP
 				map("<leader>co", require("fzf-lua").lsp_outgoing_calls, "LSP: [C]all [O]utgoing")
 
 				-- Diagnostics
-				map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-				map("]d", vim.diagnostic.goto_next, "Next diagnostic")
-				map("<leader>e", vim.diagnostic.open_float, "Show diagnostic")
-				map("<leader>q", vim.diagnostic.setloclist, "Diagnostic quickfix")
+				vim.keymap.set("n", "[d", function()
+					vim.diagnostic.jump({ count = 1, float = true })
+				end, { desc = "Go to previous [D]iagnostic message" })
+				vim.keymap.set("n", "]d", function()
+					vim.diagnostic.jump({ count = -1, float = true })
+				end, { desc = "Go to next [D]iagnostic message" })
+				vim.keymap.set(
+					"n",
+					"<leader>,e",
+					vim.diagnostic.open_float,
+					{ desc = "Show diagnostic [E]rror messages" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>,q",
+					vim.diagnostic.setloclist,
+					{ desc = "Open diagnostic [Q]uickfix list" }
+				)
 
 				-- Workspace
 				map("<leader>wa", vim.lsp.buf.add_workspace_folder, "LSP: [W]orkspace [A]dd folder")

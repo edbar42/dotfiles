@@ -10,11 +10,11 @@ return { -- Getting you where you want with the fewest keystrokes
 
 		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():add()
-		end, { desc = "Add buffer to Harpoon UI" })
+		end, { desc = "HARPOON: Add buffer to Harpoon UI" })
 
 		vim.keymap.set("n", "<leader>hm", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
-		end, { desc = "Show Harpoon UI" })
+		end, { desc = "HARPOON: Show Harpoon UI" })
 
 		-- Set <space>{1..5} as shortcuts for available files
 		for _, index in ipairs({ 1, 2, 3, 4, 5 }) do

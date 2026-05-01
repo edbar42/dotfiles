@@ -10,12 +10,12 @@ return { -- Get diagnostic messages project wide
 		{
 			"<leader>tt",
 			"<cmd>Trouble diagnostics toggle<cr>",
-			desc = "Trouble: Toggle trouble diagnostics",
+			desc = "TROUBLE: Toggle trouble diagnostics",
 		},
 		{
 			"<leader>qf",
 			"<cmd>Trouble quickfix toggle<cr>",
-			desc = "Trouble: Toggle trouble quickfix list",
+			desc = "TROUBLE: Toggle trouble quickfix list",
 		},
 	},
 }

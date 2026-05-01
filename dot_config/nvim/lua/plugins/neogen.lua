@@ -1,6 +1,9 @@
 return { -- A better annotation generator
 	"danymat/neogen",
 	dependencies = { "L3MON4D3/LuaSnip" },
+	config = function(_, opts)
+		require("neogen").setup(opts)
+	end,
 	opts = {
 		snippet_engine = "luasnip",
 		languages = {

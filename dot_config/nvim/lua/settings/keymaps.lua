@@ -37,6 +37,11 @@ vim.keymap.set("n", "<C-x>", function()
 	end
 end, { desc = "Decrement number or toggle boolean" })
 
+-- Print current file path
+vim.keymap.set("n", "<leader>pwd", function()
+	print(vim.fn.expand("%:p:h"))
+end, { desc = "Print current file directory" })
+
 -- Better window navigation/interaction mappings
 vim.keymap.set("n", "<leader>vv", function()
 	vim.cmd("vsp")
@@ -62,8 +67,11 @@ vim.keymap.set("n", "<C-->", "<C-w>-", { desc = "Decrease window height" })
 vim.keymap.set("n", "<C->>", "<C-w>>", { desc = "Increase window width" })
 vim.keymap.set("n", "<C-<>", "<C-w><", { desc = "Decrease window width" })
 
--- Diagnostics
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>,e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>,q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+-- TODO comments keybinds
+vim.keymap.set("n", "]t", function()
+	require("todo-comments").jump_next()
+end, { desc = "TODO: Next todo comment" })
+
+vim.keymap.set("n", "[t", function()
+	require("todo-comments").jump_prev()
+end, { desc = "TODO: Previous todo comment" })
