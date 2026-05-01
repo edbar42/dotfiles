@@ -1,9 +1,10 @@
 locale: pt_BR
+first_day_of_week: sun
 keymaps:
-  month_prev: h
-  month_next: l
-  year_prev: j
-  year_next: k
+  month_prev: k
+  month_next: j
+  year_prev: h
+  year_next: l
   today: t
   style_toggle: r
   close: q
