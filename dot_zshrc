@@ -18,18 +18,6 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.pl
 # source login tokens
 source ~/personal/auth/tokens
 
-# Zoxide as a replacement to cd
-eval "$(zoxide init --cmd cd zsh)"
-
-# Manage SSH keys
-eval $(keychain -q --eval $HOME/personal/auth/ssh/git)
-
-# Activate mise-en-place
-eval "$(mise activate zsh)"
-
-# starship prompt
-eval "$(starship init zsh)"
-
 # Proper key mappings (HyperX Alloy Origins 60)
 bindkey '^[[3' prefix-2
 bindkey '^[[3~' delete-char
@@ -72,6 +60,20 @@ alias cadd="chezmoi add"
 alias gotst="go test -v -cover ./..."
 
 # Wezterm image viewer
-alias see="wezterm imgcat"
+alias see="chafa"
 
 alias fix-mirrors="sudo reflector -c BR,CL,MX,US --protocol https --sort score --latest 10 --save /etc/pacman.d/mirrorlist"
+
+# eval calls should stay at the end of the file
+# Manage SSH keys
+eval $(keychain -q --eval $HOME/personal/auth/ssh/git)
+
+# Activate mise-en-place
+eval "$(mise activate zsh)"
+
+# starship prompt
+eval "$(starship init zsh)"
+
+# Zoxide as a replacement to cd
+eval "$(zoxide init --cmd cd zsh)"
+
