@@ -36,7 +36,7 @@ return { -- Quickstart configs for Nvim LSP
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 		end
 
-vim.api.nvim_create_autocmd("LspAttach", {
+		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 			callback = function(event)
 				local map = function(keys, func, desc, mode)
@@ -80,10 +80,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 				-- Diagnostics
 				vim.keymap.set("n", "[d", function()
-					vim.diagnostic.jump({ count = 1, float = true })
+					vim.diagnostic.jump({ count = -1, float = true })
 				end, { desc = "Go to previous [D]iagnostic message" })
 				vim.keymap.set("n", "]d", function()
-					vim.diagnostic.jump({ count = -1, float = true })
+					vim.diagnostic.jump({ count = 1, float = true })
 				end, { desc = "Go to next [D]iagnostic message" })
 				vim.keymap.set(
 					"n",
