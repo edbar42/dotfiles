@@ -1,9 +1,8 @@
 [tools]
-usage = "latest"
-pnpm = "latest"
 dotnet = "latest"
 node = "latest"
 go = "latest"
+rust = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
