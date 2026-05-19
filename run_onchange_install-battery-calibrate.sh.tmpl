@@ -1,0 +1,79 @@
+#!/bin/bash
+{{- if eq .chezmoi.hostname "thinkpad" }}
+# Install battery calibration: monthly full-charge cycle to recalibrate gauge.
+# Normal charge cap is 85; this bumps to 100 every 4 weeks, restores after full.
+set -euo pipefail
+
+SCRIPT=/usr/local/bin/battery-calibrate
+SERVICE=/etc/systemd/system/battery-calibrate.service
+TIMER=/etc/systemd/system/battery-calibrate.timer
+
+sudo tee "$SCRIPT" >/dev/null <<'EOF'
+#!/bin/bash
+# Periodic full-charge calibration. Bump end threshold to 100, wait for full, restore.
+set -u
+
+BAT=/sys/class/power_supply/BAT0
+AC=/sys/class/power_supply/AC
+NORMAL=85
+MAX_WAIT=$((12 * 3600))
+POLL=60
+
+log() { logger -t battery-calibrate "$*"; echo "$*"; }
+
+restore() {
+    echo "$NORMAL" > "$BAT/charge_control_end_threshold"
+    log "Restored end threshold to $NORMAL"
+}
+trap restore EXIT
+
+echo 100 > "$BAT/charge_control_end_threshold"
+log "Calibration started: threshold=100"
+
+waited=0
+while (( waited < MAX_WAIT )); do
+    cap=$(cat "$BAT/capacity")
+    status=$(cat "$BAT/status")
+    online=$(cat "$AC/online")
+    if (( cap >= 99 )) && [[ "$status" == "Full" || "$status" == "Not charging" ]] && (( online == 1 )); then
+        log "Reached full (cap=$cap status=$status)"
+        exit 0
+    fi
+    sleep "$POLL"
+    waited=$((waited + POLL))
+done
+
+log "Timeout after ${MAX_WAIT}s (cap=$cap status=$status online=$online)"
+EOF
+sudo chmod 755 "$SCRIPT"
+
+sudo tee "$SERVICE" >/dev/null <<'EOF'
+[Unit]
+Description=Battery calibration: full charge cycle
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/battery-calibrate
+TimeoutStartSec=13h
+EOF
+
+sudo tee "$TIMER" >/dev/null <<'EOF'
+[Unit]
+Description=Run battery calibration every 4 weeks
+
+[Timer]
+OnBootSec=1h
+OnUnitActiveSec=4w
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now battery-calibrate.timer
+{{- else }}
+# Not thinkpad. No-op.
+:
+{{- end }}
