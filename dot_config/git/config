@@ -14,12 +14,7 @@
 	autocrlf = input
 	editor = nvim
 	fileMode = false
-	pager = delta
-
-[delta]
-	line-numbers = true
-	side-by-side = true
-  navigate = true
+	pager = hunk pager
 
 [gpg]
 	format = ssh
