@@ -24,48 +24,45 @@ set statusbar-page-percent true
 set statusbar-basename true
 
 # ------------------------------
-#	Colorscheme is NightCS with
-# small variations
-#	Original found at:
-#	https://github.com/NightCS/zathura
+#	One Dark colorscheme
 # ------------------------------
 
-set default-fg 			    "#d9d7d6"
-set default-bg 			    "#061115"
+set default-fg 			    "#abb2bf"
+set default-bg 			    "#282c34"
 
-set completion-bg		    "#0A1419"
-set completion-fg		    "#d9d7d6"
-set completion-highlight-bg	"#1c252c"
-set completion-highlight-fg	"#d9d7d6"
-set completion-group-bg		"#0A1419"
-set completion-group-fg		"#6791c9"
+set completion-bg		    "#21252b"
+set completion-fg		    "#abb2bf"
+set completion-highlight-bg	"#3e4451"
+set completion-highlight-fg	"#ffffff"
+set completion-group-bg		"#21252b"
+set completion-group-fg		"#61afef"
 
-set statusbar-fg		    "#ff8866"
-set statusbar-bg		    "#162026"
+set statusbar-fg		    "#c678dd"
+set statusbar-bg		    "#21252b"
 
-set notification-bg		    "#0A1419"
-set notification-fg		    "#d9d7d6"
-set notification-error-bg	"#0A1419"
-set notification-error-fg	"#df5b61"
-set notification-warning-bg	"#0A1419"
-set notification-warning-fg	"#de8f78"
+set notification-bg		    "#21252b"
+set notification-fg		    "#abb2bf"
+set notification-error-bg	"#21252b"
+set notification-error-fg	"#e06c75"
+set notification-warning-bg	"#21252b"
+set notification-warning-fg	"#e5c07b"
 
-set inputbar-fg			    "#d9d7d6"
-set inputbar-bg 		    "#0A1419"
+set inputbar-fg			    "#abb2bf"
+set inputbar-bg 		    "#21252b"
 
 set recolor
-set recolor-lightcolor		"#061115"
+set recolor-lightcolor		"#282c34"
 set recolor-keephue
-set recolor-darkcolor		"#d9d7d6"
+set recolor-darkcolor		"#abb2bf"
 
-set index-fg			    "#d9d7d6"
-set index-bg			    "#061115"
-set index-active-fg		    "#d9d7d6"
-set index-active-bg		    "#0A1419"
+set index-fg			    "#abb2bf"
+set index-bg			    "#282c34"
+set index-active-fg		    "#ffffff"
+set index-active-bg		    "#3e4451"
 
-set render-loading-bg		"#061115"
-set render-loading-fg		"#d9d7d6"
+set render-loading-bg		"#282c34"
+set render-loading-fg		"#abb2bf"
 
-set highlight-color		    "#162026"
-set highlight-fg            "#bc83e3"
-set highlight-active-color	"#bc83e3"
+set highlight-color		    "#56b6c2"
+set highlight-fg            "#c678dd"
+set highlight-active-color	"#c678dd"
