@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+WALLPAPER_DIR="$HOME/Pictures/wallpapers/horizontal"
+HYPRLOCK_CONF="$HOME/.config/hypr/hyprlock.conf"
+
+wallpaper=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | shuf -n1)
+[[ -z "$wallpaper" ]] && { echo "No wallpapers found in $WALLPAPER_DIR" >&2; exit 1; }
+
+# Use pywal Python API directly — no cache writes, no terminal sequences
+colors_json=$(python3 - "$wallpaper" <<'EOF'
+import sys, json
+import pywal.colors
+colors = pywal.colors.get(sys.argv[1], backend="wal", light=False)
+print(json.dumps(colors))
+EOF
+)
+
+[[ -z "$colors_json" ]] && { echo "pywal color extraction failed" >&2; exit 1; }
+
+c0=$(jq -r '.colors.color0' <<< "$colors_json" | tr -d '#')
+c1=$(jq -r '.colors.color1' <<< "$colors_json" | tr -d '#')
+c2=$(jq -r '.colors.color2' <<< "$colors_json" | tr -d '#')
+c4=$(jq -r '.colors.color4' <<< "$colors_json" | tr -d '#')
+c5=$(jq -r '.colors.color5' <<< "$colors_json" | tr -d '#')
+c6=$(jq -r '.colors.color6' <<< "$colors_json" | tr -d '#')
+fg=$(jq -r '.special.foreground' <<< "$colors_json" | tr -d '#')
+bg=$(jq -r '.special.background' <<< "$colors_json" | tr -d '#')
+
+fr=$((16#${fg:0:2})); fg_g=$((16#${fg:2:2})); fb=$((16#${fg:4:2}))
+br=$((16#${bg:0:2})); bg_g=$((16#${bg:2:2})); bb=$((16#${bg:4:2}))
+
+sed -i \
+    -e "s|^\( *path = \).*|\1$wallpaper|" \
+    -e "s|^\( *outer_color = \).*|\1rgba(${c4}ee) rgba(${c5}ee) 45deg|" \
+    -e "s|^\( *check_color = \).*|\1rgba(${c6}ee) rgba(${c2}ee) 120deg|" \
+    -e "s|^\( *fail_color = \).*|\1rgba(${c1}ee) rgba(${c0}ee) 40deg|" \
+    -e "s|^\( *inner_color = \).*|\1rgba($br, $bg_g, $bb, 0.7)|" \
+    -e "s|^\( *font_color = \).*|\1rgb($fr, $fg_g, $fb)|" \
+    -e "s|^\( *color = rgba(\)[0-9]*, [0-9]*, [0-9]*\(, 0\.9)\)|\1$fr, $fg_g, $fb\2|" \
+    "$HYPRLOCK_CONF"
+
+hyprlock
