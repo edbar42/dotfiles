@@ -262,6 +262,7 @@ return { -- Quickstart configs for Nvim LSP
 			"stylua",
 			"gofumpt",
 			"prettier",
+			"roslyn",
 		})
 		require("mason-tool-installer").setup({
 			ensure_installed = ensure_installed,
