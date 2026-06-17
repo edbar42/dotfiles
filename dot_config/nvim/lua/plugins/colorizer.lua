@@ -1,7 +1,7 @@
 return { -- The fastest Neovim colorizer
   "catgoose/nvim-colorizer.lua",
   event = "BufReadPre",
-    opts = {
+  opts = {
     user_default_options = {
       names = false,
       RRGGBBAA = true,
@@ -13,4 +13,3 @@ return { -- The fastest Neovim colorizer
     },
   },
 }
-
