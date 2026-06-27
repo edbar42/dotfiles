@@ -1,0 +1,11 @@
+{
+  "name": "One Dark Pro",
+  "base": "dark",
+  "overrides": {
+    "claude": "#c678dd",
+    "error": "#e06c75",
+    "success": "#98c379",
+    "warning": "#e5c07b",
+    "info": "#61afef"
+  }
+}

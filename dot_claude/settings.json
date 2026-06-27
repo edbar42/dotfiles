@@ -1,5 +1,14 @@
 {
-  "model": "opus",
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0,
+    "refreshInterval": 10
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true
+  },
   "extraKnownMarketplaces": {
     "caveman": {
       "source": {
@@ -8,11 +17,6 @@
       }
     }
   },
-  "enabledPlugins": {
-    "caveman@caveman": true
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bash \"/home/edbar/.claude/plugins/cache/caveman/caveman/600e8efcd6ac/hooks/caveman-statusline.sh\""
-  }
+  "theme": "one-dark-pro",
+  "skipAutoPermissionPrompt": true
 }

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "plugins": {
+    "caveman@caveman": [
+      {
+        "scope": "user",
+        "installPath": "/home/edbar/.claude/plugins/cache/caveman/caveman/655b7d9c5431",
+        "version": "655b7d9c5431",
+        "installedAt": "2026-05-31T15:21:09.469Z",
+        "lastUpdated": "2026-05-31T15:21:09.469Z",
+        "gitCommitSha": "655b7d9c5431f822264b7732e9901c5578ac84cf"
+      }
+    ]
+  }
+}

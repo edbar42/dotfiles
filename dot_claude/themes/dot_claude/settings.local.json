@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//opt/claude-code/**)",
+      "Read(//opt/claude-code/bin/**)",
+      "Bash(grep -E \"^[a-z][a-zA-Z]+Color$|^[a-z][a-zA-Z]+\\(Background|Border|Text|Fg|Bg\\)$\")"
+    ]
+  }
+}
