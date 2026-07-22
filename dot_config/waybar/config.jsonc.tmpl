@@ -11,11 +11,9 @@
     "custom/cputemp",
     "custom/gputemp",
     "network",
-    "pulseaudio",
     "battery",
-    "hyprland/language",
-    "custom/sep",
-    "tray"
+    "pulseaudio",
+    "group/quick-settings"
   ],
 
   "hyprland/workspaces": {
@@ -23,25 +21,20 @@
     "on-click": "activate"
   },
 
-  "tray": {
-    "icon-size": 25,
-    "spacing": 10
-  },
-
   "clock": {
     "format": "{:L%H:%M}",
     "locale": "pt_BR.UTF-8",
     "calendar": {}
   },
+
   "memory": {
-    "format": "  {}%",
+    "format": "  {}%",
     "interval": 2,
     "on-click": "~/.bin/tui-float btop"
   },
 
   "custom/cputemp": {
     "exec": "~/.bin/temperature",
-    "format": "󰻠 {}",
     "interval": 2,
     "on-click": "~/.bin/tui-float btop",
     "format": "󰻠 {text}",
@@ -52,8 +45,7 @@
 
   {{- if eq .chezmoi.hostname "desktop" }}
   "custom/gputemp": {
-    "exec": "~/.bin/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
-    "format": "󰢮 {}",
+    "exec": "~/.bin/temperature --chip nvidia",
     "interval": 2,
     "on-click": "~/.bin/tui-float btop",
     "format": "󰢮 {text}",
@@ -68,7 +60,7 @@
     "format": "{capacity}% {icon}",
     "format-discharging": "{icon}",
     "format-charging": "{icon}",
-    "format-plugged": "",
+    "format-plugged": "",
     "format-icons": {
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
       "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
@@ -81,6 +73,7 @@
       "warning": 20,
       "critical": 10
     }
+  },
   {{- end }}
 
   "network": {
@@ -98,10 +91,26 @@
     "on-click": "~/.bin/tui-float impala"
   },
 
+  "group/quick-settings": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "quick-settings-item",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/expand-icon", "hyprland/language", "tray"]
+  },
+
+  "custom/expand-icon": {
+    "format": "",
+    "tooltip": false
+  },
+
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-muted": "󰖁 MUTED",
+    "format-muted": "󰖁",
     "on-click": "~/.bin/tui-float wiremix",
+    "scroll-step": 5,
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     }
@@ -113,10 +122,9 @@
     "format-pt": "BR"
   },
 
-  "custom/sep": {
-    "format": " ",
-    "interval": "once",
-    "tooltip": false
+  "tray": {
+    "icon-size": 18,
+    "spacing": 8
   },
 
   "custom/waycal": {
