@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+hyprctl dispatch exec "[float; size 875 600; center] xdg-terminal-exec $*"
