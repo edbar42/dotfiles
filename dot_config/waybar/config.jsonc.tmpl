@@ -35,14 +35,15 @@
   },
   "memory": {
     "format": "  {}%",
-    "interval": 2
+    "interval": 2,
+    "on-click": "~/.bin/tui-float btop"
   },
 
   "custom/cputemp": {
     "exec": "~/.bin/temperature",
     "format": "󰻠 {}",
     "interval": 2,
-    "on-click": "wezterm -e btop",
+    "on-click": "~/.bin/tui-float btop",
     "format": "󰻠 {text}",
     "format-warn": "󰻠 {%text}",
     "format-critical": "󰻠 {%text}",
@@ -54,7 +55,7 @@
     "exec": "~/.bin/temperature $(if [[ $(hostname) == 'desktop' ]]; then echo '--chip nvidia'; fi)",
     "format": "󰢮 {}",
     "interval": 2,
-    "on-click": "wezterm -e btop",
+    "on-click": "~/.bin/tui-float btop",
     "format": "󰢮 {text}",
     "format-warn": "󰢮 {%text}",
     "format-critical": "󰢮 {%text}",
@@ -64,33 +65,43 @@
 
   {{- if eq .chezmoi.hostname "thinkpad" }}
   "battery": {
-    "states": {
-      "good": 95,
-      "warning": 49,
-      "critical": 15
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰂄 {capacity}%",
-    "format-plugged": "󰂄 {capacity}%",
-    "format-alt": "{time} {icon}",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-  },
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
   {{- end }}
 
   "network": {
-    "format-wifi": "󰤨 {essid}",
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)",
+    "tooltip-format-ethernet": "Connected",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "spacing": 1,
     "format-ethernet": "󰈀 {ifname}",
-    "tooltip-format": "{ifname} via {gwaddr}",
     "format-linked": "{ifname} (No IP)",
-    "format-disconnected": "󰤮 disconnected",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "nm-connection-editor"
+    "format-disconnected": "󰤮 ",
+    "on-click": "~/.bin/tui-float impala"
   },
 
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "󰖁 MUTED",
-    "on-click": "pavucontrol",
+    "on-click": "~/.bin/tui-float wiremix",
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     }
