@@ -21,9 +21,9 @@ read = [{ run = 'zathura "$@"', desc = "Read", orphan = true }]
 
 [open]
 prepend_rules = [
-  { name = "*.pdf", use = "read" },
-  { name = "*.epub", use = "read" },
-  { name = "*.tex", use = "edit" },
-  { name = "*.opus", use = "listen" },
-  { name = "*.mp3", use = "listen" },
+  { url = "*.pdf", use = "read" },
+  { url = "*.epub", use = "read" },
+  { url = "*.tex", use = "edit" },
+  { url = "*.opus", use = "play" },
+  { url = "*.mp3", use = "play" },
 ]

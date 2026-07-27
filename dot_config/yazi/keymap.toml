@@ -7,7 +7,5 @@ desc = "Enter child directory or open file"
 # Drag and drop via dragon
 [[mgr.prepend_keymap]]
 on = [ "<C-n>" ]
-run = '''
-	shell 'dragon-drop -x -i -T "$1"' --confirm
-	'''
+run = 'shell -- dragon-drop -x -i -T "%h"'
 desc = "Click and drag functionality"
