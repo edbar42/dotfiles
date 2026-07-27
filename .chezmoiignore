@@ -1,3 +1,7 @@
 README.md
 *.list
 
+# yazi plugins fetched by `ya pkg install`, not tracked
+.config/yazi/plugins
+.config/yazi/flavors
+
