@@ -29,6 +29,6 @@ return { -- Neovim file explorer
       },
     })
 
-    vim.keymap.set("n", "<leader>fo", require("oil").toggle_float, { desc = "Open Oil" })
+    vim.keymap.set("n", "<leader>eo", require("oil").toggle_float, { desc = "Open Oil" })
   end,
 }
