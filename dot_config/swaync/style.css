@@ -1,14 +1,12 @@
-/* Colors */
-/* Colors (palette-applied) */
-@define-color background            #262626;
-@define-color background-alt        #404040;
-@define-color background-alt-darker #333333; /* slightly darker than alt */
-@define-color accent-normal         #6699ff; /* green */
-@define-color accent-error          #e65c5c; /* red */
-@define-color bordercolor           #404040; /* inactive_border */
-@define-color fontcolor             #e6e6e6; /* foreground */
-@define-color fontaltcolor          #262626; /* background */
-/* Config */
+/* One Dark Pro — Frosted Glass */
+@define-color background            rgba(40, 44, 52, 0.92);
+@define-color background-alt        rgba(44, 49, 60, 0.82);
+@define-color background-alt-darker rgba(33, 37, 43, 0.88);
+@define-color accent-normal         #c678dd;
+@define-color accent-error          #e06c75;
+@define-color fontcolor             #abb2bf;
+@define-color fontaltcolor          #282c34;
+@define-color comment               #5c6370;
 
 * {
   font-family: "Caskaydia Cove NF";
@@ -19,9 +17,10 @@
 .notification {
   background: @background;
   color: @fontcolor;
-  border: 3px solid @bordercolor;
-  border-radius: 10px;
-  padding: 10px;
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .body {
@@ -40,23 +39,25 @@
   font-size: 16px;
   font-weight: 700;
   background: transparent;
-  color: @fontcolor;
+  color: @comment;
   text-shadow: none;
   margin-right: 18px;
 }
 
 .close-button {
-  background-color: @accent-error;
+  background-color: rgba(224, 108, 117, 0.85);
   color: @fontaltcolor;
   margin-top: 5px;
   margin-right: 5px;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: none;
 }
 
 .notification-default-action:hover,
 .notification-action:hover {
   color: @fontcolor;
-  background: transparent;
+  background: rgba(198, 120, 221, 0.12);
+  border-radius: 10px;
 }
 
 .notification.critical progress {
@@ -73,8 +74,10 @@
 .control-center {
   background-color: @background;
   color: @fontcolor;
-  border: 3px solid @bordercolor;
-  padding: 10px;
+  border: none;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
 /* Notifications expanded-group */
@@ -95,11 +98,12 @@
 
 .notification-group-collapse-button,
 .notification-group-close-all-button {
-  background: @accent-normal;
-  color: @fontaltcolor;
+  background: rgba(198, 120, 221, 0.20);
+  color: @accent-normal;
   margin: 4px;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 4px;
+  border: none;
 }
 
 .notification-group-collapse-button:hover,
@@ -112,52 +116,59 @@
 .widget-title {
   color: @fontcolor;
 }
+
 .widget-title > button {
   font-size: 1rem;
   color: @fontcolor;
   background: @background-alt-darker;
   box-shadow: none;
+  border-radius: 8px;
+  border: none;
 }
 
 .widget-title > button:hover {
-  background: @accent-error;
+  background: rgba(224, 108, 117, 0.80);
   color: @fontaltcolor;
 }
 
 /* widget button grid */
 button {
-  border: 0px;
+  border: none;
   min-width: 35px;
-  background: @background-alt;
+  background: transparent;
 }
 
 .widget-buttons-grid {
   font-size: x-large;
   background: @background-alt-darker;
+  border-radius: 12px;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button {
   color: @fontcolor;
   margin: 8px;
   padding: 10px;
+  border-radius: 10px;
+  background: @background-alt;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
-  background: alpha(@fontcolor, 0.55);
+  background: rgba(171, 178, 191, 0.15);
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
-  background: @accent-normal;
+  background: rgba(198, 120, 221, 0.25);
+  color: @accent-normal;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked label {
-  color: @fontaltcolor;
+  color: @accent-normal;
 }
 
 /* dnd widget */
 .widget-dnd {
   background: transparent;
-  border: 1px solid transparent;
+  border: none;
   font-size: large;
   color: @fontcolor;
 }
@@ -169,12 +180,13 @@ button {
 .widget-dnd > switch {
   background: @background-alt;
   color: @fontcolor;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: none;
 }
 
 .widget-dnd > switch:checked {
-  background: @accent-error;
-  border: 1px solid @accent-error;
+  background: rgba(224, 108, 117, 0.75);
+  border: none;
 }
 
 /* volume & backlight widget */
@@ -183,12 +195,14 @@ button {
   background: @background-alt-darker;
   color: @fontcolor;
   font-size: x-large;
+  border-radius: 10px;
 }
 
 .widget-backlight {
   background: @background-alt-darker;
   color: @fontcolor;
   font-size: x-large;
+  border-radius: 10px;
 }
 
 /* music player widget */
@@ -199,18 +213,20 @@ button {
 
 .widget-mpris button {
   background-color: transparent;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: none;
 }
 
 .widget-mpris button:hover {
-  background-color: @accent-normal;
-  color: @fontaltcolor;
+  background-color: rgba(198, 120, 221, 0.20);
+  color: @accent-normal;
 }
 
 /* sliders in backlight and volume */
 
 trough slider {
   background: @fontcolor;
+  border-radius: 4px;
 }
 
 trough slider:hover {
@@ -219,4 +235,5 @@ trough slider:hover {
 
 trough highlight {
   background: @accent-normal;
+  border-radius: 4px;
 }
