@@ -5,3 +5,4 @@ vim.opt.autowrite = false
 vim.opt.guicursor = ""
 vim.opt.swapfile = false
 vim.opt.scrolloff = 15
+vim.opt.clipboard = ""

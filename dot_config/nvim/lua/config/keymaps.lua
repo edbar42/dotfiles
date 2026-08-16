@@ -13,6 +13,11 @@ set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 -- U to redo
 vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
+set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+set("n", "<leader>Y", '"+yy', { desc = "Yank line to system clipboard" })
+set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+set({ "n", "v" }, "<leader>P", '"+P', { desc = "Paste from system clipboard (before)" })
+
 -- Extend Ctrl-a/Ctrl-x to toggle booleans
 local bool_toggles = { ["true"] = "false", ["false"] = "true", ["True"] = "False", ["False"] = "True" }
 vim.keymap.set("n", "<C-a>", function()
