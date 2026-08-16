@@ -1,0 +1,42 @@
+{{ if eq .chezmoi.hostname "desktop" }}
+-- Set environment variables for Nvidia
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+{{ end }}
+-- Native wayland support for electron apps
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+
+-- Auto start services
+require("autostart")
+
+-- Load keybinds
+require("keybinds")
+
+-- Load monitors positioning with nwg-displays
+require("monitors")
+
+-- Load workspace rules with nwg-displays
+require("workspaces")
+
+-- ayaka theme used as base
+require("look_and_feel")
+
+-- Load window rules
+require("window-rules")
+
+-- Load input devices config
+require("input")
+
+-- https://wiki.hypr.land/Configuring/Basics/Variables/#misc
+hl.config({
+    misc = {
+        force_default_wallpaper = -1,
+        focus_on_activate = true,
+        disable_hyprland_logo = true,
+    },
+})
+{{ if eq .chezmoi.hostname "thinkpad" }}
+-- closing lid turns off laptop display
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("hyprctl dispatch dpms off"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl dispatch dpms on"), { locked = true })
+{{ end }}
