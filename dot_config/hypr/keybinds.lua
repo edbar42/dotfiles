@@ -10,7 +10,8 @@ local SCRIPTS_DIR = "~/.bin/"
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Open applications
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL .. " -e herdr"))
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(BROWSER))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(DEV_BROWSER))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("obsidian"))
