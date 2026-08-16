@@ -13,6 +13,19 @@ set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Drag line up" })
 -- U to redo
 vim.keymap.set("n", "U", "<C-R>", { desc = "Redo last action" })
 
+-- Toggle inline diagnostics (virtual text) only, keeping signs/underline/[d]d
+Snacks.toggle({
+  id = "diagnostics_virtual_text",
+  name = "Inline Diagnostics",
+  get = function()
+    return vim.diagnostic.config().virtual_text ~= false
+  end,
+  set = function(state)
+    local virtual_text = LazyVim.opts("nvim-lspconfig").diagnostics.virtual_text
+    vim.diagnostic.config({ virtual_text = state and virtual_text or false })
+  end,
+}):map("<leader>,d")
+
 set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 set("n", "<leader>Y", '"+yy', { desc = "Yank line to system clipboard" })
 set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
