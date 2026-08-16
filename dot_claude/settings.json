@@ -7,7 +7,8 @@
     "refreshInterval": 10
   },
   "enabledPlugins": {
-    "caveman@caveman": true
+    "caveman@caveman": true,
+    "gopls-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
@@ -17,6 +18,7 @@
       }
     }
   },
+  "tui": "fullscreen",
   "theme": "one-dark-pro",
   "skipAutoPermissionPrompt": true
 }
