@@ -5,7 +5,7 @@ local TERMINAL = "/usr/bin/ghostty"
 local FILE_MANAGER = "nautilus"
 local CLI_FILE_MANAGER = "ghostty -e /usr/bin/yazi"
 local SCRIPTS_DIR = "~/.bin/"
-local QUICKSHELL_LAUNCHER = "quickshell ipc -p " .. os.getenv("HOME") .. "/.config/omarchy/shell/shell.qml call shell toggle omarchy.launcher ''"
+local QUICKSHELL_LAUNCHER = "env OMARCHY_PATH=" .. os.getenv("HOME") .. "/.config/omarchy PATH=" .. os.getenv("HOME") .. "/.config/omarchy/bin:$PATH omarchy-shell shell toggle omarchy.menu '{\"menu\":\"apps\"}'"
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
