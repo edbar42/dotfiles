@@ -4,8 +4,8 @@ local DEV_BROWSER = "chromium"
 local TERMINAL = "/usr/bin/ghostty"
 local FILE_MANAGER = "nautilus"
 local CLI_FILE_MANAGER = "ghostty -e /usr/bin/yazi"
-local MENU = "wofi --show drun"
 local SCRIPTS_DIR = "~/.bin/"
+local QUICKSHELL_LAUNCHER = "quickshell ipc -p " .. os.getenv("HOME") .. "/.config/omarchy/shell/shell.qml call shell toggle omarchy.launcher ''"
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
@@ -17,10 +17,10 @@ hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(CLI_FILE_MANAGER))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(FILE_MANAGER))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("env GDK_BACKEND=x11 keepassxc"))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("rider"))
 hl.bind("Print", hl.dsp.exec_cmd("flameshot gui"))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(MENU))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(QUICKSHELL_LAUNCHER))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("ghostty -e oxker"))
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("waycal"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout keyd-virtual-keyboard next"))
 
 -- Custom actions
