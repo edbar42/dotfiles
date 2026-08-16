@@ -1,0 +1,22 @@
+# Surface alpha only — matches waybar's translucent window#waybar (0.85),
+# surface islands (0.90), and near-opaque tooltip (0.97). Colors themselves
+# come from colors.toml; this just controls how see-through each surface is.
+[bar]
+background-alpha = 0.85
+
+[popups]
+background-alpha = 0.90
+
+[tooltip]
+background-alpha = 0.97
+
+# Matches swaync's old "One Dark Pro — Frosted Glass" style.css: a lighter,
+# frosted card background distinct from the flat bar/popup surfaces, a
+# magenta accent, and no visible border (swaync used a shadow instead —
+# this card doesn't render one, so the border is just made transparent).
+[notifications]
+background = "#282c34"
+background-alpha = 0.92
+text = "#abb2bf"
+border = "transparent"
+countdown = "#c678dd"
