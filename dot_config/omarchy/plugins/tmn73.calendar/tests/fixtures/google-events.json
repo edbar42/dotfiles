@@ -1,0 +1,12 @@
+{
+  "timeZone": "America/Bogota",
+  "items": [
+    {
+      "id": "evt1",
+      "status": "confirmed",
+      "summary": "Standup",
+      "start": { "dateTime": "2026-08-10T09:00:00-05:00" },
+      "end": { "dateTime": "2026-08-10T09:15:00-05:00" }
+    }
+  ]
+}

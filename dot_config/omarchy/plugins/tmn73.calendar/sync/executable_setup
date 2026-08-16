@@ -1,0 +1,278 @@
+#!/usr/bin/env bash
+# Interactive onboarding for the Google Calendar sync.
+#
+# Automates: GCP project creation, Calendar API enablement, gws profile
+# layout, the scoped login, and the systemd timer.
+# Cannot automate: the OAuth consent screen, declaring the calendar scope,
+# publishing to production, and creating the Desktop OAuth client. Google
+# exposes no API for any of those.
+
+set -euo pipefail
+
+# Deliberately empty by default. Google Cloud project ids are unique across
+# all of Google, not per account, so a hardcoded default works for exactly one
+# person on earth and fails for everyone after them. Resolved below, once we
+# know which projects this account already owns.
+PROJECT_ID="${PROJECT_ID:-}"
+PROFILE="${PROFILE:-$HOME/.config/gws-omarchy-calendar}"
+GCLOUD_CONFIG="${GCLOUD_CONFIG:-omarchy-calendar}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SYNC_BIN="$SCRIPT_DIR/omarchy-calendar-sync"
+SCOPE="https://www.googleapis.com/auth/calendar.readonly"
+
+step() { printf '\n==> %s\n' "$1"; }
+
+# `read` returns non-zero at EOF, and under `set -e` that killed the whole
+# script at the very first prompt with no message at all. Anyone running this
+# through a pipe, a wrapper, or any non-interactive shell got as far as the
+# first Google Console instruction and no further, silently.
+pause() {
+  if [ ! -t 0 ]; then
+    printf '\n  Not a terminal, so not pausing. Do the step above before the login opens.\n'
+    return 0
+  fi
+  printf '\nPress Enter when done. '
+  read -r _ || true
+}
+
+if [ ! -t 0 ]; then
+  cat <<'EOF'
+Warning: stdin is not a terminal.
+
+Four of the steps below have to be done by hand in the Google Cloud Console,
+and this run cannot pause to wait for you. Run this directly in a terminal for
+the guided flow.
+
+EOF
+fi
+
+command -v gws >/dev/null || { echo "gws is required: https://github.com/googleworkspace/cli"; exit 1; }
+command -v gcloud >/dev/null || { echo "gcloud is required for automated project setup"; exit 1; }
+
+step "Using an isolated gcloud configuration so your other projects are untouched"
+gcloud config configurations describe "$GCLOUD_CONFIG" >/dev/null 2>&1 \
+  || gcloud config configurations create "$GCLOUD_CONFIG" --no-activate
+export CLOUDSDK_ACTIVE_CONFIG_NAME="$GCLOUD_CONFIG"
+
+step "Signing in to Google Cloud"
+if gcloud auth list --filter=status:ACTIVE --format='value(account)' | grep -q .; then
+  echo "  already signed in as $(gcloud auth list --filter=status:ACTIVE --format='value(account)')"
+else
+  gcloud auth login
+fi
+
+step "Finding or creating the Google Cloud project"
+if [ -n "$PROJECT_ID" ]; then
+  echo "  using PROJECT_ID from your environment: $PROJECT_ID"
+  # An explicit id may or may not exist yet, and `describe` cannot tell
+  # "absent" from "someone else owns it", so only create when the account
+  # genuinely has no such project of its own.
+  if ! gcloud projects list --filter="projectId = $PROJECT_ID" --format='value(projectId)' | grep -q .; then
+    gcloud projects create "$PROJECT_ID" --name="$PROJECT_ID"
+  fi
+else
+  # Reuse the one this account already made, so rerunning does not litter the
+  # console with a new project every time.
+  PROJECT_ID=$(gcloud projects list --filter="projectId ~ ^omarchy-cal" --format='value(projectId)' --limit=1 2>/dev/null || true)
+
+  if [ -n "$PROJECT_ID" ]; then
+    echo "  reusing the project you already have: $PROJECT_ID"
+  else
+    # Random suffix rather than a name derived from the account, because ids
+    # are world visible and an email local part does not belong in one.
+    PROJECT_ID="omarchy-cal-$(od -An -N4 -tx1 /dev/urandom | tr -d ' \n')"
+    echo "  creating $PROJECT_ID"
+    if ! gcloud projects create "$PROJECT_ID" --name="Omarchy Calendar"; then
+      cat <<EOF
+
+Creating the project failed. Two common reasons:
+
+  - You are at Google's project quota. Delete an unused project, or pass one
+    you already own:  PROJECT_ID=my-existing-project $0
+  - The id collided. Simply run this again, the next id will differ.
+EOF
+      exit 1
+    fi
+  fi
+fi
+gcloud config set project "$PROJECT_ID"
+
+step "Enabling the Calendar API"
+gcloud services enable calendar-json.googleapis.com --project="$PROJECT_ID"
+
+step "Manual step 1 of 4: configure the OAuth consent screen"
+cat <<EOF
+Open:
+  https://console.cloud.google.com/auth/overview?project=$PROJECT_ID
+
+  If you land on a "Get started" form, fill it in:
+    App name:            Omarchy Calendar
+    User support email:  your own address
+    Audience:            External
+    Contact information: your own address
+
+  If you land on an "OAuth Overview" page with metrics instead, this project
+  is already configured and there is nothing to do here.
+EOF
+pause
+
+step "Manual step 2 of 4: declare the calendar scope"
+cat <<EOF
+Open:
+  https://console.cloud.google.com/auth/scopes?project=$PROJECT_ID
+
+  Click "Add or remove scopes"
+  Filter for:  calendar.readonly
+  Tick:        $SCOPE
+               ("See and download any calendar you can access")
+  Update, then Save
+
+  If Save is greyed out, fill in "How will the scopes be used?" with
+  something like: Read-only display of my own calendar in a desktop
+  status bar widget.
+
+Do not skip this. A scope that is not declared here is not offered on the
+consent screen at all, so there is no box to tick, Google grants only your
+email address, and every sync fails with 403 insufficient scopes. Google will
+warn that sensitive scopes need verification; that is expected and harmless
+for personal use, which stays under the unverified cap.
+EOF
+pause
+
+step "Manual step 3 of 4: publish the app"
+cat <<EOF
+Open:
+  https://console.cloud.google.com/auth/audience?project=$PROJECT_ID
+
+  Under "Publishing status", click "Publish app"
+
+  If it already reads "In production" there is nothing to do. The button
+  disappears once published and is replaced by "Back to testing".
+
+This matters. In Testing, Google expires refresh tokens after 7 days and your
+calendar silently stops updating. Unverified production apps show a one time
+warning screen and then work indefinitely for personal use.
+EOF
+pause
+
+step "Manual step 4 of 4: create a Desktop OAuth client"
+cat <<EOF
+Open:
+  https://console.cloud.google.com/auth/clients?project=$PROJECT_ID
+
+  Create client
+  Application type:  Desktop app
+  Name:              Omarchy Calendar Sync
+
+Then click "Download JSON". The secret is not shown again after you close
+that dialog.
+EOF
+pause
+
+mkdir -p "$PROFILE"
+if [ -f "$PROFILE/client_secret.json" ]; then
+  step "Client secret is already installed at $PROFILE/client_secret.json, skipping"
+else
+  step "Installing the client secret"
+  downloaded=$(find "$HOME/Downloads" -maxdepth 1 -name 'client_secret_*.json' -print -quit 2>/dev/null || true)
+  if [ -n "$downloaded" ]; then
+    mv "$downloaded" "$PROFILE/client_secret.json"
+  else
+    printf 'Path to the downloaded JSON (rerunning? it belongs at %s): ' "$PROFILE/client_secret.json"
+    read -r manual
+    cp "${manual/#\~/$HOME}" "$PROFILE/client_secret.json"
+  fi
+fi
+chmod 600 "$PROFILE/client_secret.json"
+
+step "Signing in with read-only calendar access"
+cat <<'EOF'
+On the consent screen, TICK THE CHECKBOX granting read access to your
+calendars before clicking Continue. It is not ticked for you.
+
+Clicking Continue without it still reports a successful login, but grants only
+your email address, and every sync then fails with 403 insufficient scopes.
+EOF
+# gws caches the access token next to the credentials. A cache minted before
+# the calendar scope was granted keeps being served afterwards, and every
+# call fails with 403 insufficient scopes until it is cleared.
+rm -f "$PROFILE/token_cache.json"
+GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$PROFILE" gws auth login --scopes "$SCOPE"
+
+step "Checking the calendar scope was actually granted"
+if ! GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$PROFILE" gws auth status 2>/dev/null | grep -q "$SCOPE"; then
+  cat <<EOF
+
+The calendar scope was NOT granted. gws is holding a token that can only read
+your email address.
+
+This almost always means the calendar checkbox on the consent screen was left
+unticked. Run this script again and tick it.
+
+  granted scopes: $(GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$PROFILE" gws auth status 2>/dev/null | grep -A6 '"scopes"' | grep googleapis || echo "identity only")
+EOF
+  exit 1
+fi
+echo "  calendar.readonly granted"
+
+step "Verifying calendar access"
+# Surface a real error rather than reading `items` out of an error body and
+# reporting it as zero calendars.
+GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$PROFILE" gws calendar calendarList list 2>/dev/null \
+  | python3 -c '
+import json, sys
+
+payload = json.load(sys.stdin)
+error = payload.get("error")
+if error:
+    print("  calendar access failed:", error.get("code"), error.get("message"))
+    raise SystemExit(1)
+
+count = len(payload.get("items", []))
+print(" ", count, "calendars reachable")
+if count == 0:
+    print("  That is unusual. Check that this Google account has any calendars.")
+'
+
+step "Recording where gws and your credentials live"
+# The timer runs without your shell PATH, so the bare name is not enough.
+gws_path=$(command -v gws)
+config="$HOME/.config/omarchy/calendar-sync.json"
+mkdir -p "$(dirname "$config")"
+python3 - "$config" "$gws_path" "$PROFILE" <<'PYEOF'
+import json, pathlib, sys
+
+path, gws_path, profile = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]
+config = {}
+if path.exists():
+    try:
+        config = json.loads(path.read_text())
+    except ValueError:
+        config = {}
+config["gwsPath"] = gws_path
+config["profile"] = profile
+path.write_text(json.dumps(config, indent=2) + "\n")
+print("  gwsPath set to", gws_path)
+print("  profile set to", profile)
+PYEOF
+
+step "Installing the systemd timer"
+mkdir -p "$HOME/.config/systemd/user"
+cp "$SCRIPT_DIR/systemd/omarchy-calendar-sync."{service,timer} "$HOME/.config/systemd/user/"
+# The shipped unit assumes the standard plugin directory. Point it at wherever
+# this checkout actually lives, so a hand-cloned repo works too.
+sed -i "s|^ExecStart=.*|ExecStart=$SYNC_BIN|" "$HOME/.config/systemd/user/omarchy-calendar-sync.service"
+systemctl --user daemon-reload
+systemctl --user enable --now omarchy-calendar-sync.timer
+
+step "Running the first sync"
+systemctl --user start omarchy-calendar-sync.service || true
+systemctl --user status omarchy-calendar-sync.service --no-pager || true
+
+cat <<EOF
+
+Done. Events land in ~/.local/state/omarchy/calendar-events.json every 5 minutes.
+
+  Logs:    journalctl --user -u omarchy-calendar-sync -f
+  Choose which calendars to show: click the clock, then the gear icon.
+EOF

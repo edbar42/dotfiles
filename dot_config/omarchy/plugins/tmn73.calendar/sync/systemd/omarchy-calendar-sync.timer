@@ -1,0 +1,14 @@
+[Unit]
+Description=Refresh the Omarchy calendar widget events file
+
+[Timer]
+# Wall-clock schedule, not a monotonic one: Persistent= only takes
+# effect on OnCalendar= timers (man systemd.timer). This is what lets
+# a missed run fire on the next boot or wake after the laptop suspends
+# or the lid stays closed past a scheduled tick.
+OnCalendar=*:0/5
+Persistent=true
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "ilyazar.btop",
+  "name": "btop Activity",
+  "version": "0.1.9",
+  "author": "ilyaZar",
+  "license": "MIT",
+  "description": "Minimal, low-overhead btop access from the Omarchy bar, with live CPU, RAM, GPU, and temperature meters, basic settings, built-in help, and built-in or custom icons.",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "btop Activity",
+    "description": "CPU, RAM, GPU, and temperature meters with one-click btop, basic settings, built-in help, and built-in or custom icons.",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "iconStyle": "CPU",
+      "customIconPath": "",
+      "windowMode": "Floating",
+      "updateMs": 2000,
+      "procSorting": "cpu lazy",
+      "procTree": false
+    },
+    "schema": [
+      {
+        "key": "iconStyle",
+        "type": "enum",
+        "label": "Tray icon",
+        "options": [
+          "Meters",
+          "CPU",
+          "Pulse",
+          "Custom"
+        ],
+        "defaultValue": "CPU"
+      },
+      {
+        "key": "customIconPath",
+        "type": "string",
+        "label": "Custom icon path",
+        "defaultValue": ""
+      },
+      {
+        "key": "windowMode",
+        "type": "enum",
+        "label": "btop window mode",
+        "options": [
+          "Floating",
+          "Tiled"
+        ],
+        "defaultValue": "Floating"
+      }
+    ]
+  }
+}

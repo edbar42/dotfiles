@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "syncedAt": "2026-08-10T16:42:00+00:00",
+  "source": "gws/0.13.2",
+  "events": [
+    {
+      "id": "3rd6amv3dd4daha9og8f5esslr",
+      "calendarId": "primary@example.com",
+      "calendarName": "primary@example.com",
+      "color": "#f83a22",
+      "dateKey": "2026-08-10",
+      "start": "2026-08-10T19:15:00-05:00",
+      "end": "2026-08-10T20:15:00-05:00",
+      "allDay": false,
+      "title": "Impuestos",
+      "location": ""
+    },
+    {
+      "id": "allday123",
+      "calendarId": "holidays@example.com",
+      "calendarName": "Holidays in Colombia",
+      "color": "#7bd148",
+      "dateKey": "2026-08-17",
+      "start": "2026-08-17T00:00:00-05:00",
+      "end": "2026-08-18T00:00:00-05:00",
+      "allDay": true,
+      "title": "Batalla de Boyaca",
+      "location": ""
+    }
+  ]
+}
