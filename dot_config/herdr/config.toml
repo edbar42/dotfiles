@@ -1,4 +1,4 @@
-onboarding = true
+onboarding = false
 
 [theme]
  name = "one-dark"
@@ -224,6 +224,7 @@ onboarding = true
 # accent = "cyan"
 
 # Background notification popup delivery
+show_agent_labels_on_pane_borders = true
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts
@@ -232,6 +233,7 @@ onboarding = true
 # delivery = "off"
 # delay_seconds = 1
 
+delivery = "system"
 [ui.toast.herdr]
 # position = "bottom-right"
 

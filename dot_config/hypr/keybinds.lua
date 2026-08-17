@@ -4,8 +4,8 @@ local DEV_BROWSER = "chromium"
 local TERMINAL = "/usr/bin/ghostty"
 local FILE_MANAGER = "nautilus"
 local CLI_FILE_MANAGER = "ghostty -e /usr/bin/yazi"
-local MENU = "wofi --show drun"
 local SCRIPTS_DIR = "~/.bin/"
+local QUICKSHELL_LAUNCHER = "omarchy-shell shell toggle omarchy.menu '{\"menu\":\"apps\"}'"
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
@@ -18,17 +18,17 @@ hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(CLI_FILE_MANAGER))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(FILE_MANAGER))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("env GDK_BACKEND=x11 keepassxc"))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("rider"))
 hl.bind("Print", hl.dsp.exec_cmd("flameshot gui"))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(MENU))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(QUICKSHELL_LAUNCHER))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("ghostty -e oxker"))
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("waycal"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout keyd-virtual-keyboard next"))
 
 -- Custom actions
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(SCRIPTS_DIR .. "tui-float " .. SCRIPTS_DIR .. "wallpaper-fzf -s main"))
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(SCRIPTS_DIR .. "tui-float " .. SCRIPTS_DIR .. "wallpaper-fzf -s secondary"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(SCRIPTS_DIR .. "powermenu"))
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("omarchy-shell shell summon omarchy.menu '{\"menu\":\"system\"}'"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))

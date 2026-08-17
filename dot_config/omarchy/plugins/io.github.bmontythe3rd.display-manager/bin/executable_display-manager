@@ -1,0 +1,296 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+plugin_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+state_root=${XDG_STATE_HOME:-$HOME/.local/state}/omarchy-display-manager
+profiles_file=$state_root/profiles.json
+pending_file=$state_root/pending.json
+mkdir -p "$state_root"
+
+die() { printf '{"ok":false,"error":%s}\n' "$(jq -Rn --arg value "$*" '$value')" >&2; exit 1; }
+need() { command -v "$1" >/dev/null 2>&1 || die "Required command not found: $1"; }
+need jq
+need hyprctl
+
+monitors() { hyprctl -j monitors all; }
+
+fingerprint_filter='def fp: [(.make // ""), (.model // ""), (.serial // "")] | map(select(length > 0)) | if length > 0 then join("|") else (.name // "unknown") end;'
+
+state() {
+  monitors | jq -c "$fingerprint_filter
+    [ .[] | {
+      name, description, make, model, serial, fingerprint: fp,
+      disabled: (.disabled == true), focused: (.focused == true),
+      mode: ((.width|tostring) + \"x\" + (.height|tostring) + \"@\" + ((.refreshRate // 60)|tostring)),
+      width, height, refresh: (.refreshRate // 60), x, y,
+      scale: (.scale // 1), transform: (.transform // 0),
+      mirror: (if (.mirrorOf // \"none\") == \"none\" then \"\" else .mirrorOf end),
+      modes: (.availableModes // [])
+    } ]"
+}
+
+topology() {
+  state | jq -c '[.[].fingerprint] | sort | join("::")'
+}
+
+validate_config() {
+  local config=$1
+  jq -e '
+    def mode_parts:
+      .mode | capture("^(?<width>[0-9]+)x(?<height>[0-9]+)@(?<refresh>[0-9]+(?:[.][0-9]+)?)(?:Hz)?$");
+    def logical_rect:
+      . as $display
+      | mode_parts as $mode
+      | ($mode.width | tonumber) as $width
+      | ($mode.height | tonumber) as $height
+      | if (($display.transform % 2) == 1) then
+          {x: $display.x, y: $display.y,
+           width: (($height / $display.scale) | round),
+           height: (($width / $display.scale) | round)}
+        else
+          {x: $display.x, y: $display.y,
+           width: (($width / $display.scale) | round),
+           height: (($height / $display.scale) | round)}
+        end;
+    . as $config
+    | type == "array" and length > 0
+    and (map(select(.disabled != true)) | length) > 0
+    and ([.[].name] | length) == ([.[].name] | unique | length)
+    and all(.[];
+      (.name | type) == "string" and (.name | length) > 0
+      and ((.disabled == true) or (
+        ((.mode | type) == "string")
+        and (.mode | test("^[0-9]+x[0-9]+@[0-9]+(?:[.][0-9]+)?(?:Hz)?$"))
+        and ((.x | type) == "number") and ((.x | floor) == .x)
+        and ((.y | type) == "number") and ((.y | floor) == .y)
+        and ((.scale | type) == "number") and (.scale > 0)
+        and ((.transform | type) == "number") and ((.transform | floor) == .transform)
+        and (.transform >= 0) and (.transform <= 7)
+        and (((.mirror // "") | type) == "string")
+        and ((.mirror // "") as $target
+          | $target == ""
+            or ($target != .name and any($config[];
+              .name == $target and .disabled != true and (.mirror // "") == "")))
+      )))
+    and ([.[] | select(.disabled != true and (.mirror // "") == "") | logical_rect] as $rects
+      | all(range(0; $rects | length);
+          . as $left
+          | all(range($left + 1; $rects | length);
+            . as $right
+            |
+            ($rects[$left].x >= ($rects[$right].x + $rects[$right].width))
+            or (($rects[$left].x + $rects[$left].width) <= $rects[$right].x)
+            or ($rects[$left].y >= ($rects[$right].y + $rects[$right].height))
+            or (($rects[$left].y + $rects[$left].height) <= $rects[$right].y))))
+  ' <<<"$config" >/dev/null \
+    || die "Invalid display configuration"
+}
+
+apply_config() {
+  local config=$1 expression
+  validate_config "$config"
+  while IFS= read -r encoded; do
+    local row name name_lua
+    row=$(base64 -d <<<"$encoded")
+    name=$(jq -r '.name' <<<"$row")
+    name_lua=$(jq -Rn --arg value "$name" '$value')
+    if [[ $(jq -r '.disabled // false' <<<"$row") == true ]]; then
+      expression="hl.monitor({ output = $name_lua, disabled = true })"
+    else
+      local mode mode_lua position_lua x y scale transform mirror mirror_lua
+      mode=$(jq -r '.mode // "preferred"' <<<"$row")
+      # Hyprland reports EDID modes with a human-readable Hz suffix, while
+      # hl.monitor expects WIDTHxHEIGHT@RATE. Passing the suffix makes it
+      # silently choose a fallback mode on some displays.
+      mode=${mode%Hz}
+      x=$(jq -r '.x // 0' <<<"$row")
+      y=$(jq -r '.y // 0' <<<"$row")
+      scale=$(jq -r '.scale // 1' <<<"$row")
+      transform=$(jq -r '.transform // 0' <<<"$row")
+      mirror=$(jq -r '.mirror // ""' <<<"$row")
+      mode_lua=$(jq -Rn --arg value "$mode" '$value')
+      position_lua=$(jq -Rn --arg value "${x}x${y}" '$value')
+      expression="hl.monitor({ output = $name_lua, mode = $mode_lua, position = $position_lua, scale = $scale, transform = $transform"
+      if [[ -n $mirror ]]; then
+        mirror_lua=$(jq -Rn --arg value "$mirror" '$value')
+        expression+=", mirror = $mirror_lua"
+      fi
+      expression+=" })"
+    fi
+    hyprctl eval "$expression" >/dev/null || die "Hyprland rejected settings for $name"
+  done < <(jq -r '.[] | @base64' <<<"$config")
+
+  # Hyprland can accept a monitor rule even when the DRM backend rejects its
+  # mode. Give the compositor a moment to modeset, then verify the result so a
+  # failed resolution change is never presented (or saved) as successful.
+  sleep "${DISPLAY_MANAGER_SETTLE_SECONDS:-0.75}"
+  local live mismatch
+  live=$(state)
+  if ! mismatch=$(jq -rn --argjson requested "$config" --argjson live "$live" '
+    def dimensions:
+      (.mode // "") | capture("^(?<width>[0-9]+)x(?<height>[0-9]+)@(?<refresh>[0-9.]+)");
+    first(
+      $requested[] as $want
+      | ($live | map(select(.name == $want.name)) | first // null) as $got
+      | if $got == null then
+          "\($want.name) was not reported after applying the layout"
+        elif $want.disabled == true then
+          select($got.disabled != true)
+          | "\($want.name) did not turn off"
+        else
+          ($want | dimensions) as $mode
+          | ($want.mirror // "") as $wanted_mirror
+          | select(
+              $got.disabled == true or
+              $got.width != ($mode.width | tonumber) or
+              $got.height != ($mode.height | tonumber) or
+              (($got.refresh - ($mode.refresh | tonumber)) | fabs) > 0.25 or
+              (($got.scale - $want.scale) | fabs) > 0.01 or
+              $got.transform != $want.transform or
+              $got.mirror != $wanted_mirror or
+              (($wanted_mirror == "") and ($got.x != $want.x or $got.y != $want.y))
+            )
+          | "\($want.name) stayed at \($got.width)x\($got.height)@\($got.refresh), position \($got.x)x\($got.y), scale \($got.scale), transform \($got.transform), mirror \($got.mirror); requested \($want.mode), position \($want.x)x\($want.y), scale \($want.scale), transform \($want.transform), mirror \($wanted_mirror)"
+        end
+    ) // empty
+  '); then
+    die "Could not verify the applied display configuration"
+  fi
+  [[ -z $mismatch ]] || die "Display hardware rejected the requested setting: $mismatch"
+}
+
+cancel_rollback() {
+  systemctl --user stop omarchy-display-manager-rollback.timer >/dev/null 2>&1 || true
+  systemctl --user stop omarchy-display-manager-rollback.service >/dev/null 2>&1 || true
+  systemctl --user reset-failed omarchy-display-manager-rollback.service >/dev/null 2>&1 || true
+}
+
+schedule_rollback() {
+  need systemd-run
+  cancel_rollback
+  systemd-run --user --quiet --unit=omarchy-display-manager-rollback \
+    --on-active=15s "$plugin_dir/bin/display-manager" rollback >/dev/null
+}
+
+restore_pending() {
+  if [[ -f $pending_file ]]; then
+    local snapshot
+    snapshot=$(<"$pending_file")
+    apply_config "$snapshot"
+    rm -f "$pending_file"
+  fi
+}
+
+preview() {
+  local config=${1:-} snapshot_tmp apply_error schedule_error
+  [[ -n $config ]] || die "preview requires a JSON configuration"
+  validate_config "$config"
+  snapshot_tmp=$(mktemp "$state_root/pending.XXXXXX")
+  state >"$snapshot_tmp"
+  mv "$snapshot_tmp" "$pending_file"
+  if ! apply_error=$(apply_config "$config" 2>&1); then
+    if ! (apply_config "$(<"$pending_file")") >/dev/null 2>&1; then
+      die "Preview failed and the previous layout could not be restored; the recovery snapshot remains at $pending_file"
+    fi
+    rm -f "$pending_file"
+    printf '%s\n' "$apply_error" >&2
+    return 1
+  fi
+  if ! schedule_error=$(schedule_rollback 2>&1); then
+    if ! (apply_config "$(<"$pending_file")") >/dev/null 2>&1; then
+      die "Automatic rollback could not be scheduled and the previous layout could not be restored; the recovery snapshot remains at $pending_file"
+    fi
+    rm -f "$pending_file"
+    die "Could not schedule automatic rollback: $schedule_error"
+  fi
+  printf '{"ok":true,"timeout":15}\n'
+}
+
+confirm() {
+  cancel_rollback
+  rm -f "$pending_file"
+  printf '{"ok":true}\n'
+}
+
+revert() {
+  cancel_rollback
+  restore_pending
+  printf '{"ok":true}\n'
+}
+
+rollback() {
+  restore_pending
+  printf '{"ok":true}\n'
+}
+
+ensure_profiles() {
+  [[ -f $profiles_file ]] || printf '{"version":1,"profiles":[]}\n' >"$profiles_file"
+  jq -e '.version == 1 and (.profiles|type)=="array"' "$profiles_file" >/dev/null 2>&1 \
+    || die "Profile store is invalid: $profiles_file"
+}
+
+profiles_list() { ensure_profiles; jq -c '.' "$profiles_file"; }
+
+profiles_save() {
+  local name=${1:-} config=${2:-} automatic=${3:-false}
+  [[ -n $name && -n $config ]] || die "profiles-save requires a name and JSON configuration"
+  validate_config "$config"; ensure_profiles
+  local key tmp
+  key=$(topology); tmp=$(mktemp "$state_root/profiles.XXXXXX")
+  jq --arg name "$name" --arg key "$key" --argjson config "$config" --argjson automatic "$automatic" '
+    .profiles |= (map(select(
+        if $automatic then (.topology != $key or .automatic != true)
+        else .name != $name
+        end))
+      | (if $automatic then map(if .topology == $key then .automatic = false else . end) else . end)
+      + [{name:$name, topology:$key, automatic:$automatic, displays:$config}])' "$profiles_file" >"$tmp"
+  mv "$tmp" "$profiles_file"
+  profiles_list
+}
+
+profiles_delete() {
+  local name=${1:-}; [[ -n $name ]] || die "profiles-delete requires a name"; ensure_profiles
+  local tmp; tmp=$(mktemp "$state_root/profiles.XXXXXX")
+  jq --arg name "$name" '.profiles |= map(select(.name != $name))' "$profiles_file" >"$tmp"
+  mv "$tmp" "$profiles_file"; profiles_list
+}
+
+profiles_apply() {
+  local name=${1:-}; ensure_profiles
+  local config; config=$(jq -c --arg name "$name" '.profiles[] | select(.name==$name) | .displays' "$profiles_file")
+  [[ -n $config ]] || die "Profile not found: $name"
+  preview "$config"
+}
+
+profiles_match() {
+  ensure_profiles
+  local key config name snapshot apply_error
+  key=$(topology)
+  config=$(jq -c --arg key "$key" '[.profiles[] | select(.topology==$key and .automatic==true)][0] // empty' "$profiles_file")
+  [[ -n $config ]] || { printf '{"ok":true,"matched":false}\n'; return; }
+  name=$(jq -r '.name' <<<"$config")
+  snapshot=$(state)
+  if ! apply_error=$(apply_config "$(jq -c '.displays' <<<"$config")" 2>&1); then
+    if ! (apply_config "$snapshot") >/dev/null 2>&1; then
+      die "Automatic profile failed and the previous layout could not be restored"
+    fi
+    printf '%s\n' "$apply_error" >&2
+    return 1
+  fi
+  jq -cn --arg name "$name" '{ok:true,matched:true,name:$name}'
+}
+
+case ${1:-help} in
+  state) state ;;
+  topology) topology ;;
+  preview) preview "${2:-}" ;;
+  confirm) confirm ;;
+  revert) revert ;;
+  rollback) rollback ;;
+  profiles-list) profiles_list ;;
+  profiles-save) profiles_save "${2:-}" "${3:-}" "${4:-false}" ;;
+  profiles-delete) profiles_delete "${2:-}" ;;
+  profiles-apply) profiles_apply "${2:-}" ;;
+  profiles-match) profiles_match ;;
+  *) printf 'Usage: %s {state|preview JSON|confirm|revert|profiles-list|profiles-save NAME JSON AUTO|profiles-delete NAME|profiles-apply NAME|profiles-match}\n' "$0" ;;
+esac
