@@ -1,0 +1,754 @@
+#!/bin/bash
+
+# Sample system usage in one shot for the Hardware Tooltip hover panel.
+# Output format (one token per line, whitespace separated):
+#   cpu <overall-percent>
+#   core <index> <percent>        (one line per logical core)
+#   cpu_name <rest of line>
+#   ram <used-gib> <total-gib> <percent>
+#   ram_info <type and speed, rest of line>
+#   gpu <percent> | n/a
+#   gpu_name <rest of line>
+#   gpu_kind render | infer
+#   disk <mount> <used-gib> <total-gib> <percent> [model...]
+#
+# GPU source is the first tool that actually returns a sample:
+#   NVIDIA -> nvidia-smi (nvidia-utils; skipped if the driver is not talking)
+#   AMD    -> kernel sysfs gpu_busy_percent (amdgpu, no extra package)
+#   DRM    -> /proc/*/fdinfo drm-engine-* (Intel i915/xe, and AMD when
+#             sysfs busy is ENOTSUPP such as the BC-250 / Cyan Skillfish)
+#   Intel  -> RC6 residency if fdinfo is empty
+#   last   -> intel_gpu_top only if it already works on this system
+#
+# BC-250 is a one-off Oberon / Cyan Skillfish board with a nonstandard
+# RDNA 2-ish GPU. The busy sysfs node is ENOTSUPP and gpu_metrics activity
+# stays at 0xFFFF, so fdinfo is the usable load signal on that hardware.
+# Unified memory is soldered GDDR6 with no SPD; DMI type is N/A.
+
+# ---- CPU -------------------------------------------------------------
+
+sample_cpu() {
+  awk '
+    /^cpu[0-9]* / {
+      total = $2 + $3 + $4 + $5 + $6 + $7 + $8
+      idle = $5 + $6
+      print $1, total, idle
+    }
+  ' /proc/stat
+}
+
+{
+  echo "A"
+  sample_cpu
+  sleep 0.2
+  echo "B"
+  sample_cpu
+} | awk '
+  /^A$/ { phase = 1; next }
+  /^B$/ { phase = 2; next }
+  {
+    name = $1
+    total[name] = $2
+    idle[name] = $3
+    if (phase == 1) { a_total[name] = $2; a_idle[name] = $3 }
+  }
+  END {
+    total_cpu = 0
+    for (name in total) if (name ~ /^cpu[0-9]+$/) total_cpu++
+
+    if (("cpu" in a_total) && ("cpu" in total)) {
+      dtotal = total["cpu"] - a_total["cpu"]
+      didle = idle["cpu"] - a_idle["cpu"]
+      pct = (dtotal > 0) ? (dtotal - didle) / dtotal * 100 : 0
+      if (pct < 0) pct = 0
+      if (pct > 100) pct = 100
+      printf "cpu %.0f\n", pct
+    }
+
+    for (i = 0; i < total_cpu; i++) {
+      name = "cpu" i
+      if (!(name in a_total) || !(name in total)) continue
+      dtotal = total[name] - a_total[name]
+      didle = idle[name] - a_idle[name]
+      pct = (dtotal > 0) ? (dtotal - didle) / dtotal * 100 : 0
+      if (pct < 0) pct = 0
+      if (pct > 100) pct = 100
+      printf "core %d %.0f\n", i, pct
+    }
+  }
+'
+
+# ---- RAM -------------------------------------------------------------
+
+awk '
+  /^MemTotal:/     { total = $2 }
+  /^MemAvailable:/ { avail = $2 }
+  END {
+    used = total - avail
+    pct = (total > 0) ? used / total * 100 : 0
+    printf "ram %.1f %.1f %.0f\n", used / 1048576, total / 1048576, pct
+  }
+' /proc/meminfo
+
+# ---- GPU -------------------------------------------------------------
+
+# Only talk to nvidia-smi when the kernel driver is actually bound.
+# A leftover nvidia-smi binary with no driver can block for several seconds.
+gpu_from_nvidia() {
+  [[ -r /proc/driver/nvidia/version ]] || return 1
+  command -v nvidia-smi >/dev/null 2>&1 || return 1
+  local vals max="" v cmd=(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)
+  if command -v timeout >/dev/null 2>&1; then
+    cmd=(timeout 2 "${cmd[@]}")
+  fi
+  vals=$("${cmd[@]}" 2>/dev/null || true)
+  while IFS= read -r v; do
+    v=${v//[^0-9]/}
+    if [[ -n $v && ( -z $max || v -gt max ) ]]; then
+      max=$v
+    fi
+  done <<< "$vals"
+  [[ -n $max ]] || return 1
+  echo "gpu $max"
+}
+
+gpu_from_intel_gpu_top() {
+  command -v intel_gpu_top >/dev/null 2>&1 || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+  local out
+  out=$(intel_gpu_top -J -n 1 -s 300 -o - 2>/dev/null | python3 -c '
+import json, sys
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    sys.exit(0)
+sample = data[0] if isinstance(data, list) and data else data
+engines = sample.get("engines") if isinstance(sample, dict) else {}
+busy = [float(e["busy"]) for e in engines.values()
+        if isinstance(e, dict) and "busy" in e]
+if busy:
+    print("gpu %d" % max(0, min(100, round(max(busy)))))
+' || true)
+  [[ $out == gpu* ]] || return 1
+  printf '%s\n' "$out"
+}
+
+gpu_from_amd() {
+  local f v
+  for f in /sys/class/drm/card*/device/gpu_busy_percent; do
+    [[ -f $f ]] || continue
+    v=$(tr -dc '0-9' < "$f" 2>/dev/null)
+    if [[ -n $v ]]; then
+      echo "gpu $v"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# Unprivileged DRM sample for Intel (i915/xe) and for AMD chips whose
+# gpu_busy_percent node exists but cannot be read (BC-250 / Cyan Skillfish).
+# Headline % prefers Render/3D (render/gfx/compute). Video/copy engines
+# are ignored unless those 3D engines are missing. The previous snapshot
+# is reused so the window is the widget interval (~2s), not a 200ms burst.
+gpu_from_drm() {
+  command -v python3 >/dev/null 2>&1 || return 1
+  local out
+  out=$(python3 - <<'PY'
+import glob, os, time
+
+def state_path():
+    runtime = os.environ.get("XDG_RUNTIME_DIR")
+    if runtime:
+        return os.path.join(runtime, "hw-tooltip-gpu.state")
+    cache = os.path.join(os.path.expanduser("~"), ".cache", "hw-tooltip")
+    try:
+        os.makedirs(cache, mode=0o700, exist_ok=True)
+    except OSError:
+        return None
+    return os.path.join(cache, "gpu.state")
+
+STATE = state_path()
+PREFERRED = {"render", "gfx", "compute"}
+
+def snap_fdinfo():
+    clients = {}
+    try:
+        pids = os.listdir("/proc")
+    except OSError:
+        return clients
+    for pid in pids:
+        if not pid.isdigit():
+            continue
+        fd_dir = "/proc/%s/fd" % pid
+        info_dir = "/proc/%s/fdinfo" % pid
+        try:
+            fds = os.listdir(fd_dir)
+        except OSError:
+            continue
+        for fd in fds:
+            try:
+                tgt = os.readlink(os.path.join(fd_dir, fd))
+            except OSError:
+                continue
+            if "/dri/" not in tgt and not tgt.startswith("/dev/dri"):
+                continue
+            try:
+                with open(os.path.join(info_dir, fd), "r", errors="ignore") as fh:
+                    text = fh.read()
+            except OSError:
+                continue
+            if "drm-engine-" not in text:
+                continue
+            client = None
+            for line in text.splitlines():
+                if line.startswith("drm-client-id:"):
+                    client = line.split(":", 1)[1].strip()
+                elif line.startswith("drm-engine-") and not line.startswith("drm-engine-capacity-"):
+                    name = line.split(":", 1)[0][len("drm-engine-"):]
+                    digits = "".join(c for c in line.split(":", 1)[1] if c.isdigit())
+                    if not digits:
+                        continue
+                    ns = int(digits)
+                    key = "%s:%s" % (pid, client or fd)
+                    engines = clients.setdefault(key, {})
+                    if ns > engines.get(name, 0):
+                        engines[name] = ns
+    return clients
+
+def snap_rc6():
+    vals = {}
+    for path in glob.glob("/sys/class/drm/card*/gt/gt*/rc6_residency_ms"):
+        enable = path.replace("rc6_residency_ms", "rc6_enable")
+        try:
+            if os.path.exists(enable) and int(open(enable).read().strip()) == 0:
+                continue
+            vals[path] = int(open(path).read().strip())
+        except (OSError, ValueError):
+            continue
+    return vals
+
+def load_state():
+    if not STATE:
+        return None
+    try:
+        with open(STATE, "r", encoding="utf-8") as fh:
+            lines = fh.read().splitlines()
+    except OSError:
+        return None
+    if len(lines) < 2:
+        return None
+    try:
+        t_ns = int(lines[0])
+        rc6 = {}
+        clients = {}
+        for line in lines[1:]:
+            parts = line.split()
+            if len(parts) == 2:
+                rc6[parts[0]] = int(parts[1])
+            elif len(parts) == 3:
+                clients.setdefault(parts[0], {})[parts[1]] = int(parts[2])
+            else:
+                return None
+    except ValueError:
+        return None
+    return t_ns, clients, rc6
+
+def save_state(t_ns, clients, rc6):
+    if not STATE:
+        return
+    tmp = STATE + ".tmp"
+    try:
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write("%d\n" % t_ns)
+            for path, val in rc6.items():
+                fh.write("%s %d\n" % (path, val))
+            for key, engines in clients.items():
+                for name, ns in engines.items():
+                    fh.write("%s %s %d\n" % (key, name, ns))
+        os.replace(tmp, STATE)
+    except OSError:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+
+def fdinfo_pct(before, after, dt_ns):
+    if dt_ns <= 0 or not after:
+        return None
+    totals = {}
+    for key, engines in after.items():
+        prev = before.get(key, {})
+        for name, ns in engines.items():
+            delta = ns - prev.get(name, ns)
+            if delta > 0:
+                totals[name] = totals.get(name, 0) + delta
+    if not any(engines for engines in after.values()):
+        return None
+    if not totals:
+        return 0
+    preferred = [totals[n] for n in totals if n in PREFERRED]
+    chosen = max(preferred) if preferred else max(totals.values())
+    return max(0, min(100, round(chosen * 100 / dt_ns)))
+
+def rc6_pct(before, after, dt_ms):
+    if dt_ms <= 0 or not after:
+        return None
+    best = None
+    for path, end in after.items():
+        start = before.get(path)
+        if start is None:
+            continue
+        idle = (end - start) * 100 / dt_ms
+        busy = max(0, min(100, round(100 - idle)))
+        best = busy if best is None else max(best, busy)
+    return best
+
+now_ns = time.monotonic_ns()
+fd1, rc1 = snap_fdinfo(), snap_rc6()
+prev = load_state()
+save_state(now_ns, fd1, rc1)
+
+pct = None
+if prev is not None:
+    t0, fd0, rc0 = prev
+    dt_ns = now_ns - t0
+    if 400_000_000 <= dt_ns <= 10_000_000_000:
+        pct = fdinfo_pct(fd0, fd1, dt_ns)
+        if pct is None:
+            pct = rc6_pct(rc0, rc1, dt_ns / 1e6)
+
+if pct is None:
+    time.sleep(0.2)
+    t1 = time.monotonic_ns()
+    fd2, rc2 = snap_fdinfo(), snap_rc6()
+    save_state(t1, fd2, rc2)
+    pct = fdinfo_pct(fd1, fd2, t1 - now_ns)
+    if pct is None:
+        pct = rc6_pct(rc1, rc2, (t1 - now_ns) / 1e6)
+
+if pct is None:
+    raise SystemExit(0)
+print("gpu %d" % pct)
+PY
+)
+  [[ $out == gpu* ]] || return 1
+  printf '%s\n' "$out"
+}
+
+# Prefer a tool that actually returns a sample. A leftover nvidia-smi (or
+# intel_gpu_top without PMU access) must not hide a working fallback.
+gpu_report() {
+  gpu_from_nvidia && return
+  gpu_from_amd && return
+  gpu_from_drm && return
+  gpu_from_intel_gpu_top && return
+  echo "gpu n/a"
+}
+
+gpu_report
+
+# ---- Hardware labels (cached; names do not change every tick) --------
+
+if command -v python3 >/dev/null 2>&1; then
+  python3 - <<'PY'
+import glob, os, re, subprocess
+
+def cache_path():
+    runtime = os.environ.get("XDG_RUNTIME_DIR")
+    if runtime:
+        return os.path.join(runtime, "hw-tooltip-hw")
+    cache = os.path.join(os.path.expanduser("~"), ".cache", "hw-tooltip")
+    try:
+        os.makedirs(cache, mode=0o700, exist_ok=True)
+    except OSError:
+        return None
+    return os.path.join(cache, "hw")
+
+def load_cache():
+    path = cache_path()
+    if not path:
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            text = fh.read()
+        if "cpu_name " not in text or "gpu_name GPU" in text:
+            return None
+        # Older builds turned empty-slot inxi text ("type: N/A",
+        # "type: no module installed") into ram_info N / no, or labeled
+        # BC-250 memory in Gbps instead of MT/s.
+        if re.search(r"(?m)^ram_info (N|no|none|not|GDDR6 14 Gbps)\b", text, re.I):
+            return None
+        return text
+    except OSError:
+        return None
+
+def save_cache(text):
+    path = cache_path()
+    if not path:
+        return
+    tmp = path + ".tmp"
+    try:
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(text)
+        os.replace(tmp, path)
+    except OSError:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+
+def clean_spaces(s):
+    return " ".join((s or "").split())
+
+def cpu_name():
+    try:
+        with open("/proc/cpuinfo", encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                if line.startswith("model name"):
+                    name = line.split(":", 1)[1].strip()
+                    name = re.sub(r"\(R\)|\(TM\)|\(tm\)|\(r\)", "", name)
+                    name = re.sub(r"\s*CPU\s*@\s*[\d.]+\s*GHz", "", name, flags=re.I)
+                    name = re.sub(r"\d+-Core Processor.*", "", name)
+                    name = name.replace("Processor", "").strip(" ,")
+                    return clean_spaces(name) or "CPU"
+    except OSError:
+        pass
+    return "CPU"
+
+def clean_gpu_name(raw):
+    name = clean_spaces(raw)
+    name = re.sub(r"\s*\([^)]*rev[^)]*\)", "", name, flags=re.I)
+    name = re.sub(r"\s*\((Ice Lake|Comet Lake|Tiger Lake|Alder Lake|Raptor Lake|Meteor Lake|Arrow Lake|Coffee Lake|Haswell|Skylake|Kaby Lake|Whiskey Lake|Amber Lake)[^)]*\)", "", name, flags=re.I)
+    name = re.sub(r"^Advanced Micro Devices, Inc\.?\s*", "", name, flags=re.I)
+    name = re.sub(r"^(AMD/ATI|ATI)\s*", "AMD ", name, flags=re.I)
+    name = re.sub(r"^Intel Corporation\s*", "Intel ", name, flags=re.I)
+    name = re.sub(r"^NVIDIA Corporation\s*", "NVIDIA ", name, flags=re.I)
+    name = name.replace(" Corporation", "")
+    return clean_spaces(name) or "GPU"
+
+def gpu_name():
+    if os.path.exists("/proc/driver/nvidia/version"):
+        try:
+            out = subprocess.run(
+                ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"],
+                capture_output=True, text=True, timeout=0.5,
+            )
+            line = (out.stdout or "").strip().splitlines()
+            if out.returncode == 0 and line:
+                return clean_gpu_name(line[0])
+        except Exception:
+            pass
+    try:
+        out = subprocess.run(["lspci", "-mm"], capture_output=True, text=True, timeout=2)
+    except Exception:
+        return "GPU"
+    for line in out.stdout.splitlines():
+        if "VGA compatible controller" not in line and '"3D controller"' not in line and "Display controller" not in line:
+            continue
+        parts = re.findall(r'"([^"]*)"', line)
+        if len(parts) >= 3:
+            vendor, device = parts[1], parts[2]
+            return clean_gpu_name(vendor + " " + device)
+        if ": " in line:
+            return clean_gpu_name(line.split(": ", 1)[1])
+    return "GPU"
+
+JUNK_RAM_TYPES = {
+    "unknown", "other", "none", "no", "not", "empty", "uninstalled",
+    "n/a", "n", "na", "ram", "dimm",
+}
+
+def read_sysfs(path):
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            return fh.read().strip()
+    except OSError:
+        return ""
+
+def is_bc250():
+    for name in ("product_name", "board_name", "product_family"):
+        if re.search(r"BC-?250", read_sysfs("/sys/class/dmi/id/" + name), re.I):
+            return True
+    try:
+        for ent in os.scandir("/sys/bus/pci/devices"):
+            if read_sysfs(os.path.join(ent.path, "device")).lower() != "0x13fe":
+                continue
+            if read_sysfs(os.path.join(ent.path, "vendor")).lower() == "0x1002":
+                return True
+    except OSError:
+        pass
+    return False
+
+def clean_ram_types(types):
+    return [t for t in types if t and t.lower() not in JUNK_RAM_TYPES]
+
+def ram_from_dmidecode(text):
+    types, speeds, parts = [], [], []
+    block = {}
+    def flush():
+        if not block:
+            return
+        size = block.get("Size", "")
+        if not size or size == "No Module Installed":
+            return
+        types.extend(clean_ram_types([block.get("Type", "")]))
+        speed = block.get("Configured Memory Speed") or block.get("Configured Clock Speed") or block.get("Speed")
+        if speed:
+            m = re.search(r"(\d+)\s*MT/s", speed)
+            if m:
+                speeds.append(m.group(1))
+        part = block.get("Part Number", "")
+        if part and part not in ("Unknown", "Not Specified", "NO DIMM", "N/A"):
+            parts.append(part.strip())
+
+    for line in text.splitlines():
+        if not line.strip():
+            flush()
+            block = {}
+            continue
+        if ":" in line:
+            k, v = line.split(":", 1)
+            block[k.strip()] = v.strip()
+    flush()
+    return types, speeds, parts
+
+def ram_from_inxi(text):
+    # inxi lists empty slots as "type: no module installed". A global
+    # type: scrape would take "no" from those lines and hide DDR5/DDR4.
+    types, speeds = [], []
+    for chunk in re.split(r"\s*Device-\d+:", text)[1:]:
+        if re.search(r"\bno module installed\b|\bnot installed\b|\bno dimm\b", chunk, re.I):
+            continue
+        types.extend(clean_ram_types(re.findall(r"\btype:\s*([A-Za-z0-9/+-]+)", chunk)))
+        actuals = re.findall(r"\bactual:\s*([\d.]+)\s*MT/s", chunk, re.I)
+        specs = re.findall(r"\bspec:\s*([\d.]+)\s*MT/s", chunk, re.I)
+        raw = re.findall(r"\bspeed:\s*([\d.]+)\s*MT/s", chunk, re.I)
+        speeds.extend(actuals or specs or raw)
+    return types, speeds, []
+
+def ram_info():
+    # Soldered Cyan Skillfish memory has no SPD. DMI Type is N/A; one slot
+    # reports 1750 MT/s (the GDDR command clock). Published spec is 14 Gbps
+    # per pin, which is 14000 MT/s — same unit as DDR4-3200 / DDR5-4800.
+    if is_bc250():
+        return "GDDR6 14000 MT/s"
+    texts = []
+    for cmd in (
+        ["dmidecode", "-t", "memory"],
+        ["/usr/sbin/dmidecode", "-t", "memory"],
+    ):
+        try:
+            out = subprocess.run(cmd, capture_output=True, text=True, timeout=1)
+            if out.returncode == 0 and "Memory Device" in (out.stdout or ""):
+                texts.append(("dmi", out.stdout))
+                break
+        except Exception:
+            pass
+    if not texts:
+        for cmd in (["inxi", "-mxxxx", "-c0"],):
+            try:
+                out = subprocess.run(cmd, capture_output=True, text=True, timeout=2)
+                if out.returncode == 0 and "Memory" in (out.stdout or ""):
+                    texts.append(("inxi", out.stdout))
+            except Exception:
+                pass
+    types, speeds, parts = [], [], []
+    for kind, text in texts:
+        if kind == "dmi":
+            types, speeds, parts = ram_from_dmidecode(text)
+        else:
+            types, speeds, parts = ram_from_inxi(text)
+        if types or speeds:
+            break
+    bits = []
+    if types:
+        ranked = [t for t in types if re.match(r"(LP)?DDR|GDDR|HBM", t, re.I)]
+        pool = ranked or types
+        bits.append(sorted(set(pool), key=pool.index)[0])
+    if speeds:
+        bits.append("%s MT/s" % sorted(set(speeds), key=speeds.index)[0])
+    if parts and len(set(parts)) == 1:
+        bits.append(parts[0])
+    return " ".join(bits)
+
+cached = load_cache()
+if cached:
+    print(cached, end="" if cached.endswith("\n") else "\n")
+else:
+    lines = ["cpu_name %s" % cpu_name(), "gpu_name %s" % gpu_name()]
+    info = ram_info()
+    if info:
+        lines.append("ram_info %s" % info)
+    text = "\n".join(lines) + "\n"
+    save_cache(text)
+    print(text, end="")
+PY
+fi
+
+# Detect local inference processes for GPU status lines.
+if command -v python3 >/dev/null 2>&1; then
+  python3 - <<'PY'
+import os
+
+COMM_HITS = {
+    "ollama", "llama-server", "llama-cli", "llama-bench", "llama",
+    "koboldcpp", "vllm", "sglang", "tabbyapi", "localai",
+    "gpt4all", "lmstudio", "mlx", "whisper", "comfyui",
+}
+CMD_NEEDLES = (
+    "ollama", "llama.cpp", "llama-server", "vllm", "sglang",
+    "comfyui", "comfy ui", "stable-diffusion-webui", "invokeai",
+    "automatic1111", "fooocus", "koboldcpp", "exllama",
+    "lmstudio", "lm-studio", "gpt4all", "localai",
+    "faster-whisper", "whisper.cpp", "mlx_lm", "mlx-lm",
+    "text-generation-webui", "oobabooga", "aphrodite",
+    "tensorrt-llm", "tritonserver", "diffusers",
+)
+
+def is_infer():
+    try:
+        pids = os.listdir("/proc")
+    except OSError:
+        return False
+    for pid in pids:
+        if not pid.isdigit():
+            continue
+        try:
+            with open("/proc/%s/comm" % pid, "r", errors="ignore") as fh:
+                comm = fh.read().strip().lower()
+        except OSError:
+            continue
+        if comm in COMM_HITS:
+            return True
+        if comm not in ("python", "python3", "python3.12", "python3.13",
+                        "node", "nodejs", "uv", "uvicorn", "gunicorn"):
+            continue
+        try:
+            with open("/proc/%s/cmdline" % pid, "r", errors="ignore") as fh:
+                cmd = fh.read().replace("\x00", " ").lower()
+        except OSError:
+            continue
+        if any(n in cmd for n in CMD_NEEDLES):
+            return True
+    return False
+
+print("gpu_kind %s" % ("infer" if is_infer() else "render"))
+PY
+fi
+
+# Activity flags: memory/storage quips only when usage is actually moving.
+if command -v python3 >/dev/null 2>&1; then
+  python3 - <<'PY'
+import os, re, time
+
+def state_path():
+    runtime = os.environ.get("XDG_RUNTIME_DIR")
+    if runtime:
+        return os.path.join(runtime, "hw-tooltip-activity")
+    cache = os.path.join(os.path.expanduser("~"), ".cache", "hw-tooltip")
+    try:
+        os.makedirs(cache, mode=0o700, exist_ok=True)
+    except OSError:
+        return None
+    return os.path.join(cache, "activity")
+
+def mem_used_kb():
+    total = avail = 0
+    with open("/proc/meminfo", encoding="utf-8", errors="ignore") as fh:
+        for line in fh:
+            if line.startswith("MemTotal:"):
+                total = int(line.split()[1])
+            elif line.startswith("MemAvailable:"):
+                avail = int(line.split()[1])
+    return max(0, total - avail), total
+
+def disk_ops():
+    ops = 0
+    try:
+        fh = open("/proc/diskstats", encoding="utf-8", errors="ignore")
+    except OSError:
+        return 0
+    with fh:
+        for line in fh:
+            p = line.split()
+            if len(p) < 8:
+                continue
+            name = p[2]
+            if name.startswith(("loop", "ram", "zram", "sr", "fd", "dm-")):
+                continue
+            if re.search(r"(p\d+|[0-9]+)$", name) and not re.match(r"nvme\d+n\d+$", name):
+                continue
+            ops += int(p[3]) + int(p[7])
+    return ops
+
+def load_prev(path):
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            t, used, ops = fh.read().split()
+        return int(t), int(used), int(ops)
+    except (OSError, ValueError):
+        return None
+
+def save(path, t, used, ops):
+    tmp = path + ".tmp"
+    try:
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write("%d %d %d\n" % (t, used, ops))
+        os.replace(tmp, path)
+    except OSError:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+
+now = time.monotonic_ns()
+used, total = mem_used_kb()
+ops = disk_ops()
+path = state_path()
+prev = load_prev(path) if path else None
+if path:
+    save(path, now, used, ops)
+
+ram_active = 0
+disk_io = 0
+if prev:
+    t0, used0, ops0 = prev
+    dt = (now - t0) / 1e9
+    if 0.4 <= dt <= 10:
+        # ~32 MiB or 1% of RAM since the last sample
+        thresh = max(32768, total // 100) if total else 32768
+        if abs(used - used0) >= thresh:
+            ram_active = 1
+        if ops >= ops0 and (ops - ops0) >= 16:
+            disk_io = 1
+
+print("ram_active %d" % ram_active)
+print("disk_io %d" % disk_io)
+PY
+fi
+
+# ---- Storage ---------------------------------------------------------
+
+disk_model() {
+  local dev=$1 model
+  model=$(lsblk -nso MODEL "$dev" 2>/dev/null | awk 'NF { m=$0 } END { gsub(/^[ \t]+|[ \t]+$/, "", m); print m }')
+  printf '%s' "$model"
+}
+
+df -P -x tmpfs -x devtmpfs -x squashfs -x overlay -x iso9660 2>/dev/null |
+  awk 'NR > 1 && $1 ~ /^\/dev\// && !seen[$1]++ { print $1, $2, $3, $6 }' |
+  while read -r src blocks used mnt; do
+    used_g=$(awk -v n="$used" 'BEGIN { printf "%.1f", n / 1048576 }')
+    total_g=$(awk -v n="$blocks" 'BEGIN { printf "%.1f", n / 1048576 }')
+    pct=$(awk -v u="$used" -v t="$blocks" 'BEGIN { printf "%.0f", (t > 0) ? u / t * 100 : 0 }')
+    model=$(disk_model "$src")
+    if [[ -n $model ]]; then
+      printf 'disk %s %s %s %s %s\n' "$mnt" "$used_g" "$total_g" "$pct" "$model"
+    else
+      printf 'disk %s %s %s %s\n' "$mnt" "$used_g" "$total_g" "$pct"
+    fi
+  done

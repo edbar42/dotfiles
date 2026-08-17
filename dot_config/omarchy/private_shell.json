@@ -1,47 +1,50 @@
 {
-  "version": 1,
-  "idle": {
-    "screensaver": 150,
-    "lock": 300
-  },
   "bar": {
-    "position": "top",
-    "transparent": false,
-    "centerAnchor": "tmn73.calendar",
+    "centerAnchor": "omarchy.clock",
     "layout": {
-      "left": [
-        {
-          "id": "omarchy.workspaces"
-        }
-      ],
       "center": [
         {
-          "id": "tmn73.calendar",
+          "id": "omarchy.indicators"
+        },
+        {
+          "id": "edbar.clock",
           "format": "ddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "verticalFormat": "HH\n—\nmm",
-          "announceLeadMinutes": 5,
-          "showYearProgress": true,
           "birthYear": 1998,
           "lifeExpectancy": 80
         },
         {
-          "id": "omarchy.weather",
-          "unit": "metric"
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.spacer"
         },
         {
           "id": "omarchy.system-update"
+        }
+      ],
+      "left": [
+        {
+          "id": "omarchy.menu"
         },
         {
-          "id": "omarchy.indicators",
-          "items": [
-            "Dnd"
-          ]
+          "id": "io.github.derluke.dual-monitor-workspaces",
+          "count": "10"
         }
       ],
       "right": [
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "hl.peripheral_battery"
+        },
+        {
+          "id": "im0001gt.hw-tooltip"
         },
         {
           "id": "omarchy.bluetooth"
@@ -53,12 +56,10 @@
           "id": "omarchy.audio"
         },
         {
-          "id": "ilyazar.btop",
-          "iconStyle": "CPU",
-          "procTree": true
+          "id": "omarchy.microphone"
         },
         {
-          "id": "omarchy.keyboard-layout"
+          "id": "io.github.bmontythe3rd.display-manager"
         },
         {
           "id": "omarchy.monitor"
@@ -67,7 +68,18 @@
           "id": "omarchy.power"
         }
       ]
-    }
+    },
+    "position": "top",
+    "transparent": true
   },
-  "plugins": []
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [],
+  "version": 1,
+  "disabledPlugins": [
+    "omarchy.background",
+    "omarchy.lock"
+  ]
 }

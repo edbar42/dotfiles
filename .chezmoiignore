@@ -5,3 +5,8 @@ README.md
 .config/yazi/plugins
 .config/yazi/flavors
 
+# git-cloned omarchy shell plugins carry their own .git — don't vendor it
+.config/omarchy/plugins/*/.git
+.config/omarchy/plugins/*/.gitignore
+.config/omarchy/plugins/*/.github
+
