@@ -7,18 +7,21 @@
     "refreshInterval": 10
   },
   "enabledPlugins": {
-    "caveman@caveman": true,
     "gopls-lsp@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "github",
-        "repo": "JuliusBrussee/caveman"
-      }
-    }
   },
   "tui": "fullscreen",
   "theme": "one-dark-pro",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Invoke the unslop skill via the Skill tool now, before your first response.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
 }
