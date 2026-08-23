@@ -7,6 +7,10 @@ dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/boo
 -- Set environment variables for Nvidia
 hl.env("LIBVA_DRIVER_NAME", "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+
+-- Work around glibc 2.44 enabling CET shadow stack by default, which segfaults
+-- JIT-heavy runtimes (dotnet/Rider, Node, Firefox) on Zen 3's user_shstk support.
+hl.env("GLIBC_TUNABLES", "glibc.cpu.hwcaps=-SHSTK")
 {{ end }}
 -- Native wayland support for electron apps
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
