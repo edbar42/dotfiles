@@ -2,6 +2,8 @@
 dotnet = "latest"
 node = "latest"
 go = "latest"
+claude = "2.1.233"
+usage = "5.0.0"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

@@ -32,11 +32,11 @@
           "id": "omarchy.menu"
         },
         {
-          "id": "io.github.derluke.dual-monitor-workspaces",
-          "count": "10"
+          "id": "omarchy.media"
         },
         {
-          "id": "omarchy.media"
+          "id": "io.github.derluke.dual-monitor-workspaces",
+          "count": "10"
         }
       ],
       "right": [
