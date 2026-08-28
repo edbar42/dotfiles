@@ -61,7 +61,11 @@ if [ "${#files[@]}" -eq 0 ]; then
 fi
 
 if command -v chafa &>/dev/null; then
-  PREVIEW_CMD="printf '\033_Ga=d,d=A\033\\\\'; chafa -f kitty -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
+  if [ -n "${KITTY_WINDOW_ID:-}" ]; then
+    PREVIEW_CMD="printf '\033_Ga=d,d=A\033\\\\'; chafa -f kitty --animate=false -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
+  else
+    PREVIEW_CMD="chafa --animate=false -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}"
+  fi
 else
   PREVIEW_CMD="identify {} 2>/dev/null || echo 'No preview available'"
 fi
