@@ -9,15 +9,15 @@ tab_size = 3
 
 [opener]
 edit = [
-  { run = 'nvim "$@"', block = true },
+  { run = "nvim %s", block = true },
 ]
 play = [
-  { run = 'mpv "$@"', orphan = true },
+  { run = "mpv %s", orphan = true },
 ]
 open = [
-  { run = 'xdg-open "$@"', desc = "Open" },
+  { run = "xdg-open %s", desc = "Open" },
 ]
-read = [{ run = 'zathura "$@"', desc = "Read", orphan = true }]
+read = [{ run = "zathura %s", desc = "Read", orphan = true }]
 
 [open]
 prepend_rules = [
