@@ -10,8 +10,8 @@ local QUICKSHELL_LAUNCHER = "omarchy-shell shell toggle omarchy.menu '{\"menu\":
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Open applications
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL .. " -e herdr"))
-hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(TERMINAL))
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(TERMINAL .. " -e herdr"))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(BROWSER))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(DEV_BROWSER))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("obsidian"))
@@ -26,7 +26,8 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout keyd-vir
 
 -- Custom actions
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(SCRIPTS_DIR .. "tui-float " .. SCRIPTS_DIR .. "wallpaper-fzf -s main"))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(SCRIPTS_DIR .. "tui-float " .. SCRIPTS_DIR .. "wallpaper-fzf -s secondary"))
+hl.bind(mainMod .. " + SHIFT + B",
+  hl.dsp.exec_cmd(SCRIPTS_DIR .. "tui-float " .. SCRIPTS_DIR .. "wallpaper-fzf -s secondary"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("omarchy-shell shell summon omarchy.menu '{\"menu\":\"system\"}'"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
@@ -37,12 +38,12 @@ hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("hyprlock-wal"))
 -- i3 like resize mode
 hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 hl.define_submap("resize", function()
-    hl.bind("l", hl.dsp.window.resize({ x = 20, y = 0, relative = true }))
-    hl.bind("h", hl.dsp.window.resize({ x = -20, y = 0, relative = true }))
-    hl.bind("k", hl.dsp.window.resize({ x = 0, y = -20, relative = true }))
-    hl.bind("j", hl.dsp.window.resize({ x = 0, y = 20, relative = true }))
-    hl.bind("Return", hl.dsp.submap("reset"))
-    hl.bind("Escape", hl.dsp.submap("reset"))
+  hl.bind("l", hl.dsp.window.resize({ x = 20, y = 0, relative = true }))
+  hl.bind("h", hl.dsp.window.resize({ x = -20, y = 0, relative = true }))
+  hl.bind("k", hl.dsp.window.resize({ x = 0, y = -20, relative = true }))
+  hl.bind("j", hl.dsp.window.resize({ x = 0, y = 20, relative = true }))
+  hl.bind("Return", hl.dsp.submap("reset"))
+  hl.bind("Escape", hl.dsp.submap("reset"))
 end)
 
 -- Move focus with mainMod + [hjkl]
@@ -54,11 +55,11 @@ hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "d" }))
 -- Switch workspaces with mainMod + [0-9], move windows with mainMod + SHIFT + [0-9]
 -- Alt + mainMod + [1-0] -> workspaces 11-20, Alt + mainMod + SHIFT + [1-0] -> move to 11-20
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
-    hl.bind("ALT + " .. mainMod .. " + " .. key, hl.dsp.focus({ workspace = i + 10 }))
-    hl.bind("ALT + " .. mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i + 10 }))
+  local key = i % 10   -- 10 maps to key 0
+  hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+  hl.bind("ALT + " .. mainMod .. " + " .. key, hl.dsp.focus({ workspace = i + 10 }))
+  hl.bind("ALT + " .. mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i + 10 }))
 end
 
 -- Laptop multimedia keys for volume and LCD brightness
