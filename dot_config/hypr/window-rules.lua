@@ -9,10 +9,16 @@ hl.window_rule({ match = { class = "org.pulseaudio.pavucontrol" }, float = true,
 hl.window_rule({ match = { class = "qt5ct" }, float = true, center = true })
 hl.window_rule({ match = { class = "bluetooth-sendto" }, float = true, center = true })
 hl.window_rule({ match = { class = "pamac-manager" }, float = true, center = true })
-hl.window_rule({ match = { class = "^(org.keepassxc.KeePassXC)$" }, float = true, center = true })
+-- Match both XWayland and native Wayland; use the same geometry as ~/.bin/tui-float.
+hl.window_rule({
+    match = { class = "^(KeePassXC|org\\.keepassxc\\.KeePassXC)$" },
+    float = true,
+    size = { "monitor_w*0.6", "monitor_h*0.65" },
+    center = true,
+})
 hl.window_rule({
     match = {
-        class = "^(org.keepassxc.KeePassXC)$",
+        class = "^(KeePassXC|org\\.keepassxc\\.KeePassXC)$",
         title = "^(KeePassXC -  Access Request)$",
     },
     float  = true,
