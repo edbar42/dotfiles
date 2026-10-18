@@ -1,0 +1,24 @@
+# One Dark: classic `dark` palette from navarasu/onedark.nvim.
+# Neutral interface, blue focus, and editor-like shell syntax.
+# Background is inherited from the terminal (One Dark background: #282c34).
+[theme]
+name = "onedark"
+parent = "default"
+
+[colors]
+Base = "#abb2bf"           # Normal text
+Title = "#abb2bf"          # Neutral headings, like an editor status line
+Annotation = "#5c6370"     # Subdued timestamps, durations and borders
+Guidance = "#848b98"       # Quiet help text rather than a bright cyan UI
+Muted = "#848b98"          # Secondary text
+Important = "#61afef"      # Blue focus/matches instead of purple emphasis
+AlertInfo = "#abb2bf"      # Routine information stays neutral
+AlertWarn = "#e5c07b"      # Diagnostic yellow
+AlertError = "#e86671"     # Diagnostic red
+
+SyntaxCommand = "#61afef"  # Function blue
+SyntaxFlag = "#abb2bf"     # Arguments stay neutral
+SyntaxString = "#98c379"   # String green
+SyntaxVariable = "#e86671" # Identifier red
+SyntaxOperator = "#c678dd" # Keyword/operator purple
+SyntaxComment = "#5c6370"  # Comment grey
