@@ -77,3 +77,4 @@ eval "$(starship init zsh)"
 # Zoxide as a replacement to cd
 eval "$(zoxide init --cmd cd zsh)"
 
+eval "$(atuin init zsh)"
