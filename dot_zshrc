@@ -43,12 +43,12 @@ alias ip="ip --color=auto"
 alias bat="bat --theme='TwoDark' --color=always"
 
 # Terminal tools
-alias ls="eza --icons"
-alias ld="eza -D --icons"
-alias la="eza -a --icons --git"
-alias ll="eza -lh --icons --git"
-alias lla="eza -lah --icons --git"
-alias lt="eza --tree --icons --level=3 --ignore-glob='node_modules'"
+alias ls="eza --icons=always"
+alias ld="eza -D --icons=always"
+alias la="eza -a --icons=always --git"
+alias ll="eza -lh --icons=always --git"
+alias lla="eza -lah --icons=always --git"
+alias lt="eza --tree --icons=always --level=3 --ignore-glob='node_modules'"
 alias lzd="oxker"
 
 # Chezmoi alias
