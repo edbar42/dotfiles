@@ -25,7 +25,7 @@ show_timestamp = true
 gui = true
 
 # Docker host location
-host = "/var/run/docker.sock"
+host = "/run/user/{{ .chezmoi.uid }}/docker.sock"
 
 # Display the container logs timestamp with a given timezone, if timezone is unknown, defaults to UTC
 timezone = "Etc/UTC"
