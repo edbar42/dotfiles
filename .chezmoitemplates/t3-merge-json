@@ -1,0 +1,7 @@
+{{- $current := mustFromJson (default "{}" .input) -}}
+{{- $updated := mustMergeOverwrite (deepCopy $current) .preferences -}}
+{{- if deepEqual $current $updated -}}
+{{ .input }}
+{{- else -}}
+{{ mustToPrettyJson $updated }}{{ "\n" }}
+{{- end -}}

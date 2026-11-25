@@ -1,0 +1,65 @@
+chezmoi:modify-template
+{{- $preferences := mustFromJson `{
+  "defaultRuntimeMode": "auto",
+  "projectSettingsFolded": true,
+  "enableDeviceSupport": true,
+  "idleCompaction": "onReturn",
+  "snoozeLimitedThreads": true,
+  "autoResumeLimitedThreads": true,
+  "sidebarAutoSettleKeepPullRequests": true,
+  "defaultTheme": "omarchy",
+  "environmentIcon": "linux",
+  "newWorktreesStartFromOrigin": false,
+  "defaultModelSelection": {
+    "instanceId": "claudeAgent",
+    "model": "claude-opus-5-5",
+    "options": [
+      {
+        "id": "effort",
+        "value": "high"
+      }
+    ]
+  },
+  "fallbackModelSelection": {
+    "instanceId": "codex",
+    "model": "gpt-6.2-astra",
+    "options": [
+      {
+        "id": "reasoningEffort",
+        "value": "medium"
+      },
+      {
+        "id": "serviceTier",
+        "value": "default"
+      }
+    ]
+  },
+  "providerInstances": {
+    "codex": {
+      "driver": "codex",
+      "accentColor": "#2563eb",
+      "enabled": true,
+      "config": {
+        "binaryPath": "codex"
+      }
+    },
+    "claudeAgent": {
+      "driver": "claudeAgent",
+      "accentColor": "#ea580c",
+      "enabled": true,
+      "config": {
+        "binaryPath": "claude"
+      }
+    }
+  },
+  "sourceControlHosts": {
+    "github": {
+      "hosts": {
+        "github.com": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}` -}}
+{{- includeTemplate "t3-merge-json" (dict "input" .chezmoi.stdin "preferences" $preferences) -}}

@@ -1,0 +1,5 @@
+chezmoi:modify-template
+{{- $preferences := mustFromJson `{
+  "mainWindowMaximized": true
+}` -}}
+{{- includeTemplate "t3-merge-json" (dict "input" .chezmoi.stdin "preferences" $preferences) -}}

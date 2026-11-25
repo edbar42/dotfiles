@@ -10,3 +10,19 @@ README.md
 .config/omarchy/plugins/*/.gitignore
 .config/omarchy/plugins/*/.github
 
+# Only portable T3 settings belong in the source state.
+.config/t3code
+.config/t3code-v2
+.local/share/t3code
+.t3/**
+!.t3
+!.t3/userdata
+!.t3/userdata/settings.json
+!.t3/userdata/client-settings.json
+!.t3/userdata/desktop-settings.json
+!.t3/userdata/keybindings.json
+!.t3/userdata/themes
+!.t3/userdata/themes/omarchy.json
+
+.config/gh/hosts.yml
+.config/gh/hosts.yaml

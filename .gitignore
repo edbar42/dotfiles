@@ -12,6 +12,21 @@ config/yazi/flavors/
 /config/hypr/monitors.conf
 /config/hypr/workspaces.conf
 
-# gh cli secrets
-/config/gh/hosts.yaml
-/config/gh/hosts.yml
+# T3 runtime data and raw settings may contain credentials.
+*dot_t3/*
+!/dot_t3/private_userdata/
+dot_t3/private_userdata/*
+!/dot_t3/private_userdata/modify_settings.json
+!/dot_t3/private_userdata/modify_client-settings.json
+!/dot_t3/private_userdata/modify_desktop-settings.json
+!/dot_t3/private_userdata/keybindings.json
+!/dot_t3/private_userdata/themes/
+dot_t3/private_userdata/themes/*
+!/dot_t3/private_userdata/themes/private_omarchy.json
+/*dot_config/*t3code/
+/*dot_config/*t3code-v2/
+/*dot_local/*share/*t3code/
+
+# gh CLI credentials in chezmoi source paths
+/*dot_config/*gh/*hosts.yml
+/*dot_config/*gh/*hosts.yaml
